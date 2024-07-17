@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+	<!--begin::Head-->
+	<head>
+		<base href="../../../">
+		<title> Réinitialisation du mot de passe </title>
+		<meta charset="utf-8" />
+		<meta name="description" content=" Athentification " />
+		<meta name="keywords" content="romassigcom" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<meta property="og:locale" content="en_US" />
+		<meta property="og:type" content="article" />
+		<meta property="og:title" content="Authentificatio ROMAS SIG COM" />
+		<meta property="og:url" content="#" />
+		<meta property="og:site_name" content="Keenthemes | Metronic" />
+		<link rel="canonical" href="https://preview.keenthemes.com/metronic8" />
+		<link rel="shortcut icon" href="{{ asset('assets/media/logos/favicon.ico') }}" />
+		<!--begin::Fonts-->
+		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700" />
+		<!--end::Fonts-->
+		<!--begin::Global Stylesheets Bundle(used by all pages)-->
+		<link href="{{ asset('assets/plugins/global/plugins.bundle.css') }}" rel="stylesheet" type="text/css" />
+		<link href="{{ asset('assets/css/style.bundle.css') }}" rel="stylesheet" type="text/css" />
+		<!--end::Global Stylesheets Bundle-->
+	</head>
+	<!--end::Head-->
+	<!--begin::Body-->
+	<body id="kt_body" class="bg-dark">
+		<!--begin::Main-->
+		<!--begin::Root-->
+		<div class="d-flex flex-column flex-root">
+			<!--begin::Authentication - Sign-in -->
+			<div class="d-flex flex-column flex-column-fluid bgi-position-y-bottom position-x-center bgi-no-repeat bgi-size-contain bgi-attachment-fixed" 
+			{# style="background-image: url({{ asset('assets/media/illustrations/sketchy-1/14-dark.png') }}" #}
+			style="background-image: url({{ asset('assets/back.jpg') }});background-size: cover;"
+			>
+				<!--begin::Content-->
+				<div class="d-flex flex-center flex-column flex-column-fluid p-10 pb-0">
+					<!--begin::Logo-->
+					<a href="#" class="mb-12 mt-10">
+						<img alt="Logo" src="{{ asset('assets/media/logos/logo_romas2.png') }}" class="h-40px" />
+					</a>
+					<!--end::Logo-->
+
+					<!--begin::Wrapper-->
+					<div class="w-lg-500px bg-body rounded shadow-sm p-10 p-lg-15 mx-auto">
+
+                        <p style="font-size: 17px;text-align: justify;">
+                            Un mail vous a été envoyé contenant un lien pour réinitialiser votre mot de passe.
+                            Ce lien expirera à {{ resetToken.expirationMessageKey|trans(resetToken.expirationMessageData, 'ResetPasswordBundle') }}. <br>
+                            Si vous ne recevez pas de courriel, veuillez vérifier votre dossier de pourriels ou
+                        </p>
+                        <p style="text-align: center;font-size: 17px;">
+                            <center><a class="btn btn-primary" href="{{ path('app_forgot_password_request') }}">réessayer</a>.</center>
+                        </p>
+
+
+                    </div>
+					<!--end::Wrapper-->
+
+				</div>
+				<!--end::Content-->
+				<!--begin::Footer-->
+				<div class="d-flex flex-center flex-column-auto p-10">
+					<!--begin::Links-->
+					<div class="d-flex align-items-center fw-bold fs-6">
+						<a href="#" class="text-muted text-hover-primary px-2">Introduction</a>
+						<a href="mailto:romastechnologie@gmail.com" class="text-muted text-hover-primary px-2">Contact</a>
+						<a href="#" class="text-muted text-hover-primary px-2">A propos</a>
+					</div>
+					<!--end::Links-->
+				</div>
+				<!--end::Footer-->
+			</div>
+			<!--end::Authentication - Sign-in-->
+		</div>
+		<!--end::Root-->
+		<!--end::Main-->
+		<!--begin::Javascript-->
+		<script>var hostUrl = "assets/";</script>
+		<!--begin::Global Javascript Bundle(used by all pages)-->
+		<script src="{{ asset('assets/plugins/global/plugins.bundle.js') }}"></script>
+		<script src="{{ asset('assets/js/scripts.bundle.js') }}"></script>
+		<!--end::Global Javascript Bundle-->
+		<!--begin::Page Custom Javascript(used by this page)-->
+		<script src="{{ asset('assets/js/custom/authentication/sign-in/general.js') }}"></script>
+	</body>
+	<!--end::Body-->
+</html>
+

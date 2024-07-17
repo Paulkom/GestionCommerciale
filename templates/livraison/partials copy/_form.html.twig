@@ -1,0 +1,70 @@
+{{ form_start(form) }}
+<div class="card shadow-sm">
+    <div class="card-header pt-7">
+        <div class="row">
+            <div class="mb-5 fv-row fv-plugins-icon-container col-sm-3">
+                {{ form_label(form.dateLiv) }}
+                {{ form_widget(form.dateLiv) }}
+                <div class="fv-plugins-message-container invalid-feedback"></div>
+            </div>
+            <div class="mb-5 fv-row fv-plugins-icon-container col-sm-3">
+                {{ form_label(form.commandeCli) }}
+                {{ form_widget(form.commandeCli) }}
+                <div class="fv-plugins-message-container invalid-feedback"></div>
+            </div>
+            <div class="mb-5 fv-row fv-plugins-icon-container col-sm-3">
+                {{ form_label(form.montantLiv) }}
+                {{ form_widget(form.montantLiv) }}
+                <div class="fv-plugins-message-container invalid-feedback"></div>
+            </div>
+            <div class="mb-5 fv-row fv-plugins-icon-container col-sm-3">
+                {{ form_label(form.livreur) }}
+                {{ form_widget(form.livreur) }}
+                <div class="fv-plugins-message-container invalid-feedback"></div>
+            </div>
+            
+        </div>
+    </div>
+    <div class="card-body">
+        <div class="collection-form" data-index="{{ form.livraisonMagasins|length > 0 ? form.livraisonMagasins|last.vars.name + 1 : 0 }}"
+            data-prototype="{% autoescape 'html' %}{{ include('livraison/partials/_livraison_magasin.prototype.html.twig',
+            { 'form': form.livraisonMagasins.vars.prototype, 'class':'LivraisonMagasin' })|escape }}{% endautoescape %}">
+            {% if form.livraisonMagasins | length > 0 %}
+                {% for key, p in form.livraisonMagasins %}
+                    {% if key > 0 %}
+                        {% set length = form.livraisonMagasins|length %}
+                        {{ include('livraison/partials/_livraison_magasin.prototype.html.twig',
+                            { 'form': p, 'length':length }) }}
+                    {% else %}
+                        {{ include('livraison/partials/_livraison_magasin.prototype.html.twig',
+                            { 'form': p }) }}
+                    {% endif %}
+                {% endfor %}
+            {% else %}
+                {{ form_row(form.livraisonMagasins) }}
+            {% endif %}  
+        </div>
+        <div class="form-group mt-3">
+            <a href="javascript:;" class="btn btn-sm btn-light-primary add_livraison_item_link" data-collection-holder-class="collection-form">
+                <i class="la la-plus"></i>Ajouter un magasin
+            </a>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <div class="d-flex justify-content-end">
+            <!--begin::Button-->
+            <button type="reset" data-kt-cond-type="cancel" class="btn btn-light me-3">Vider</button>
+            <!--end::Button-->
+            <!--begin::Button-->
+            <button type="submit" id="com_submit" data-kt-cond-type="submit" class="btn btn-primary">
+                <span class="indicator-label"> <i class="fa fa-plus"></i> Enregistrer</span>
+                <span class="indicator-progress">Veuillez patienter svp...
+                    <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
+                </span>
+            </button>
+            <!--end::Button-->
+        </div>
+    </div>
+</div>
+{{ form_end(form) }}
+        

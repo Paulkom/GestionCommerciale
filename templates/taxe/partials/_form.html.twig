@@ -1,0 +1,44 @@
+{{ form_start(form) }}
+<div class="row">
+    <div class="col fv-row">
+        {{ form_label(form.codeTaxe) }}
+        {{ form_widget(form.codeTaxe) }}
+    </div>
+    <div class="col fv-row">
+        {{ form_label(form.libelle) }}
+        {{ form_widget(form.libelle) }}
+    </div>
+    <div class="col fv-row">
+        {{ form_label(form.appellation) }}
+        {{ form_widget(form.appellation) }}
+    </div>
+</div>
+<div class="row">
+    <div class="col fv-row">
+        {{ form_label(form.typeTaux) }}
+        {{ form_widget(form.typeTaux) }}
+    </div>
+    <div class="col fv-row">
+        {{ form_label(form.taux) }}
+        {{ form_widget(form.taux) }}
+    </div>
+    <div class="col fv-row">
+        {{ form_label(form.sens) }}
+        {{ form_widget(form.sens) }}
+    </div>
+</div>
+<div class="separator mb-3 mt-3"></div>
+<div class="d-flex justify-content-end">
+    <!--begin::Button-->
+    <button type="reset" data-kt-cond-type="cancel" class="btn btn-light me-3">Vider</button>
+    <!--end::Button-->
+    <!--begin::Button-->
+    <button type="submit" id="condi_submit" data-kt-cond-type="submit" class="btn btn-primary">
+        <span class="indicator-label"> <i class="fa fa-plus"></i> Enregistrer</span>
+        <span class="indicator-progress">Veuillez patienter svp...
+            <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
+        </span>
+    </button>
+    <!--end::Button-->
+</div>
+{{ form_end(form) }}

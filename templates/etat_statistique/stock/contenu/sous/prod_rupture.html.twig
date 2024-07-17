@@ -1,0 +1,57 @@
+<div class="card shadow-sm">
+    <div class="col-lg-12 col-sm-12 ">
+        <div class="bg-light-primary h-100 px-10 py-7" id="kt_docs_swapper_parent_2">
+            <div class="fw-bolder"><h3>Liste des produits en rupture de stock</h3></div>
+            <div class="card-title">
+                <div class="row pt-4"> 
+                    <div class="col-sm-9 col-lg-9">
+                        <div class="d-flex align-items-center position-relative ">
+                            <!--begin::Svg Icon | path: icons/duotune/general/gen021.svg-->
+                            <span class="svg-icon svg-icon-1 position-absolute ms-6">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                    <rect opacity="0.5" x="17.0365" y="15.1223" width="8.15546"
+                                            height="2" rx="1" transform="rotate(45 17.0365 15.1223)"
+                                            fill="currentColor"/>
+                                    <path d="M11 19C6.55556 19 3 15.4444 3 11C3 6.55556 6.55556 3 11 3C15.4444 3 19 6.55556 19 11C19 15.4444 15.4444 19 11 19ZM11 5C7.53333 5 5 7.53333 5 11C5 14.4667 7.53333 17 11 17C14.4667 17 17 14.4667 17 11C17 7.53333 14.4667 5 11 5Z"
+                                            fill="currentColor"/>
+                                </svg>
+                            </span>
+                            <!--end::Svg Icon-->
+                            <input type="text" id="recherche" data-kt-etat-table-filter="search" class="form-control w-lg-400px ps-15" placeholder="Rechercher..."/>
+                        </div>
+                    </div>
+                    <div class="col-sm-3 col-lg-3">
+                        <div class="card-toolbar">
+                            <div class="d-flex justify-content-end">
+                                <a type="button" id="imp" typep="Liste des produits en rupture de stock" onclick="imprimable()" lien="{{path('romassigcom_print_product_stock')}}" class="btn btn-primary ">
+                                    <i class="la la-print"></i>IMPRIMER
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>                                
+            </div>
+        </div>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table align-middle table-row-dashed fs-6 gy-5 kt_etat_table"
+                id="kt_produits_table"
+                data-est-etat="1"
+                data-entity-name="Produit"
+                data-url="{{ path('romassigcom_prod_dispose',{'type':0}) }}"
+                data-table-columns="codeProduit;nomProd;libelleFamille;stock">
+                <thead>
+                    <tr class="text-start text-gray-400 fw-bolder fs-7 text-uppercase gs-0">
+                        <th class="min-w-125px">Code produit</th>
+                        <th class="min-w-125px">Nom du Produit</th>
+                        <th class="min-w-125px">Famille</th>
+                        <th class="min-w-125px">Stock</th>
+                    </tr>
+                </thead>
+                <tbody class="fw-semibold text-gray-600">
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

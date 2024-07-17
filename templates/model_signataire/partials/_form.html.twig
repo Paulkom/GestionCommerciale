@@ -1,0 +1,77 @@
+{{ form_start(form) }}
+    <div>
+        <div class="row">
+            {# <div class="mb-5 fv-row fv-plugins-icon-container col-md-3">
+                {{ form_label(form.code) }}
+                {{ form_widget(form.code) }}
+            </div> #}
+            <div class="mb-7 fv-row fv-plugins-icon-container col-md-6">
+                {{ form_label(form.libelle) }}
+                {{ form_widget(form.libelle) }}
+            </div>
+            <div class="col-md-2 fv-row box d-flex flex-column justify-content-center align-items-start mt-1">
+                <label class="form-check form-check-sm form-check-custom form-check-solid float-start">
+                    {{ form_widget(form.estDefault) }}
+                    <span class="form-check-label">
+                        {{ form.estDefault.vars.label }}
+                    </span>
+                </label>
+            </div>
+        </div>
+         
+
+        <div class="py-5">
+            <div class="rounded border p-2">
+                <ul class="nav nav-tabs nav-line-tabs nav-line-tabs-2x border-transparent fs-4 fw-semibold mb-5" role="tablist">
+                    <!--begin:::Tab item-->
+                    <li class="nav-item" role="presentation">
+                        <a class="nav-link text-active-primary pb-2 active" data-bs-toggle="tab" href="#kt_ecommerce_settings_general" aria-selected="true" role="tab">
+                            Personels et fonctions
+                        </a>
+                    </li>
+                    <!--end:::Tab item-->
+                </ul>
+
+                <div class="tab-content" id="myTabContent">
+                    <!--begin:::Tab pane-->
+                    <div class="tab-pane fade active show clearfix" id="kt_ecommerce_settings_general" role="tabpanel">
+                       
+                        {% set prefix = 'collection-form-med___' ~ form.modelSignatairePersonnelFonctions.vars.name ~ '__' %}
+                        <div class="row collection-form-med" data-collection-prefix="{{ prefix }}"
+                            data-collection-key = "__{{ form.modelSignatairePersonnelFonctions.vars.name }}__"
+                            data-index="{{ form.modelSignatairePersonnelFonctions|length > 0 ? form.modelSignatairePersonnelFonctions|last.vars.name + 1 : 0 }}"
+                            data-prototype="{% autoescape 'html' %}{{ include('model_signataire/partials/_personnelFonction.prototype.html.twig',
+                                { 'form': form.modelSignatairePersonnelFonctions.vars.prototype, 'class':'modelSignatairePersonnelFonction' })|escape }}{% endautoescape %}">
+                            {% for key,m in form.modelSignatairePersonnelFonctions %}
+                                <div class="ligne form-child" data-index="{{ key }}" id="{{ 'collection-form-med_' ~ key }}">
+                                    {{ include('model_signataire/partials/_personnelFonction.prototype.html.twig',
+                                        { 'form': m, 'class':'modelSignatairePersonnelFonction' }) }}
+                                </div>
+                            {% endfor %}
+                        </div>
+                        <div class="form-group mt-2 float-start">
+                            <a href="javascript:;" class="btn btn-light-success add_item_link"
+                            data-collection-holder-class="collection-form-med">
+                                <i class="la la-plus"></i>Ajouter un personnel
+                            </a>
+                        </div>
+
+                    </div>
+                    <!--end:::Tab pane-->
+                </div>
+            </div>
+        </div>
+
+        <div class="mb-5 fv-row fv-plugins-icon-container">
+            <button type="submit" class="btn btn-primary">
+                <span class="indicator-label">
+                    Enregistrer
+                </span>
+                <span class="indicator-progress">
+                    Veuillez patienter svp... <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
+                </span>
+            </button>
+        </div>
+    </div>
+{{ form_end(form) }} 
+

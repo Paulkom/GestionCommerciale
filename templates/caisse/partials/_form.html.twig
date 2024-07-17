@@ -1,0 +1,121 @@
+{{ form_start(form) }}
+<div class="row">
+    <div class="mb-5 fv-row fv-plugins-icon-container col">
+        {{ form_label(form.fondRoulement) }}
+        {{ form_widget(form.fondRoulement) }}
+        {# <div class="fv-plugins-message-container invalid-feedback"></div> #}
+    </div>
+    <div class="mb-5 fv-row fv-plugins-icon-container col-sm-5">
+        {{ form_label(form.chiffreAffaire) }}
+        {{ form_widget(form.chiffreAffaire) }}
+        {# <div class="fv-plugins-message-container invalid-feedback"></div> #}
+    </div>
+    <div class="mb-5 fv-row fv-plugins-icon-container col">
+        {{ form_label(form.soldeCloture) }}
+        {{ form_widget(form.soldeCloture) }}
+        {# <div class="fv-plugins-message-container invalid-feedback"></div> #}
+    </div>
+    <div class="mb-5 fv-row fv-plugins-icon-container col">
+        {{ form_label(form.ecart) }}
+        {{ form_widget(form.ecart) }}
+        {# <div class="fv-plugins-message-container invalid-feedback"></div> #}
+    </div>
+</div>
+<div class="card shadow-sm my-5">
+    <div class="card-header">
+        <h3 class="card-title">Monnaies</h3>
+        <div class="card-toolbar rotate-180">
+            <span class="svg-icon svg-icon-1">
+               
+            </span>
+        </div>
+    </div>
+    <div class="">
+        <div class="card-body collection-form" data-index="{{ form.monnaieCaisses|length > 0 ? form.monnaieCaisses|last.vars.name + 1 : 0 }}"
+            data-prototype="{% autoescape 'html' %}{{ include('caisse/partials/_monnaie_caisse.prototype.html.twig',
+            { 'form': form.monnaieCaisses.vars.prototype, 'class':'MonnaieCaisse' })|escape }}{% endautoescape %}">
+            {% if form.monnaieCaisses | length > 0 %}
+                {% for key, p in form.monnaieCaisses %}
+                    {% if key > 0 %}
+                        {% set length = form.monnaieCaisses|length %}
+                        {{ include('caisse/partials/_monnaie_caisse.prototype.html.twig',
+                            { 'form': p, 'length':length }) }}
+                    {% else %}
+                        {{ include('caisse/partials/_monnaie_caisse.prototype.html.twig',
+                            { 'form': p }) }}
+                    {% endif %}
+                {% endfor %}
+            {% else %}
+                {{ form_row(form.monnaieCaisses) }}
+            {% endif %}  
+           
+        </div>
+        <div class="modal-footer">
+             <div class="form-group">
+                <a href="javascript:;" class="btn btn-light-primary add_caisse_item_link" data-collection-holder-class="collection-form">
+                    <i class="la la-plus"></i>Ajouter une monnaie
+                </a>
+            </div>
+		</div>
+    </div>
+</div>
+
+ <div class="card shadow-sm mt-5">
+    <div class="card-header collapsible cursor-pointer rotate" data-bs-toggle="collapse" data-bs-target="#kt_perso_card_collapsible">
+        <h3 class="card-title">Personnels</h3>
+        <div class="card-toolbar rotate-180">
+            <span class="svg-icon svg-icon-1">
+               
+            </span>
+            <a href="#" class="btn btn-icon btn-sm btn-active-color-primary" data-kt-card-action="remove" data-kt-card-confirm="true" data-kt-card-confirm-message="Voulez-vous vraiment supprimer cette mo?" data-bs-toggle="tooltip" title="ferme" data-bs-dismiss="click">
+                <span class="svg-icon svg-icon-1">
+                    ...
+                </span>
+            </a>
+        </div>
+    </div>
+    <div id="kt_perso_card_collapsible" class="collapse show">
+        <div class="row card-body collection-form1" data-index="{{ form.personnelCaisses|length > 0 ? form.personnelCaisses|last.vars.name + 1 : 0 }}"
+            data-prototype="{% autoescape 'html' %}{{ include('caisse/partials/_personnel_caisse.prototype.html.twig',
+            { 'form': form.personnelCaisses.vars.prototype, 'class':'PersonneCaisse' })|escape }}{% endautoescape %}">
+                {% if form.personnelCaisses | length > 0 %}
+                    {% for key, p in form.personnelCaisses %}
+                        {% if key > 0 %}
+                            {% set length = form.personnelCaisses|length %}
+                            {{ include('caisse/partials/_personnel_caisses.prototype.html.twig',
+                                { 'form': p, 'length':length }) }}
+                        {% else %}
+                            {{ include('caisse/partials/_personnel_caisses.prototype.html.twig',
+                                { 'form': p }) }}
+                        {% endif %}
+                    {% endfor %}
+                {% else %}
+                    {{ form_row(form.personnelCaisses) }}
+                {% endif %}
+        </div>
+        <div class="modal-footer">
+            <div class="form-group">
+                <a href="javascript:;" class="btn btn-light-primary add_caisse_item_link" data-collection-holder-class="collection-form1">
+                    <i class="la la-plus"></i>Ajouter un personnel
+                </a>
+            </div>
+        </div>
+    </div>
+</div> 
+
+<div class="separator mb-6"></div>
+<div class="d-flex justify-content-end">
+    <!--begin::Button-->
+    <button type="reset" data-kt-cond-type="cancel" class="btn btn-light me-3">Vider</button>
+    <!--end::Button-->
+    <!--begin::Button-->
+    <button type="submit" id="condi_submit" data-kt-cond-type="submit" class="btn btn-primary">
+        <span class="indicator-label"> <i class="fa fa-plus"></i> Ajouter</span>
+        <span class="indicator-progress">Veuillez patienter svp...
+            <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
+        </span>
+    </button>
+    <!--end::Button-->
+</div>
+{{ form_end(form) }}
+

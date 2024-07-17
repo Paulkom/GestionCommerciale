@@ -1,0 +1,34 @@
+{{ form_start(form) }}
+    <div>
+        <div class="row">
+        
+            <div class="mb-5 fv-row fv-plugins-icon-container col-4">
+                {{ form_label(form.sigle) }}
+                {{ form_widget(form.sigle) }}
+            </div>
+            <div class="mb-5 fv-row fv-plugins-icon-container col-8">
+                {{ form_label(form.denominationBanque) }}
+                {{ form_widget(form.denominationBanque) }}
+            </div>
+            
+        </div>
+        <div class="mb-5 fv-row fv-plugins-icon-container">
+            {{ form_label(form.adresse) }}
+            {{ form_widget(form.adresse) }}
+        </div>
+        <div class="mb-5 fv-row fv-plugins-icon-container">
+            <!--begin::Button-->
+            <button type="reset" data-kt-cond-type="cancel" class="btn btn-light me-3">Vider</button>
+            <!--end::Button-->
+            <button type="submit" class="btn btn-primary">
+                <span class="indicator-label">
+                        Enregistrer
+                </span>
+                <span class="indicator-progress">
+                    Veuillez patienter svp... <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
+                </span>
+            </button>
+        </div>
+    </div>
+{{ form_end(form) }} 
+

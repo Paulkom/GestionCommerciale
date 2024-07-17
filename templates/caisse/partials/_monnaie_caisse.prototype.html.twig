@@ -1,0 +1,36 @@
+<div class="col-sm-6">
+    <div class="row">
+        <div class="mb-3 fv-row  col-sm-5">
+            {# {{ form_label(form.monnaie) }} #}
+            {{ form_widget(form.monnaie) }}
+        </div>
+
+        <div class="mb-3 fv-row  col-sm-3">
+            {# {{ form_label(form.nbr) }} #}
+            {{ form_widget(form.nbr) }}
+        </div>
+        <div class="mb-3 fv-row  col-sm-4">
+            {# {{ form_label(form.montant) }} #}
+            <div class="input-group">
+                {{ form_widget(form.montant) }}
+                {# <input type="text" class="form-control" placeholder="Recipient's username" aria-label="Recipient's username" aria-describedby="basic-addon2"> #}
+                <span class="input-group-text">F CFA</span>
+            </div>
+        </div>
+
+        {# <div class="mb-3 fv-row  col-sm-1">
+            <label class="form-label"></label>
+            <div class="mt-4">
+                <button type="button" class="btn btn-sm btn-icon btn-light-danger remove">
+                    <span class="svg-icon svg-icon-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                            <rect opacity="0.5" x="7.05025" y="15.5356" width="12" height="2" rx="1" transform="rotate(-45 7.05025 15.5356)" fill="currentColor"></rect>
+                            <rect x="8.46447" y="7.05029" width="12" height="2" rx="1" transform="rotate(45 8.46447 7.05029)" fill="currentColor"></rect>
+                        </svg>
+                    </span>
+                </button>
+            </div>
+        </div> #}
+    </div>
+</div>
+    {# <div class="separator mb-3"></div> #}

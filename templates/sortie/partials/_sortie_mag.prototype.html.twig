@@ -1,0 +1,49 @@
+<div class="rounded border p-2 mt-1">
+    <div class="form-group row mb-2">
+        <div class="fv-row col-md-10">
+            {{ form_label(form.magasin) }}
+            {{ form_widget(form.magasin) }}
+        </div>
+        <div class="col-md-2">
+            {% set id = null %}
+            {% if form.vars.value is not null %}
+                {% set id = form.vars.value.id %}
+            {% endif %}
+            <a href="javascript:void(0);" class="btn btn-icon btn-bg-danger btn-active-color-primary btn-sm collection-action mt-10"
+               data-url="{% if id is not null %}{{ path('app_entity_callandsave', {'class':class, 'action':'del', 'key':id}) }}{% endif %}"
+               data-token="{% if id is not null %}{{ csrf_token('delete' ~ id) }}{% endif %}">
+                <!--begin::Svg Icon | path: icons/duotune/general/gen027.svg-->
+                <span class="svg-icon svg-icon-3">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M5 9C5 8.44772 5.44772 8 6 8H18C18.5523 8 19 8.44772 19 9V18C19 19.6569 17.6569 21 16 21H8C6.34315 21 5 19.6569 5 18V9Z" fill="#FFFFFF"></path>
+                        <path opacity="0.5" d="M5 5C5 4.44772 5.44772 4 6 4H18C18.5523 4 19 4.44772 19 5V5C19 5.55228 18.5523 6 18 6H6C5.44772 6 5 5.55228 5 5V5Z" fill="#FFFFFF"></path>
+                        <path opacity="0.5" d="M9 4C9 3.44772 9.44772 3 10 3H14C14.5523 3 15 3.44772 15 4V4H9V4Z" fill="#FFFFFF"></path>
+                    </svg>
+                </span>
+                <!--end::Svg Icon-->
+            </a>
+        </div>
+    </div>
+    
+    <div class="separator mb-6"></div>
+    {% set childPrefix = '__' ~ form.produitCondSortieMags.vars.name ~ '__' %}
+    {% set prefixC = prefix ~ '_' ~ childPrefix %}
+    <div class="row {% if prefix is defined and prefix is not null %}{{ prefix }}{% else %}collection-form___{{ form.parent.vars.name }}__{% endif %}"
+         data-collection-key = "__{{ form.produitCondSortieMags.vars.name }}__"
+         data-collection-prefix="{{ prefixC }}"
+         data-index="{{ form.produitCondSortieMags|length > 0 ? form.produitCondSortieMags|last.vars.name + 1 : 0 }}"
+         data-prototype="{% autoescape 'html' %}{{ include('sortie/partials/_produit_cond.prototype.html.twig',
+             { 'form': form.produitCondSortieMags.vars.prototype, 'class':'produitCondSortieMag' })|escape }}{% endautoescape %}">
+        {% for key,m in form.produitCondSortieMags %}
+            <div class="ligne form-child" data-index="{{ key }}" id="{{ prefix ~ '_' ~ key }}">
+                {{ include('sortie/partials/_produit_cond.prototype.html.twig',
+                    { 'form': m, 'class':'produitCondSortieMag' }) }}
+            </div>
+        {% endfor %}
+    </div>
+    <div class="form-group mb-6">
+        <a href="javascript:;" class="btn btn-light-primary add_item_link" data-collection-holder-class="{{ prefix }}">
+            <i class="la la-plus"></i>Ajouter un produit
+        </a>
+    </div>
+</div>

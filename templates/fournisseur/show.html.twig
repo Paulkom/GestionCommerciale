@@ -1,0 +1,52 @@
+<div class="card card-flush">
+    <!--begin::Card header-->
+    <div class="card-header pt-7">
+        <!--begin::Card title-->
+        <div class="card-title">
+            <h2>Détails du fournisseur </h2>
+        </div>
+    </div>
+    <div class="card-body pt-5">
+        <div>
+            <div class="table-responsive">
+                <table class="table align-middle table-row-dashed fs-6 gy-5 ">
+                    <tbody>
+                        {% if  entitie.statut == "Physique" %}
+                            <tr>
+                                <th class="fw-bolder fs-7 text-uppercase">Nom:</th>
+                                <td>{{ entitie.nom }}</td>
+                                <th class="fw-bolder fs-7 text-uppercase">Prénom:</th>
+                                <td>{{ entitie.prenoms }}</td>
+                            </tr>
+                        {% else %}
+                             <tr>
+                                <th class="fw-bolder fs-7 text-uppercase">Raison Sociale:</th>
+                                <td>{{ entitie.raisonSociale ? entitie.raisonSociale:'-'}}</td>
+                                <th class="fw-bolder fs-7 text-uppercase">Sigle:</th>
+                                <td>{{ entitie.sigle ? entitie.sigle:'-' }}</td>
+                            </tr>
+                        {% endif %}
+                        <tr>
+                            <th class="fw-bolder fs-7 text-uppercase">Adresse:</th>
+                            <td>{{ entitie.adresse ?  entitie.adresse:'-' }}</td>
+                            <th class="fw-bolder fs-7 text-uppercase">Email:</th>
+                            <td>{{ entitie.email ?  entitie.email:'-' }}</td>
+                        </tr>
+                        <tr>
+                            <th class="fw-bolder fs-7 text-uppercase">Telephone 1:</th>
+                            <td>{{ entitie.tel1 ? entitie.tel1 :'-'}}</td>
+                            <th class="fw-bolder fs-7 text-uppercase">Telephone 2:</th>
+                            <td>{{ entitie.tel2 ? entitie.tel2:'-' }}</td>
+                        </tr>                       
+                        <tr>
+                            <th class="fw-bolder fs-7 text-uppercase">Statut:</th>
+                            <td>{{ entitie.statut }}</td>
+                            <th class="fw-bolder fs-7 text-uppercase">Date Nais.</th>
+                            <td>{{ entitie.dateNais ? entitie.dateNais|date('d-m-Y') : '-' }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

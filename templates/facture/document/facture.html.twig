@@ -1,0 +1,447 @@
+<!doctype html>
+<html lang="fr">
+<head>
+    <meta charset="utf-8">
+    <title>Facture</title>
+    <style>
+        .bod{
+            border: 1px solid #c4c4c4;
+            border-collapse: collapse;
+        }
+
+        .bon {
+            border:1px solid #c4c4c4;
+            border-top-color: white;
+            border-collapse:collapse;
+        }
+        .bod2{
+	        border:1px solid #c4c4c4;
+            border-left-color: white;
+            border-top-color: white;
+            border-collapse: collapse;
+        }
+        .bode{
+            border: none;
+            border-collapse: collapse;
+        }
+        .font{
+            font-size: 12px;
+            color: #383737;
+        }
+        .pad{
+            padding: 6px 6px 6px 6px;
+        }
+    </style>
+</head>
+
+<body>
+  <div class="row">
+        <span style=" width:100%;  ">
+            <div style="height: 90%;">
+                {# *********// Titre //******** #}
+                <table style="width: 100%;">
+                    <tbody>
+                        <tr> 
+                            <td style="text-align: left;  width: 100%; padding: 3px 1px;"> 
+                               <p><img alt="entete" style="width: 100%;" src="{{asset('uploads/medias/societe/' ~ societe.entete.id ~ "." ~ societe.entete.extension )}}"></p> 
+                            </td> 
+                        </tr> 
+                    </tbody>
+                </table> 
+                <div class="body-section">
+                    <div style="margin-left: 10px;" class="row">
+                        <table style="width: 100%;">
+                            <tr style="margin-left: 10px;">  
+                                <td style="text-align: right;" > 
+                                    {{ (societe.lieuImpression is defined and societe.lieuImpression is not null) ? societe.lieuImpression ~ " le, " ~  facture.dateFac | date("d/m/Y") : " Date : " ~ facture.dateFac | date("d/m/Y") }}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="text-align: center; "  >
+                                    <p class="sub-heading"> 
+                                        <b style="text-decoration: underline; text-underline-offset: 5px; color: #383737;  ">FACTURE DE VENTE</b>
+                                    </p>
+                                </td>
+                            </tr>
+                            
+                        </table>
+                    </div>
+                </div>
+                {# *********// Entête  //******** #}
+                <div class="body-section">
+                    <div style="margin-left: 10px;" class="row">
+                        <table style="width: 100%;">
+                            <tr style="margin-left: 10px;">
+                                <td style="text-align: left; width: 45%; " >
+                                    <p class="sub-heading font"> 
+                                        <b style="color: #383737;">OPERATEUR :</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <f style="padding-left: 10px;"> {{ facture.commandeCli.operateur.personnel.nom ~ " "~ facture.commandeCli.operateur.personnel.prenoms }} </f>
+                                    </p>
+                                    <p class="sub-heading font"> 
+                                        <b style="color: #383737;">FACTURE N° :</b> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {{ ((facture.commandeCli.factures)[0]).refFac }}
+                                    </p>
+                                    <p class="sub-heading font"> 
+                                        <b style="color: #383737;">COMMANDECli N° :</b>&nbsp;&nbsp;  {{ facture.commandeCli.refCom }}
+                                    </p> 
+                                </td>
+                                <td style="text-align: left; width: 5%; "></td> 
+                                {% if facture.commandeCli.acheteur.statut == "Physique" %} 
+                                    <td style="text-align: left; width: 45%;   ">
+                                        <table style="width: 100%; ">
+                                            <tbody>
+                                                <tr>
+                                                    <td style="margin-bottom: 10px"> 
+                                                        <p class="sub-heading font"> 
+                                                            <b>CLIENT :</b>&nbsp;&nbsp;&nbsp;&nbsp; {{ facture.commandeCli.acheteur.nom ~ " "~ facture.commandeCli.acheteur.prenom }}
+                                                        </p>
+                                                        {% if facture.commandeCli.acheteur.ifu is not null %} 
+                                                            <p class="sub-heading font" style="margin: 5px 0px 0px 0px; ">
+                                                               <b> IFU :</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  {{ facture.commandeCli.acheteur.ifu }}
+                                                            </p>
+                                                        {% endif %} 
+                                                        <p class="sub-heading font" style="margin: 5px 0px 0px 0px;"> 
+                                                            <b>TEL :</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {{ facture.commandeCli.acheteur.telephone1 }}
+                                                        </p>
+                                                    </td>
+                                                </tr>
+                                            </tbody>  
+                                        </table> 
+                                    </td>
+                                {% else %}
+                                    <td style="text-align: left; width: 45%;">
+                                        <table style="width: 100%;">
+                                            <thead>
+                                                <tr style="margin-left: 10px;">
+                                                    <th style="">CLIENT</th>
+                                                </tr>
+                                            </thead> 
+                                            <tbody>
+                                                <tr >
+                                                    <td>
+                                                        <p class="sub-heading font" class="font"> 
+                                                           <b> DENOMINATION :</b> {{ facture.commandeCli.acheteur.denomination }}
+                                                        </p>
+                                                        <p class="sub-heading font" > 
+                                                           <b> SIGLE :</b>  {{ facture.commandeCli.acheteur.sigle }}
+                                                        </p> 
+                                                        <p class="sub-heading font"> 
+                                                            <b>IFU :</b>  {{ facture.commandeCli.acheteur.ifu }}
+                                                        </p> 
+                                                        <p class="sub-heading font"> 
+                                                            <b>TEL :</b> {{ facture.commandeCli.acheteur.telephone1 }}
+                                                        </p>
+                                                    </td>
+                                                </tr>
+                                            </tbody>  
+                                        </table> 
+                                    </td>
+                                {% endif %}
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+                <table style="width:100%;" class="bod">
+                    <thead> 
+                        <tr style="background-color: #EBF5FF;">
+                            <th class="bod" style=" font-size: 12px; width:50%; padding: 0.5rem; color: #383737;"  >Designation</th>
+                            <th class="bod" style=" font-size: 12px;  padding: 0.5rem;color: #383737;" >Qte</th>
+                            <th class="bod" style=" font-size: 12px; padding: 0.5rem;color: #383737;" >P.U</th> 
+                            <th class="bod" style=" font-size: 12px; padding: 0.5rem;color: #383737;" >REM.</th>
+                            <th class="bod" style=" font-size: 12px; padding: 0.5rem;color: #383737;" >TVA</th>
+                            <th class="bod" style=" font-size: 12px;  padding: 0.5rem;color: #383737;" >MT.TTC</th> 
+                        </tr> 
+                    </thead> 
+                    <tbody> 
+                        {% for c in facture.commandeCli.produitCondComClits  %}
+                            <tr> 
+                                <td class="bod" style=" font-size: 12px; padding: 6px 6px 6px 6px; text-align:left;">{{ c.produit }}</td>
+                                <td class="bod" style=" font-size: 12px; padding: 6px 6px 6px 6px;  text-align:right;">{{c.qtite| number_format(3, ',', ' ')}}</td>
+                                <td class="bod" style=" font-size: 12px; padding: 6px 6px 6px 6px;  text-align:right;">{{c.prix| number_format(2, ',', ' ')}}</td>
+                                <td class="bod" style=" font-size: 12px; padding: 6px 6px 6px 6px;  text-align:right;">{{c.remise == null ? (0 | number_format(2, ',', ' ')) : c.remise| number_format(2, ',', ' ') }}</td>
+                                <td class="bod" style=" font-size: 12px; padding: 6px 6px 6px 6px;  text-align:right;">{{c.montantTvap == null ? (0 | number_format(2, ',', ' ')) : c.montantTvap| number_format(2, ',', ' ') }}</td>
+                                <td class="bod" style=" font-size: 12px; padding: 6px 6px 6px 6px;  text-align:right;">{{c.montantTtcp| number_format(2, ',', ' ')}}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+
+                <table  class="bod2" style="width:100%; ">
+                    <tbody>
+                        <tr style="border-top: none !important;">
+                            <td style = "width: 60%;" rowspan="4"></td>
+                            <td style = "width: 25%; color: #383737;" class="bon font"> 
+                               <b>Montant HT</b>
+                            </td>
+                            <td class="bon font" style="text-align: right;padding: 6px 6px 6px 6px;  width:15%; color: #383737;"> <b>{{facture.commandeCli.montantHt| number_format(2, ',', ' ')}} </b></td>
+                        </tr>
+                        <tr>
+                            <td style = "width: 25%;color: #383737; "class="bod font"> 
+                               <b>Montant TVA</b>
+                            </td>
+                            <td class="bod font" style="text-align: right; padding: 6px 6px 6px 6px; width:15%; color: #383737; "> <b> {{ facture.commandeCli.montantTva| number_format(2, ',', ' ')}} </b></td>
+                        </tr>
+                        <tr>
+                            <td style = "width: 25%;color: #383737;"class="bod font" > 
+                               <b>Montant AIB</b>
+                            </td>
+                            <td class="bod font" style="text-align: right; padding: 6px 6px 6px 6px; width:15%; color: #383737;"><b> {{ 0| number_format(2, ',', ' ')}} </b> </td>
+                        </tr>
+                        <tr>
+                            <td class="bod font" style = "width: 25%;color: #383737;"> 
+                               <b>Montant TTC</b>
+                            </td>
+                            <td class="bod font" style="text-align: right; padding: 6px 6px 6px 6px; width:15%; color: #383737;"><b> {{facture.commandeCli.montantTtc| number_format(2, ',', ' ')}} </b></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <table style="width:100%;" class="bon">
+                    <tbody>
+                        <tr>
+                            <td style="width:35%;" class="bon" align="center">
+                                <p><img width="75" height="75" alt="entete" src="{{ asset('cod.jpg') }}" ismap></p>
+                            </td>
+                            <td style="width:65%;" class="bon"> 
+                                <table style="width:100%;" class="bode">
+                                    <tbody>
+                                        <tr> 
+                                            <td align="center" style="width:100%;" class="font bode pad">
+                                                <p style="">Code MECeF/DGI</p>
+                                                <p style="margin-top: -10px;">GZPW-UUB3-63ES-BENV-7FEB-BYU5</p>
+                                            </td>
+                                        </tr>
+                                        <tr> 
+                                            <td class="bode">
+                                                <table style="width: 100%;" class="bode">
+                                                    <tbody>
+                                                        <tr>
+                                                            <td style="width:50%;" class="font bode pad">
+                                                                <p style="margin-buttom: 5px;  padding: 6px 6px 6px 6px;">MECeF NIM:</p>
+                                                                <p style=" margin-buttom: 5px; padding: 6px 6px 6px 6px;">MECeF Compteur:</p>
+                                                                <p style=" margin-buttom: 5px; padding: 6px 6px 6px 6px;">MECeF Heure:</p>
+                                                            </td>
+                                                            <td style="width:50%;" align="right" class="font bode pad">
+                                                                <p style="margin-buttom: 5px;padding: 6px 6px 6px 6px;">XXXXXXXXXXX</p>
+                                                                <p style="margin-buttom: 5px; padding: 6px 6px 6px 6px;">XXXXXXXXXXX</p>
+                                                                <p style="margin-buttom: 5px; padding: 6px 6px 6px 6px;">XXXXXXXXXXX</p>
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                        </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="font" style="margin-top: 5px;"> <strong>Arrêtée  la présente facture à la somme de </strong> <em> {{" "~ valeur ~ " (" ~ facture.commandeCli.montantTtc| number_format(2, ',', ' ') ~") francs CFA" }} <em> </div>
+                
+                <div style="margin-left: 10px; margin-right: 10px;">
+                    <hr align="center" style=" height:2px;  color: yellow; margin: 20px 0px 10px 0px;border-width:2px; border: thick double #32a1ce;" >
+                </div>
+                <div class="body-section" >
+                    <table style="margin-left: 20px;  width: 100%; margin-right: 20px;" >
+                        <thead>
+                        <tr>
+                            {% set tail = 100 / (signataires.modelSignatairePersonnelFonctions|length ) %}
+
+                            {% for sig in signataires.modelSignatairePersonnelFonctions %}
+                                <td style="text-align: left; width: {{ tail ~ '%;' }} " class='font' align=" {{ loop.index == 1 ? 'left' : loop.index == signataires.modelSignatairePersonnelFonctions|length ? 'right' : 'center'  }} ">
+                                    <p style="text-decoration: underline; text-underline-offset: 5px; ">{{ sig.fonction.intitule }} </p>
+                                    <br><br><br>
+                                    <p> {{ sig.personnel.nom ~ " "~ sig.personnel.prenoms }}</p>
+                                </td>
+                            {% endfor %}
+                        </tr>
+                        </tbody>
+                    </table>   
+                </div>
+                <br>
+                <div style="margin-left: 30px;  width:100%; margin-right: 20px; ">
+                    <p align="center">Merci</p>
+                </div>
+            </div>
+        </span>
+    </div>
+</body>
+
+</html>
+
+{# <div class="row">
+
+    <span style=" width:100%;  ">
+        <div style="height: 90%;">
+            <div class="body-section">
+                <div style="margin-left: 10px;" class="row">
+                    <table style="width: 100%;">
+                        <tr style="margin-left: 10px;">
+                            <td style="text-align: left; width: 45%; {% if format == "A6-P" %} font-size:9px; {% endif %} border: solid black;"  >
+                                <p>
+                                    <b class="heading">SOMIMAS</b> REF00000
+                                </p> 
+                                <p class="sub-heading"> 
+                                <b>IFU :</b>  {{ "0000000000000" }}
+                                </p> 
+                            </td>
+                            <td style="text-align: left; width: 5%;"></td>  
+                            <td style="text-align: left; width: 45%; border: solid black;{% if format == "A6-P" %} font-size: 9px; {% endif %} "> 
+                                <p class="sub-heading"> 
+                                    <b>FACTURE</b>
+                                </p>
+                                <p class="sub-heading"> 
+                                    <b>Fact N° :</b>  {{ facture.refCom }}
+                                </p>
+                                <p class="sub-heading"> 
+                                    <b>Commande n° :</b>  {{ facture.commande.refCom }}
+                                </p>
+                                <p class="sub-heading"> 
+                                    <b>Date :</b>  {{ facture.commande.dateCom | date("d-m-Y") }}
+                                </p>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            <div class="body-section">
+                <div style="margin-left: 10px;" class="row">
+                    <table style="width: 100%;">
+                        <tr style="margin-left: 10px;">
+                            <td style="text-align: left; width: 45%; {% if format == "A6-P" %} font-size: 9px; {% endif %}" >
+                                <p class="sub-heading"> 
+                                    Adresse : {{ "Zogbadjè" }} 
+                                </p>
+                                <p class="sub-heading"> 
+                                    Contact :  {{ "00000000" }}
+                                </p> 
+                            </td>
+                            <td style="text-align: left; width: 5%; "></td> 
+                            {% if commande.acheteur.statut == "Physique" %} 
+                                <td style="text-align: left; width: 45%;   ">
+                                    <table style="width: 100%; ">
+                                        <thead>
+                                            <tr style="margin-left: 10px;">
+                                                <th style="background-color: #F6F1F1; ">
+                                                    CLIENT
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td style="{% if format == "A6-P" %} font-size: 9px; {% endif %}"> 
+                                                    <p class="sub-heading"> 
+                                                        Nom Clt : {{ facture.commandeCli.acheteur.nom }}
+                                                    </p>
+                                                    <p class="sub-heading"> 
+                                                        Prénom Clt :  {{ facture.commandeCli.acheteur.prenom }}
+                                                    </p> 
+                                                    {% if commande.acheteur.ifu is not null %} 
+                                                        <p class="sub-heading"> 
+                                                            <b>IFU :</b>  {{ facture.commandeCli.acheteur.ifu }}
+                                                        </p> 
+                                                    {% endif %} 
+                                                    <p class="sub-heading"> 
+                                                        Contacts : {{ facture.commandeCli.acheteur.telephone1 }}
+                                                    </p>
+                                                </td>
+                                            </tr>
+                                        </tbody>  
+                                    </table> 
+                                </td>
+                            {% else %}
+                                <td style="text-align: left; width: 45%;"><table style="width: 100%;"><thead><tr style="margin-left: 10px;"><th style="{% if format == "A6-P" %} font-size: 9px; {% endif %}">CLIENT</th></tr></thead> <tbody><tr><td><p class="sub-heading" style="{% if format == "A6-P" %} font-size: 9px; {% endif %}"> Dénomination : {{ commande.acheteur.denomination }}</p><p class="sub-heading" style="{% if format == "A6-P" %} font-size: 9px; {% endif %}"> Sigle :  {{ commande.acheteur.sigle }}</p> <p class="sub-heading"> IFU :  {{ commande.acheteur.ifu }}</p> <p class="sub-heading"> Contacts : {{ commande.acheteur.telephone1 }}</p></td></tr></tbody>  </table> </td>
+                            {% endif %}
+                        </tr>
+                    </table>
+                </div>
+            </div>
+
+            <div style="margin-left: 10px; margin-right: 10px;">
+                <hr align="center" style=" height:2px; color: green; margin: 20px 0px 10px 0px;border-width:2px; border: thick double #32a1ce;" >
+            </div>
+            <table style="width:100%;">
+                <thead> 
+                    <tr style="border: 1px solid #26a69a; border-color: red rgba(170, 50, 220, .6) green; margin-left: 10px;">
+                        <th style=" border: 1px solid #999; padding: 0.5rem;{% if format == "A6-P" %} font-size: 9px; {% endif %}" class="w-30 text-white" >Designation</th>
+                        <th style=" border: 1px solid #999; padding: 0.5rem;{% if format == "A6-P" %} font-size: 9px; {% endif %}" class="w-15 text-white">Qte</th>
+                        <th style=" border: 1px solid #999; padding: 0.5rem;{% if format == "A6-P" %} font-size: 9px; {% endif %}" class="w-15 text-white">P.U</th> 
+                        <th style=" border: 1px solid #999; padding: 0.5rem;{% if format == "A6-P" %} font-size: 9px; {% endif %}" class="w-15 text-white">REM.</th>
+                        <th style=" border: 1px solid #999; padding: 0.5rem;{% if format == "A6-P" %} font-size: 9px; {% endif %}" class="w-15 text-white">MT.</th> 
+                    </tr> 
+                </thead> 
+                <tbody> 
+                {% for c in facture.commandeCli.produitCondComClits  %}
+                    <tr> 
+                        <td style=" border: 1px solid #999; text-align:left;{% if format == "A6-P" %} font-size: 7px; {% endif %}">{{ c.produit.produit.nomProd }}</td>
+                        <td style=" border: 1px solid #999; text-align:center;{% if format == "A6-P" %} font-size: 7px; {% endif %}">{{c.qtite| number_format(2, ',', ' ')}}</td>
+                        <td style=" border: 1px solid #999; text-align:center;{% if format == "A6-P" %} font-size: 7px; {% endif %}">{{c.prix| number_format(2, ',', ' ')}}</td>
+                        <td style=" border: 1px solid #999; text-align:center;{% if format == "A6-P" %} font-size: 7px; {% endif %}">{{c.remise == null ? (0 | number_format(2, ',', ' ')) : c.remise| number_format(2, ',', ' ') }}</td>
+                        <td style=" border: 1px solid #999; text-align:center;{% if format == "A6-P" %} font-size: 7px; {% endif %}">{{c.montantHtAprRse| number_format(2, ',', ' ')}}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            {% if format != "A6-P" %} <br> {% endif %}
+            <table style="margin-left: 30px;  width:100%; margin-right: 20px;">
+                <tbody>
+                {% if commande.typeRemise %}
+                    <tr>
+                        <th style = "border: 1px solid #26a69a;width:70%; {% if format == "A6-P" %} font-size: 9px; {% endif %} ">Montant Total</th>
+                        <td style="border: 1px solid #26a69a;text-align: right; width:30%;{% if format == "A6-P" %} font-size: 9px; {% endif %}">{{commande.montantTotal| number_format(2, ',', ' ')}}</td>
+                    </tr>
+                        <tr>
+                            <th style = "border: 1px solid #26a69a; width:70%; {% if format == "A6-P" %} font-size: 9px; {% endif %} ">Remise global {{ "(" ~ commande.valeurRemise ~" "~ (commande.typeRemise) ~ ")" }}</th>
+                            <td style="border: 1px solid #26a69a; text-align: right; width:30%;{% if format == "A6-P" %} font-size: 9px; {% endif %}">{{commande.remise| number_format(2, ',', ' ')}}</td>
+                        </tr>
+                {% endif %}
+                    <tr>
+                        <th style = "border: 1px solid #26a69a;width:70%; {% if format == "A6-P" %} font-size: 9px; {% endif %}">Montant TTC</th>
+                        <td style="border: 1px solid #26a69a;text-align: right; width:30%;{% if format == "A6-P" %} font-size: 9px; {% endif %}">{{commande.montantTtc| number_format(2, ',', ' ')}}</td>
+                    </tr>
+                </tbody>
+            </table>
+            <div style="margin-left: 10px; margin-right: 10px;">
+                <hr align="center" style=" height:2px;  color: yellow; margin: 20px 0px 10px 0px;border-width:2px; border: thick double #32a1ce;" >
+            </div>
+
+            <div class="body-section" >
+                <table style="margin-left: 20px;  width:100%; margin-right: 20px;" >
+                    <thead>
+                    <tr>
+                        <td style="text-align: left; width:20%; {% if format == "A6-P" %} font-size: 7px; {% endif %}" class="w-33">
+                            <p style="text-decoration: underline; width: 100%; background-color:red;">{{"Code QR"}} </p>
+                        </td>
+                        <td style="text-align: right; width: 70%; {% if format == "A6-P" %} font-size: 7px; {% endif %}" class="w-33">
+                            <p style="text-decoration: underline; ">{{"Info"}} </p>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>   
+            </div>
+            <div style="margin-left: 10px; margin-right: 10px;">
+                <hr align="center" style=" height:2px;  color: yellow; margin: 20px 0px 10px 0px;border-width:2px; border: thick double #32a1ce;" >
+            </div>
+            <div class="body-section" >
+                <table style="margin-left: 20px;  width:100%; margin-right: 20px;" >
+                    <thead>
+                    <tr>
+                        <td style="text-align: left; {% if format == "A6-P" %} font-size: 7px; {% endif %}" class="w-33">
+                            <p style="text-decoration: underline; ">{{"Signataire"}} </p>
+                        </td>
+                        <td  style="text-align: center; {% if format == "A6-P" %} font-size: 7px; {% endif %}" class="w-33">
+                            <p style="text-decoration: underline; ">{{"Signataire"}} </p>
+                        </td>
+                        <td style="text-align: right; {% if format == "A6-P" %} font-size: 7px; {% endif %}" class="w-33">
+                            <p style="text-decoration: underline; ">{{"Signataire"}} </p>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>   
+            </div>
+            <br>
+            <div style="margin-left: 30px;  width:100%; margin-right: 20px; {% if format == "A6-P" %} font-size: 7px; {% endif %}">
+                <p align="center">Merci</p>
+            </div>
+        </div>
+    </span>
+</div> #}
+

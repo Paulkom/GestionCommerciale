@@ -1,0 +1,68 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello EtatStatistiqueController!{% endblock %}
+
+{% block body %}
+<style>
+    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
+    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
+</style>
+
+<div class="example-wrapper">
+    <h1>Hello {{ controller_name }}! ✅</h1>
+
+    This friendly message is coming from:
+    <ul>
+        <li>Your controller at <code><a href="{{ 'C:/wamp/www/romassigcom/src/Controller/EtatStatistiqueController.php'|file_link(0) }}">src/Controller/EtatStatistiqueController.php</a></code></li>
+        <li>Your template at <code><a href="{{ 'C:/wamp/www/romassigcom/templates/etat_statistique/index.html.twig'|file_link(0) }}">templates/etat_statistique/index.html.twig</a></code></li>
+    </ul>
+</div>
+
+                <div class="row">
+                     {{ form_start(form) }}
+                    <div class="col-sm-12">
+                        <fieldset style="border: solid 1px #DDD !important; padding:0px 5px 5px ; border-botto : none">
+                            <legend>Filtres</legend>
+                            <div class="col-sm-3">
+                                {{ form_label(form.dateDeb) }}
+                                <div class="input-group date">
+                                    {{ form_widget(form.dateDeb) }}
+                                    <span class="input-group-btn">
+                                        <button class="btn date-set" type="button"><i class="fa fa-calendar"></i></button>
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="col-sm-3">
+                                {{ form_label(form.dateFin) }}
+                                <div class="input-group date">
+                                    {{ form_widget(form.dateFin) }}
+                                    <span class="input-group-btn">
+                                        <button class="btn date-set" type="button"><i class="fa fa-calendar"></i></button>
+                                    </span>
+                                </div>
+                            </div>
+                             <div class="col-sm-3">
+                                <div class="form-group">
+                                    {{ form_label(form.percepteur) }}
+                                    {{ form_widget(form.percepteur) }}
+                                </div>
+                            </div>
+                            <div class="col-sm-3">
+                                <div class="form-group">
+                                    {{ form_label(form.type) }}
+                                    {{ form_widget(form.type) }}
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="offset-md-3 col-sm-2" style="margin-top: 25px">
+                                    <div class="">
+                                        <button id="valider" type="submit" class="btn btn-success">Lancer la recherche </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </fieldset> <br>
+                    </div>
+                    
+                    {{ form_end(form) }}
+                </div>
+{% endblock %}

@@ -1,0 +1,29 @@
+<div class="card card-flush">
+    <!--begin::Card header-->
+    <div class="card-header pt-7">
+        <!--begin::Card title-->
+        <div class="card-title">
+            <h2>Détails du compte : {{ entitie.intitule }}</h2>
+        </div>
+    </div>
+    <div class="card-body pt-5">
+        <div>
+            <div class="table-responsive">
+                <table class="table align-middle table-row-dashed fs-6 gy-5 ">
+                    <tr>
+                        <th class="text-gray-500 fw-bolder fs-7 text-uppercase">Date Création.:</th>
+                        <td>{{ entitie.createdAt ? entitie.createdAt|date('d-m-Y à H:i:s') : '' }}</td>
+                        <th class="text-gray-500 fw-bolder fs-7 text-uppercase" >Client:</th>
+                        <td class="fw-bolde">{{ entitie.client.nomClient }}</td>
+                    </tr>
+                    <tr>
+                        <th class="text-gray-500 fw-bolder fs-7 text-uppercase">Solde initial:</th>
+                        <td>{{ entitie.soldeInitial | number_format(2, ',', ' ')}} F CFA</td>
+                        <th class="text-gray-500 fw-bolder fs-7 text-uppercase">Solde Actuel:</th>
+                        <td class="fw-bolde">{{ entitie.solde | number_format(2, ',', ' ')}} F CFA</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

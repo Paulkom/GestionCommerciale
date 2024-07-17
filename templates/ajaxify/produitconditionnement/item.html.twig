@@ -1,0 +1,11 @@
+<tr>
+    <td class="sorting_1">
+        <div class="form-check form-check-sm form-check-custom form-check-solid">
+            <input class="form-check-input kt_entity_checkbox" type="checkbox" value="{{ produitConditionnement.id }}">
+        </div>
+    </td>
+    <td>{{ produitConditionnement.produit.famille }}</td>
+    <td>{{ produitConditionnement.produit.nomProd ~ ' [' ~ produitConditionnement.conditionnement.libelleCond ~ ']' }}</td>
+    <td>{{ produitConditionnement.qteCond }}</td>
+    <td>{{ produitConditionnement.qteStockCond }}</td>
+</tr>

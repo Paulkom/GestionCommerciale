@@ -1,0 +1,65 @@
+<div class="card card-flush">
+    <!--begin::Card header-->
+    <div class="card-header pt-7">
+        <!--begin::Card title-->
+        <div class="card-title">
+            <h2>Détails de l'approvisionnement</h2>
+        </div>
+    </div>
+    <div class="card-body pt-5">
+        <div>
+            <div class="table-responsive">
+                <table class="table align-middle table-row-dashed fs-6 gy-5 ">
+                    <tr>
+                        <th class="text-gray-500 fw-bolder fs-7 text-uppercase">Date appr.:</th>
+                        <td>{{ entitie.dateAppro ? entitie.dateAppro|date('d-m-Y') : '' }}</td>
+                        <th class="text-gray-500 fw-bolder fs-7 text-uppercase" >Reference Appr:</th>
+                        <td class="fw-bolde">{{ entitie.reference ? entitie.reference:'-' }}</td>
+                    </tr>
+                    <tr>
+                       <th class="text-gray-500 fw-bolder fs-7 text-uppercase" >montant Total</th>
+                        <td class="fw-bolde">{{ entitie.montantTotal|number_format(2, ',', ' ')}} F CFA</td>
+                        <th class="text-gray-500 fw-bolder fs-7 text-uppercase">Fournisseur:</th>
+                        <td class="fw-bolde">
+                       
+                        {% if entitie.fournisseur != null %}
+                            {% if  entitie.fournisseur.statut == "Physique" %}
+                                 {{entitie.fournisseur.nom }}  {{entitie.fournisseur.prenoms }}
+                            {% else %}
+                                {{ entitie.fournisseur.raisonSociale ~ '[' ~ entitie.fournisseur.sigle ~ ']' }}
+                            {% endif %}
+                        {% else %}
+                        -
+                        {% endif %}
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <h4 class="mt-10"> Liste des produits approvisionnés par magasin.</h4>
+            {% for am in entitie.approMagasins  %}
+                <h4 class="mt-10 text-primary text-uppercase fw-bolder">{{ am.magasin.nomMag }}({{am.magasin.codeMag}})</h4>
+                <div class="table-responsive">
+                    <table class="table align-middle table-row-dashed fs-6 gy-5 ">
+                        <thead> 
+                            <tr class="text-gray-500 fw-bolder fs-7 text-uppercase" >
+                                <th class="min-w-200px">Designation</th>
+                                <th class="min-w-80px">Qte commandée </th>
+                                <th class="min-w-100px">prix Achat</th> 
+                                <th class="min-w-100px">montant Cond.</th> 
+                            </tr> 
+                        </thead> 
+                        {% for l in am.produitCondApproMags  %}
+                            <tr> 
+                                <td>{{ l.produitConditionnement }}</td>
+                                <td>{{ l.qteCondAppro }}</td>
+                                <td>{{ l.prixAchat  | number_format(2, ',', ' ')}} F CFA</td>
+                                <td>{{ l.montantCond  | number_format(2, ',', ' ')}} F CFA</td>
+                            </tr>
+                        {% endfor %}    
+                    </table>
+                </div>
+            {% endfor %} 
+        </div>
+    </div>
+</div>
+

@@ -1,0 +1,38 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Conditionnement{% endblock %}
+
+{% block body %}
+    <h1>Conditionnement</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ conditionnement.id }}</td>
+            </tr>
+            <tr>
+                <th>CodeCond</th>
+                <td>{{ conditionnement.codeCond }}</td>
+            </tr>
+            <tr>
+                <th>LibelleCond</th>
+                <td>{{ conditionnement.libelleCond }}</td>
+            </tr>
+            <tr>
+                <th>CreatedAt</th>
+                <td>{{ conditionnement.createdAt ? conditionnement.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>UpdatedAt</th>
+                <td>{{ conditionnement.updatedAt ? conditionnement.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_conditionnement_index') }}">back to list</a>
+
+    <a href="{{ path('app_conditionnement_edit', {'id': conditionnement.id}) }}">edit</a>
+
+    {{ include('conditionnement/_delete_form.html.twig') }}
+{% endblock %}

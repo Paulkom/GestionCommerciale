@@ -1,0 +1,42 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Monnaie{% endblock %}
+
+{% block body %}
+    <h1>Monnaie</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ monnaie.id }}</td>
+            </tr>
+            <tr>
+                <th>Libelle</th>
+                <td>{{ monnaie.libelle }}</td>
+            </tr>
+            <tr>
+                <th>Valeur</th>
+                <td>{{ monnaie.valeur }}</td>
+            </tr>
+            <tr>
+                <th>CreatedAt</th>
+                <td>{{ monnaie.createdAt ? monnaie.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>UpdatedAt</th>
+                <td>{{ monnaie.updatedAt ? monnaie.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>DeletedAt</th>
+                <td>{{ monnaie.deletedAt ? monnaie.deletedAt|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_monnaie_index') }}">back to list</a>
+
+    <a href="{{ path('app_monnaie_edit', {'id': monnaie.id}) }}">edit</a>
+
+    {{ include('monnaie/_delete_form.html.twig') }}
+{% endblock %}

@@ -1,0 +1,50 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Inventaire{% endblock %}
+
+{% block body %}
+    <h1>Inventaire</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ inventaire.id }}</td>
+            </tr>
+            <tr>
+                <th>DateDebutInv</th>
+                <td>{{ inventaire.dateDebutInv ? inventaire.dateDebutInv|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>DateFinInv</th>
+                <td>{{ inventaire.dateFinInv ? inventaire.dateFinInv|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>TotalDebit</th>
+                <td>{{ inventaire.totalDebit }}</td>
+            </tr>
+            <tr>
+                <th>TotalCredit</th>
+                <td>{{ inventaire.totalCredit }}</td>
+            </tr>
+            <tr>
+                <th>CreatedAt</th>
+                <td>{{ inventaire.createdAt ? inventaire.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>UpdatedAt</th>
+                <td>{{ inventaire.updatedAt ? inventaire.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>DeletedAt</th>
+                <td>{{ inventaire.deletedAt ? inventaire.deletedAt|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_inventaire_index') }}">back to list</a>
+
+    <a href="{{ path('app_inventaire_edit', {'id': inventaire.id}) }}">edit</a>
+
+    {{ include('inventaire/_delete_form.html.twig') }}
+{% endblock %}

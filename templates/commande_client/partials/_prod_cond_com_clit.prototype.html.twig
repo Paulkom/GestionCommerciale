@@ -1,0 +1,94 @@
+<tr>
+    <td>
+        <div class="fv-row">
+        {{ form_widget(form.produit) }}
+        {{ form_widget(form.carton) }}
+        {{ form_widget(form.piece) }}
+        <span class="fs-6 text-muted"></span>
+        </div>
+    </td>
+    <td>
+        <div class="fv-row">
+        {{ form_widget(form.qtite) }}
+        </div>
+    </td>
+    <td>
+        <div class="fv-row">
+        {{ form_widget(form.prix) }}
+        <input type="hidden" class="taxable">
+        </div>
+    </td>
+    <td>
+        <div class="fv-row">
+        {{ form_widget(form.prixHt) }}
+        </div>
+    </td>
+    <td>
+        <div class="fv-row">
+            {{ form_widget(form.montant) }}
+        </div>
+    </td>
+    <td>
+        <div class="fv-row">
+            {{ form_widget(form.taxeSpecifique) }}
+        </div>
+    </td>
+    <td>
+        <div class="fv-row">
+            {{ form_widget(form.typeRemise) }}
+        </div>
+    </td>
+    <td>
+        <div class="fv-row">
+        {{ form_widget(form.valeurRemise) }}
+        </div>
+    </td>
+    <td>
+        <div class="fv-row">
+        {{ form_widget(form.remise) }}
+        </div>
+    </td>
+    <td>
+        <div class="fv-row">
+        {{ form_widget(form.montantHtAprRse) }}
+        </div>
+    </td>
+    <td>
+        <div class="fv-row">
+        {{ form_widget(form.montantTvap) }}
+        </div>
+    </td>
+    <td>
+        <div class="fv-row">
+        {{ form_widget(form.montantTtcp) }}
+        </div>
+    </td>
+    <td>
+        <div class="fv-row">
+            {{ form_widget(form.magasin) }}
+        </div>
+    </td>
+    <td>
+        <div class="fv-row">
+        <div class="col-sm" style="margin-top:-3px">
+                <div><span class="badge badge-light-danger badge-sm stock mb-1"></span></div>
+                <div><span class="badge badge-light-primary badge-sm stocklogique"></span></div>
+            </div>
+        </div>
+    </td>
+    <td>
+        <div class="fv-row">
+            <div class="col-md-auto">
+                <button type="button" class="btn btn-sm btn-icon btn-light-danger remove">
+                    <span class="svg-icon svg-icon-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                            <rect opacity="0.5" x="7.05025" y="15.5356" width="12" height="2" rx="1" transform="rotate(-45 7.05025 15.5356)" fill="currentColor"></rect>
+                            <rect x="8.46447" y="7.05029" width="12" height="2" rx="1" transform="rotate(45 8.46447 7.05029)" fill="currentColor"></rect>
+                        </svg>
+                    </span>
+                </button>
+            </div>
+        </div>
+    </td>
+</tr>
+   

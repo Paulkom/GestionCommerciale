@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit Detachement{% endblock %}
+
+{% block body %}
+    <h1>Edit Detachement</h1>
+
+    {{ include('detachement/_form.html.twig', {'button_label': 'Update'}) }}
+
+    <a href="{{ path('app_detachement_index') }}">back to list</a>
+
+    {{ include('detachement/_delete_form.html.twig') }}
+{% endblock %}

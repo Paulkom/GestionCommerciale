@@ -1,0 +1,49 @@
+<div class="card card-flush">
+    <!--begin::Card header-->
+    <div class="card-header pt-7">
+        <!--begin::Card title-->
+        <div class="card-title">
+            <h2>Détails du détachement</h2>
+        </div>
+    </div>
+    <div class="card-body pt-5">
+        <div>
+            <div class="table-responsive">
+                <table class="table align-middle table-row-dashed fs-6 gy-5 ">
+                    <tr>
+                        <th class="text-gray-500 fw-bolder fs-7 text-uppercase">Date détachement:</th>
+                        <td>{{ entitie.dateDet ? entitie.dateDet|date('d-m-Y') : '' }}</td>
+                        <th class="text-gray-500 fw-bolder fs-7 text-uppercase" >Magasin:</th>
+                        <td class="fw-bolde">{{ entitie.magasin ? entitie.magasin.nomMag:'-' }}</td>
+                    </tr>
+                    <tr>
+                       <th class="text-gray-500 fw-bolder fs-7 text-uppercase" >Responsable</th>
+                       <td class="fw-bolde">{{ entitie.userDet.personnel}}</td>
+                    </tr>
+                </table>
+            </div>
+            <h4 class="mt-10">Liste des produits détachés.</h4>
+            <div class="table-responsive">
+                <table class="table align-middle table-row-dashed fs-6 gy-5 ">
+                    <thead> 
+                        <tr class="text-gray-500 fw-bolder fs-7 text-uppercase" >
+                            <th class="min-w-200px">Source</th>
+                            <th class="min-w-80px">Qte source</th>
+                            <th class="min-w-100px">Cible</th> 
+                            <th class="min-w-100px">Qte Cible</th> 
+                        </tr> 
+                    </thead> 
+                    {% for l in entitie.produitDetachers  %}
+                        <tr> 
+                            <td>{{ l.produitCondMag.produitConditionnement }}</td>
+                            <td>{{ l.quantite }}</td>
+                            <td>{{ l.cible }} </td>
+                            <td>{{ l.quantiteCible }}</td>
+                        </tr>
+                    {% endfor %}    
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+

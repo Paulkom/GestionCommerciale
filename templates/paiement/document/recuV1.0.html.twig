@@ -1,0 +1,235 @@
+<!doctype html>
+<html lang="fr">
+<head>
+    <meta charset="utf-8">
+    <style>
+        .bod{
+            border: 1px solid black;
+            border-collapse: collapse;
+        }
+        .bon {
+            border:1px solid;
+            border-top-color: white;
+            border-collapse:collapse;
+        }
+        .bod2{
+            /*border-style:solid;*/
+	        border-style:solid;
+            border-top-color: transparent;
+            border-collapse: collapse;
+        }
+        .bode{
+            border: none;
+            border-collapse: collapse;
+        }
+        .font{
+            font-size: 12px;
+        }
+        .pad{
+            padding: 6px 6px 6px 6px;
+        }
+    </style>
+</head>
+
+<body>
+<div class="row">
+
+    <span style=" width:100%;  ">
+        <div>
+              <table style="width: 100%;">
+                <tbody>
+                    <tr> 
+                        <td style="text-align: left;  width: 100%; padding: 3px 1px;"> 
+                            <p><img alt="entete" style="border: 1px solid #ddd; border-radius: 4px; padding: 5px; width: 100%;" src="{{asset('uploads/medias/societe/' ~ societe.entete.id ~ "." ~ societe.entete.extension )}}"></p> 
+                        </td> 
+                    </tr> 
+                </tbody>
+            </table> 
+
+            <div class="body-section">
+                <div>
+                    <table style="width: 100%; margin-top: 30px;">
+                        <tr>
+                            <td style="text-align: left; width: 45%; {% if format == "A6-P" %} font-size:9px; {% endif %} border: solid black;">
+                                <p class="sub-heading"> 
+                                    <b>Date :</b>  {{ paiement.datePaie | date("d-m-Y") }}
+                                </p>
+                            </td>
+                            <td style="text-align: left; width: 5%;"></td>  
+                            <td style="text-align: left; width: 45%; border: solid black;{% if format == "A6-P" %} font-size: 9px; {% endif %} "> 
+                                <p class="sub-heading"> 
+                                    <b>RECU DE PAIEMENT</b>
+                                </p>
+                                <p class="sub-heading"> 
+                                    <b>Reçu n° :</b>  {{ paiement.refPaie }}
+                                </p>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            {# *********// Entête  //******** #}
+            <div class="body-section " style="margin-top: 30px; border: solid black;">
+            
+                    <table style="width: 100%;">
+                        <tr style="">
+                            <td style="text-align: left; width: 100%; border: dotted green;{% if format == "A6-P" %} font-size: 9px; {% endif %} "> 
+                                <p class="sub-heading">
+                                <table style="width: 100%;">
+                                        <tbody>
+                                            <tr >
+                                                <td style="width:50%;">
+                                                    <b>Client :</b>  
+                                                    {% if paiement.facture.commandeCli.acheteur.statut == "Physique" %}  
+                                                        {{ paiement.facture.commandeCli.acheteur.nom ~ " "~ paiement.facture.commandeCli.acheteur.prenom }}
+                                                        {% else %}
+                                                        {{ paiement.facture.commandeCli.acheteur.denomination  }}
+                                                    {% endif %}
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>  
+                                    
+                                </p>
+                                <p style="">
+                                    <table style="width: 100%;">
+                                        <tbody>
+                                            <tr >
+                                                <td style="width:50%;">
+                                                    <b>Facture n° :</b>  {{ paiement.facture.refFac }}
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table> 
+                                    
+                                </p>
+                                <p style=""> 
+                                    <table style="width: 100%;">
+                                        <tbody>
+                                            <tr >
+                                                <td style="width:50%;">
+                                                    <b>Motif :</b>  
+                                                    {% if paiement.montantRAPayer == 0 %} 
+                                                        {{ "Solde total de la facture N° " ~ paiement.facture.refFac ~ " d'achat de marchandises" }}
+                                                        {% else %}
+                                                        {{ "Solde partiel de la facture N° " ~ paiement.facture.refFac ~ " d'achat de marchandises" }}
+                                                    {% endif %}
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table> 
+                                    
+                                </p>
+                                <p style=""> 
+                                    <table style="width: 100%;">
+                                            <tbody>
+                                                <tr >
+                                                    <td style="width:50%;">
+                                                        <b>Mode de paiement :</b>  {{ paiement.modePaiement }}
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table> 
+                                    
+                                </p>
+                                <p style="">
+                                    <table style="width: 100%;">
+                                        <tbody>
+                                            <tr >
+                                                <td style="width:33%;">
+                                                    <p> 
+                                                        <table style="width: 100%;">
+                                                            <tbody>
+                                                                <tr >
+                                                                    <td style="width:50%;">
+                                                                    <b> MONTANT DU :</b> {{ paiement.facture.montantTotal | number_format(2, ',', ' ') }}
+                                                                    </td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table> 
+                                                       
+                                                    </p>
+                                                </td>
+                                                <td style="width:33%;">
+                                                    <p>
+                                                        <table style="width: 100%;">
+                                                            <tbody>
+                                                                <tr >
+                                                                    <td style="width:50%;">
+                                                                        <b> MONTANT PAYE :</b> {{ paiement.montantPaye | number_format(2, ',', ' ') }}
+                                                                    </td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table> 
+                                                    </p>
+                                                </td>
+                                                <td style="width:33%;">
+                                                    <p>
+                                                        <table style="width: 100%;">
+                                                            <tbody>
+                                                                <tr >
+                                                                    <td style="width:50%;">
+                                                                        <b> RESTANT :</b> {{ paiement.montantRAPayer | number_format(2, ',', ' ') }}
+                                                                    </td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table> 
+                                                    </p>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </p>
+
+                                <p style="">
+                                    <table style="width: 100%;">
+                                        <tbody>
+                                            <tr >
+                                                <td style="width:50%;">
+                                                    <p> 
+                                                       <b> MONTANT RECU :</b> {{ paiement.montantRecu | number_format(2, ',', ' ') }}
+                                                    </p>
+                                                </td>
+                                                <td style="width:50%;">
+                                                    <p> 
+                                                       <b> RELIQUAT REMIS :</b> {{ paiement.reliquat | number_format(2, ',', ' ') }}
+                                                    </p>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </p>
+                        </tr>
+                    </table>
+            </div>
+
+            <div style="margin-left: 10px; margin-right: 10px;">
+                <hr align="center" style=" height:2px; color: black; margin: 20px 0px 10px 0px;border-width:2px; border: thick double #32a1ce;" >
+            </div>
+            {# *********// Signature //******** #}
+            <div class="body-section" >
+                <table style="margin-left: 20px;  width:100%; margin-right: 20px;" >
+                    <thead>
+                    <tr>
+                        {% set tail = 100 / (signataires.modelSignatairePersonnelFonctions|length ) %}
+
+                        {% for sig in signataires.modelSignatairePersonnelFonctions %}
+                            <td style="text-align: left; width: {{ tail ~ '%;' }} " class='font' align=" {{ loop.index == 1 ? 'left' : loop.index == signataires.modelSignatairePersonnelFonctions|length ? 'right' : 'center'  }} ">
+                                <p style="text-decoration: underline; text-underline-offset: 5px; ">{{ sig.fonction.intitule }} </p>
+                                <br><br><br>
+                                <p> {{ sig.personnel.nom ~ " "~ sig.personnel.prenoms }}</p>
+                            </td>
+                        {% endfor %}
+                    </tr>
+                    </tbody>
+                </table>   
+            </div>
+            <br>
+            <div style="margin-left: 30px;  width:100%; margin-right: 20px; {% if format == "A6-P" %} font-size: 7px; {% endif %}">
+                <p align="center">Merci</p>
+            </div>
+        </div>
+    </span>
+</div>
+</body>
+<html>

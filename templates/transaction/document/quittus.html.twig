@@ -1,0 +1,399 @@
+<!doctype html>
+<html lang="fr">
+<head>
+    <meta charset="utf-8">
+    <title>REÇU DE {{ transaction.typeOperation.libelle|upper }}</title>
+    <style>
+        .bod{
+            border: 1px solid black;
+            border-collapse: collapse;
+        }
+        .bon {
+            border:1px solid;
+            border-top-color: white;
+            border-collapse:collapse;
+        }
+        .bod2{
+            /*border-style:solid;*/
+	        border-style:solid;
+            border-top-color: transparent;
+            border-collapse: collapse;
+        }
+        .bode{
+            border: none;
+            border-collapse: collapse;
+        }
+        .font{
+            color: #383737;
+            font-size: 12px;
+        }
+        .pad{
+            padding: 6px 6px 6px 6px;
+        }
+    </style>
+</head>
+
+<body>
+<div class="row">
+
+    <span style=" width:100%;  ">
+        <div>
+
+
+            <div class="body-section">
+
+                {# entete #}
+                <table style="width: 100%;">
+                    <tbody>
+                        <tr> 
+                            <td style="text-align: left;  width: 100%; padding: 3px 1px;"> 
+                                <p><img alt="entete" style="width: 100%;" src="{{asset('uploads/medias/societe/' ~ societe.entete.id ~ "." ~ societe.entete.extension )}}"></p> 
+                            </td> 
+                        </tr> 
+                    </tbody>
+                </table> 
+                {# date #}
+                <div>
+                    <table style="width: 100%; margin-top: 10px; margin-bottom: 10px;">
+                        <tr style="margin-left: 10px;">  
+                            <td style="text-align: right;" > 
+                                {{ (societe.lieuImpression is defined and societe.lieuImpression is not null) ? societe.lieuImpression ~ " le, " ~  ( transaction.dateTransac | date("d-m-Y") ) : " Date : " ~ ( transaction.dateTransac | date("d-m-Y") ) }}
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                {# recu #}
+                <div style="width: 100%;background-color: #EBF5FF;padding: 10px 10px;">
+                    <b>REÇU DE {{ transaction.typeOperation.libelle|upper }} </b> 
+                </div>
+                <table style="width: 100%;">
+                    <tbody>
+                        <tr><td colspan="4"></td></tr>
+                        <tr>
+                            <td style="text-align:left;" >
+                                <b>Client  : </b>
+                            </td>
+                            <td colspan="3" style="text-align:left;" >
+                                <div>
+                                    {{ transaction.client }}
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="4" >
+                                <p>--------------------------------------------------------------------------------------------------------------------------------------------------------------</p>
+                            </td>
+                        </tr>
+                        
+                        <tr><td colspan="4"></td></tr>
+                        <tr>
+                            <td style="text-align:left;" >
+                                <b>Mode  : </b>
+                            </td>
+                            <td style="text-align:left;font-size: 14px;">
+                                <div>
+                                    {{ transaction.modePaiement }}
+                                </div>
+                            </td>
+                            <td style="text-align:left;" >
+                                <b>ID Transaction  : </b>
+                            </td>
+                            <td style="text-align:left;">
+                               {{ (transaction.refTransac) ? transaction.refTransac : '-' }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="4"></td>
+                        </tr>
+                        <tr style="padding: 50px 20px !important;">
+                            <td style="text-align:left;" >
+                                <b>Motif  : </b>
+                            </td>
+                            <td colspan="3" style="text-align:left;">
+                                {{ transaction.motif }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="4"></td>
+                        </tr>
+                        <tr style="padding: 50px 20px !important;">
+                            <td style="text-align:left;" >
+                                <b>Date  : </b>
+                            </td>
+                            <td style="text-align:left;">
+                               {{ transaction.dateTransac | date('d-m-Y') }}
+                            </td>
+                            <td style="text-align:left;" >
+                                <b>Montant : </b>
+                            </td>
+                            <td style="text-align:left;">
+                               {{ transaction.montantTransac|number_format(0, ',', ' ') ~ " FCFA" }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="4"></td>
+                        </tr>
+                        {# <tr style="padding: 50px 20px !important;">
+                            <td style="text-align:left;" >
+                                <b>Montant reçu : </b>
+                            </td>
+                            <td style="text-align:left;">
+                                {{ paiement.montantRecu | number_format(2, ',', ' ') }}
+                            </td>
+                            <td style="text-align:left;" >
+                                <b>Reliquat remis : </b>
+                            </td>
+                            <td style="text-align:left;">
+                               {{ paiement.reliquat | number_format(2, ',', ' ') }}
+                            </td>
+                        </tr> #}
+                    </tbody>
+                </table> 
+                
+                <div class="font" style="margin-top: 5px;"> <strong>Arrêtée  la présente transaction à la somme de </strong> <em> {{" "~ valeur ~ " (" ~ transaction.montantTransac| number_format(0, ',', ' ') ~") francs CFA" }} <em> </div>
+
+                <div style="margin-left: 10px; margin-right: 10px;">
+                <hr align="center" style=" height:2px; color: black; margin: 20px 0px 10px 0px;border-width:2px; border: thick double #32a1ce;" >
+                </div>
+                {# *********// Signature //******** #}
+                <div class="body-section" >
+                    <table style="margin-left: 10px;  width:100%; margin-right: 10px;" >
+                        <thead>
+                        <tr>
+                            {% set tail = 100 / (signataires.modelSignatairePersonnelFonctions|length ) %}
+
+                            {% for sig in signataires.modelSignatairePersonnelFonctions %}
+                                <td style="text-align: left; width: {{ tail ~ '%;' }} " class='font' align=" {{ loop.index == 1 ? 'left' : loop.index == signataires.modelSignatairePersonnelFonctions|length ? 'right' : 'center'  }} ">
+                                    <p style="font-size: 15px; ">{{ sig.fonction.intitule }} </p>
+                                    <br><br><br><br>
+                                    <p> {{ sig.personnel.nom ~ " "~ sig.personnel.prenoms }}</p>
+                                </td>
+                            {% endfor %}
+                        </tr>
+                        </tbody>
+                    </table>   
+                </div>
+
+
+                {# entete #}
+                <table style="width: 100%;">
+                    <tbody>
+                        <tr> 
+                            <td style="text-align: left;  width: 100%; padding: 3px 1px;"> 
+                                <p><img alt="entete" style="width: 100%;" src="{{asset('uploads/medias/societe/' ~ societe.entete.id ~ "." ~ societe.entete.extension )}}"></p> 
+                            </td> 
+                        </tr> 
+                    </tbody>
+                </table> 
+                {# date #}
+                <div>
+                    <table style="width: 100%; margin-top: 10px; margin-bottom: 10px;">
+                        <tr style="margin-left: 10px;">  
+                            <td style="text-align: right;" > 
+                                {{ (societe.lieuImpression is defined and societe.lieuImpression is not null) ? societe.lieuImpression ~ " le, " ~  ( transaction.dateTransac | date("d-m-Y") ) : " Date : " ~ ( transaction.dateTransac | date("d-m-Y") ) }}
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                {# recu #}
+                <div style="width: 100%;background-color: #EBF5FF;padding: 10px 10px;">
+                    <b>REÇU DE {{ transaction.typeOperation.libelle|upper }} </b> 
+                </div>
+                <table style="width: 100%;">
+                    <tbody>
+                        <tr><td colspan="4"></td></tr>
+                        <tr>
+                            <td style="text-align:left;" >
+                                <b>Client  : </b>
+                            </td>
+                            <td colspan="3" style="text-align:left;" >
+                                <div>
+                                    {{ transaction.client }}
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="4" >
+                                <p>--------------------------------------------------------------------------------------------------------------------------------------------------------------</p>
+                            </td>
+                        </tr>
+                        
+                        <tr><td colspan="4"></td></tr>
+                        <tr>
+                            <td style="text-align:left;" >
+                                <b>Mode  : </b>
+                            </td>
+                            <td style="text-align:left;font-size: 14px;">
+                                <div>
+                                    {{ transaction.modePaiement }}
+                                </div>
+                            </td>
+                            <td style="text-align:left;" >
+                                <b>ID Transaction  : </b>
+                            </td>
+                            <td style="text-align:left;">
+                              {{ (transaction.refTransac) ? transaction.refTransac : '-' }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="4"></td>
+                        </tr>
+                        <tr style="padding: 50px 20px !important;">
+                            <td style="text-align:left;" >
+                                <b>Motif  : </b>
+                            </td>
+                            <td colspan="3" style="text-align:left;">
+                                {{ transaction.motif }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="4"></td>
+                        </tr>
+                        <tr style="padding: 50px 20px !important;">
+                            <td style="text-align:left;" >
+                                <b>Date  : </b>
+                            </td>
+                            <td style="text-align:left;">
+                               {{ transaction.dateTransac | date('d-m-Y') }}
+                            </td>
+                            <td style="text-align:left;" >
+                                <b>Montant : </b>
+                            </td>
+                            <td style="text-align:left;">
+                               {{ transaction.montantTransac|number_format(0, ',', ' ') ~ " FCFA" }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="4"></td>
+                        </tr>
+                        {# <tr style="padding: 50px 20px !important;">
+                            <td style="text-align:left;" >
+                                <b>Montant reçu : </b>
+                            </td>
+                            <td style="text-align:left;">
+                                {{ paiement.montantRecu | number_format(2, ',', ' ') }}
+                            </td>
+                            <td style="text-align:left;" >
+                                <b>Reliquat remis : </b>
+                            </td>
+                            <td style="text-align:left;">
+                               {{ paiement.reliquat | number_format(2, ',', ' ') }}
+                            </td>
+                        </tr> #}
+                    </tbody>
+                </table> 
+                <div class="font" style="margin-top: 5px;"> <strong>Arrêtée  la présente transaction à la somme de </strong> <em> {{" "~ valeur ~ " (" ~ transaction.montantTransac| number_format(0, ',', ' ') ~") francs CFA" }} <em> </div>
+
+                <div style="margin-left: 10px; margin-right: 10px;">
+                <hr align="center" style=" height:2px; color: black; margin: 20px 0px 10px 0px;border-width:2px; border: thick double #32a1ce;" >
+                </div>
+                {# *********// Signature //******** #}
+                <div class="body-section" >
+                    <table style="margin-left: 10px;  width:100%; margin-right: 10px;" >
+                        <thead>
+                        <tr>
+                            {% set tail = 100 / (signataires.modelSignatairePersonnelFonctions|length ) %}
+
+                            {% for sig in signataires.modelSignatairePersonnelFonctions %}
+                                <td style="text-align: left; width: {{ tail ~ '%;' }} " class='font' align=" {{ loop.index == 1 ? 'left' : loop.index == signataires.modelSignatairePersonnelFonctions|length ? 'right' : 'center'  }} ">
+                                    <p style="font-size: 15px; ">{{ sig.fonction.intitule }} </p>
+                                    <br><br><br><br>
+                                    <p> {{ sig.personnel.nom ~ " "~ sig.personnel.prenoms }}</p>
+                                </td>
+                            {% endfor %}
+                        </tr>
+                        </tbody>
+                    </table>   
+                </div>
+
+            </div>
+
+
+{# 
+              <table style="width: 100%;">
+                <tbody>
+                    <tr> 
+                        <td style="text-align: left;  width: 100%; padding: 3px 1px;"> 
+                           <p><img alt="entete" style="width: 100%;" src="{{asset('uploads/medias/societe/' ~ societe.entete.id ~ "." ~ societe.entete.extension )}}"></p> 
+                        </td> 
+                    </tr> 
+                </tbody>
+            </table>  #}
+
+        {# <table style="width: 100%; "><thead><tr><th align="center" style="width: 100%;"> REÇU DE DEPOT</th></tr></thead></table>
+        <fieldset style="border: double black; margin-top: 20px; height: 5%;">
+            <legend>INFORMATION DU CLIENT</legend>
+            <table style="width:100%;">
+                <tbody>
+                    <tr>
+                        <th  align="left" class='font' style="width:50%;">Client</th>
+                        <td  align="right" class='font' style="width:50%;">{{ transaction.client }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </fieldset>
+
+        <fieldset style="border: double black; margin-top: 20px; height: 10%;">
+            <legend>INFORMATION DU DEPOT</legend>
+            <table style="width:100%;">
+                <tbody>
+                    <tr>
+                        <th align="left" style="width:50%;" class='font'>Mode</th>
+                        <td  align="right" class='font' style="width:50%;">{{ transaction.modePaiement }}</td>
+                    </tr>
+                    <tr>
+                        <th align="left" style="width:50%;" class='font'>Motif</th>
+                        <td  align="right" class='font' style="width:50%;">{{ transaction.motif }}</td>
+                    </tr>
+                    <tr>
+                        <th align="left" style="width:50%;" class='font'>Identifiant de la transaction</th>
+                        <td  align="right" class='font' style="width:50%;">{{ transaction.refTransac }}</td>
+                    </tr>
+                    <tr>
+                        <th align="left" style="width:50%;" class='font'>Référence</th>
+                        <td  align="right" class='font' style="width:50%;">{{ transaction.refTransac }}</td>
+                    </tr>
+                    <tr>
+                        <th align="left" style="width:50%;" class='font'>Date de la transaction</th>
+                        <td  align="right" class='font' style="width:50%;">{{ transaction.dateTransac | date('d-m-Y') }}</td>
+                    </tr>
+                    <tr>
+                        <th align="left" style="width:50%;" class='font'>Montant de la transaction</th>
+                        <td align="right" class='font' style="width:50%;">{{ transaction.montantTransac|number_format(0, ',', ' ') ~ " FCFA" }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </fieldset>
+        #}
+</div>
+
+            {# <div style="margin-left: 10px; margin-right: 10px;">
+                <hr align="center" style=" height:2px; color: black; margin: 20px 0px 10px 0px;border-width:2px; border: thick double #32a1ce;" >
+            </div> #}
+            {# *********// Signature //******** #}
+            {# <div class="body-section" >
+                <table style="margin-left: 20px;  width:100%; margin-right: 20px;" >
+                    <thead>
+                    <tr>
+                        {% set tail = 100 / (signataires.modelSignatairePersonnelFonctions|length ) %}
+
+                        {% for sig in signataires.modelSignatairePersonnelFonctions %}
+                            <td style="text-align: left; " align=" {{ loop.index == 1 ? 'left' : loop.index == signataires.modelSignatairePersonnelFonctions|length ? 'right' : 'center'  }} ">
+                                <p style="text-decoration: underline; ">{{ sig.fonction.intitule }} </p>
+                                <br><br><br>
+                                <p> {{ sig.personnel.nom ~ " "~ sig.personnel.prenoms }}</p>
+                            </td>
+                        {% endfor %}
+                    </tr>
+                    </tbody>
+                </table>   
+            </div> #}
+            {# <br>
+            <div style="margin-left: 30px;  width:100%; margin-right: 20px; {% if format == "A6-P" %} font-size: 7px; {% endif %}">
+                <p align="center">Merci</p>
+            </div> #}
+        </div>
+    </span>
+</div>
+</body>
+<html>

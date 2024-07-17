@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New facture proforma{% endblock %}
+
+{% block body %}
+    <h1>Create new facture proforma</h1>
+
+    {{ include('facture_proforma/_form.html.twig') }}
+
+    <a href="{{ path('app_facture_proforma_index') }}">back to list</a>
+{% endblock %}

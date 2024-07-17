@@ -1,0 +1,63 @@
+<div class="modal fade" tabindex="-1" id="kt_modal_3">
+    <div class="modal-dialog">
+        <div class="modal-content position-absolute">
+            <div class="modal-header">
+                <h5 class="modal-title text-center">CHANGEMENT DE POINT DE VENTE</h5>
+
+                <!--begin::Close-->
+                <div class="btn btn-icon btn-sm btn-active-light-primary ms-2" data-bs-dismiss="modal" aria-label="Close">
+                    <i class="ki-duotone ki-cross fs-2x"><span class="path1"></span><span class="path2"></span></i>
+                </div>
+                <!--end::Close-->
+            </div>
+
+            <form name="changePointVente" action="{{ path('app_afficher_point_de_vente') }}" method="POST">
+            <div class="modal-body pb-0">
+                <!--begin::Radio group-->
+                <div data-kt-buttons="true">
+                {% set pv = app.session.get('pointVente') %}
+                {% for item in pointDeVentes %}
+                    <!--begin::Radio button-->
+                    <label class="btn btn-outline btn-outline-dashed btn-active-light-primary d-flex flex-stack text-start p-3 mb-5 {{ (pv and pv.id == item.pointDeVente.id) ? 'disabled' :'' }}">
+                        <!--end::Description-->
+                        <div class="d-flex align-items-center me-2">
+                            <!--begin::Radio-->
+                            <div class="form-check form-check-custom form-check-solid form-check-primary me-6">
+                                <input class="form-check-input" type="radio" name="mPointDeVente" value="{{ item.pointDeVente.id }}"/>
+                            </div>
+                            <!--end::Radio-->
+
+                            <!--begin::Info-->
+                            <div class="flex-grow-1">
+                                <h2 class="d-flex align-items-center fs-3 fw-bold flex-wrap">
+                                    {{ item.pointDeVente.libelle }}
+                                    
+                                    {% if pv and pv.id == item.pointDeVente.id  %}
+                                        <span class="badge badge-light-success ms-2 fs-7">connecté</span>
+                                    {% endif %}
+                                </h2>
+                                <div class="fw-semibold opacity-50">
+                                    {{ item.pointDeVente.adresse }}
+                                </div>
+                            </div>
+                            <!--end::Info-->
+                        </div>
+                        <!--end::Description-->
+                    </label>
+                    <!--end::Radio button-->
+                {% endfor %}
+
+                    
+                </div>
+                <!--end::Radio group-->
+            
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-light" data-bs-dismiss="modal">FERMER</button>
+                <button type="submit" class="btn btn-primary" disabled>SE CONNECTER</button>
+            </div>
+            </form>
+        </div>
+    </div>
+</div>

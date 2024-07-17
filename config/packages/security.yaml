@@ -1,0 +1,116 @@
+security:
+    enable_authenticator_manager: true
+#    password_hashers:
+#        Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface: "auto"
+#        App\Entity\Utilisateur:
+#            algorithm: auto
+
+    encoders:
+        App\Entity\Utilisateur: auto
+
+    providers:
+        app_user_provider:
+            entity:
+                class: App\Entity\Utilisateur
+                property: username
+
+#        users_in_memory: { memory: null }
+    
+
+    firewalls:
+        dev:
+            pattern: ^/(_(profiler|wdt)|css|images|js)/
+            security: false
+        main:
+#            anonymous: lazy
+            lazy: true
+            provider: app_user_provider
+
+            custom_authenticators:
+                - App\Security\LoginFormAuthenticator
+
+#            form_login:
+#                login_path: app_login
+#                check_path: app_login
+#                username_parameter: _username
+#                password_parameter: _password
+#                default_target_path: app_admin_dashboard
+#                failure_path: app_login
+#                remember_me: true
+#                enable_csrf: true
+#
+            logout:
+                path: app_logout
+                target: app_login
+
+    access_control:
+        # - { path: ^/super, roles: [ROLE_SUPER_ADMIN] }
+        # - { path: ^/admin,                  roles: [ROLE_USER] }
+        - { path: ^/adresse/livraison,      roles: [ROLE_ADRESSE_LIVRAISON] }
+        - { path: ^/admin/approvisionnement,roles: [ROLE_APPROVISIONNEMENT] }
+        - { path: ^/admin/banque,           roles: [ROLE_BANQUE] }
+        - { path: ^/caisse,                 roles: [ROLE_CAISSE] }
+        - { path: ^/admin/client,           roles: [ROLE_CLIENT] }
+        - { path: ^/commande/client,        roles: [ROLE_COMMANDE_CLIENT] }
+        - { path: ^/admin/commande/frs,     roles: [ROLE_COMMANDE_FRS] }
+        - { path: ^/admin/conditionnement,  roles: [ROLE_CONDITIONNEMENT]}
+        - { path: ^/compte,                 roles: [ROLE_COMPTE] }
+        - { path: ^admin/demande/de/prix,   roles: [ROLE_DEMANDE_DE_PRIX] }
+        # - { path: ^/etat,                   roles: [ROLE_ETAT] }
+        - { path: ^/facture,                roles: [ROLE_FACTURE] }
+        - { path: ^/factureproforma,        roles: [ROLE_FACTURE_PRO_FORMA] }
+        - { path: ^/admin/famille,          roles: [ROLE_FAMILLE] }
+        - { path: ^/admin/fonction,         roles: [ROLE_FONCTION] }
+        - { path: ^/admin/fournisseur,      roles: [ROLE_FOURNISSEUR] }
+        - { path: ^/inventaire,             roles: [ROLE_INVENTAIRE] }
+        - { path: ^/list/caisse,            roles: [ROLE_LISTE_CAISSE] }
+        - { path: ^/liv/livraison,          roles: [ROLE_LIVRAISON] }
+        - { path: ^/admin/magasin,          roles: [ROLE_MAGASIN] }
+        - { path: ^/model/signataire,       roles: [ROLE_MODEL_SIGNATURE] }
+        - { path: ^/mode/paiement,          roles: [ROLE_MODE_PAIEMENT] }
+        - { path: ^/admin/monnaie,          roles: [ROLE_MONNAIE] }
+        - { path: ^/admin/paiement,         roles: [ROLE_PAIEMENT] }
+        - { path: ^/mouvement_stock,   roles: [ROLE_MOUVEMENT_STOCK]  }
+        - { path: ^/statistique_vente,      roles: [ROLE_STAT_VENTE]  }
+        - { path: ^/etat/point/commande,    roles: [ROLE_POINT_COMMANDE]  }
+        - { path: ^/stat_produit,           roles: [ROLE_ETAT_PRODUIT]  }
+        - { path: ^/stat_clients,           roles: [ROLE_ETAT_CLIENT]  }
+        - { path: ^/fiche,                  roles: [ROLE_ETAT_FICHE]  }
+        - { path: ^/admin/profil,           roles: [ROLE_PROFIL] }
+        - { path: ^/admin/transfert,        roles: [ROLE_TRANSFERT] }
+        - { path: ^/admin/sortie,           roles: [ROLE_SORTIE] }
+        - { path: ^/admin/utilisateur,      roles: [ROLE_UTILISATEUR] }
+        - { path: ^/admin/point/de/vente,   roles: [ROLE_POINT_VENTE] }
+        - { path: ^/admin/taxe,             roles: [ROLE_TAXE] }
+        - { path: ^/admin/type/taxe,        roles: [ROLE_TYPE_TAXE] }
+        - { path: ^/admin/type/operation,   roles: [ROLE_TYPE_OPERATION] }
+        - { path: ^/admin/personnel,        roles: [ROLE_PERSONNEL] }
+        - { path: ^/admin/produit,          roles: [ROLE_PRODUIT] }
+        - { path: ^/admin/societe,          roles: [ROLE_SOCIETE] }
+        - { path: ^/admin/menu,             roles: [ROLE_MENU] }
+        - { path: ^/admin/depense,          roles: [ROLE_DEPENSE] }
+        - { path: ^/admin/transaction,      roles: [ROLE_TRANSACTION] }
+        - { path: ^/admin/transaction/depot,roles: [ROLE_DEPOT] }
+        - { path: ^/admin/produit/stock,    roles: [ROLE_SUIVI_STOCK] }
+        - { path: ^/admin/demande/de/prix,  roles: [ROLE_DEMANDE_PRIX] }
+        - { path: ^/admin/type_depense,     roles: [ROLE_TYPE_DEPENSE] }
+        - { path: ^/admin/model/signataire, roles: [ROLE_MODEL_SIGNATAIRE] }
+        - { path: ^/admin/menu,             roles: IS_AUTHENTICATED_FULLY  }
+#       - { path: ^/user, roles: [ROLE_USER] }
+#
+#    role_hierarchy:
+#        ROLE_ADMIN: ROLE_USER
+#        ROLE_SUPER_ADMIN: [ROLE_ADMIN, ROLE_USER]
+
+#when@test:
+#    security:
+#        password_hashers:
+#            # By default, password hashers are resource intensive and take time. This is
+#            # important to generate secure password hashes. In tests however, secure hashes
+#            # are not important, waste resources and increase test times. The following
+#            # reduces the work factor to the lowest possible values.
+#            Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface:
+#                algorithm: auto
+#                cost: 4 # Lowest possible value for bcrypt
+#                time_cost: 3 # Lowest possible value for argon
+#                memory_cost: 10 # Lowest possible value for argon

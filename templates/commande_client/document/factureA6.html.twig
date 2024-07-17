@@ -1,0 +1,243 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <style>
+        .bod{
+            border: 2px solid black;
+            border-collapse: collapse;
+        }
+        .bode{
+            border: none;
+            border-collapse: collapse;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="row">
+        <span style=" width:100%;  ">
+            <div style="height: 90%;">
+                {# *********// Titre //******** #}
+                <table style="width: 100%;">
+                    <tbody>
+                        <tr> 
+                            <td style="text-align: left;  width: 100%; padding: 3px 1px;"> 
+                                <p><img alt="entete" style="border: 1px solid #ddd; border-radius: 4px; padding: 5px; width: 100%;" src="{{asset('imag.png')}}"></p> 
+                            </td> 
+                        </tr> 
+                    </tbody>
+                </table> 
+                <div class="body-section">
+                    <div style="margin-left: 10px;" class="row">
+                        <table style="width:        100%;">
+                            <tr style="margin-left: 10px;">
+                                <td style="text-align: left; width: 45%; {% if format == "A6-P" %} font-size:9px; {% endif %} "  >
+                                </td>
+                                <td style="text-align: left; width: 5%;"></td>  
+                                <td style="text-align: left; width: 45%; border: solid black;{% if format == "A6-P" %} font-size: 9px; {% endif %} "> 
+                                    <p class="sub-heading"> 
+                                        <b>FACTURE DE VENTE</b>
+                                    </p>
+                                    <p class="sub-heading"> 
+                                        <b>Cmd N° :</b>  {{ commande.refCom }}
+                                    </p>
+                                    
+                                    <p class="sub-heading"> 
+                                        <b>Date :</b>  {{ commande.dateCom | date("d-m-Y") }}
+                                    </p>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+                {# *********// Entête  //******** #}
+                <div class="body-section">
+                    <div style="margin-left: 10px;" class="row">
+                        <table style="width: 100%;">
+                            <tr style="margin-left: 10px;">
+                                <td style="text-align: left; width: 45%; {% if format == "A6-P" %} font-size: 9px; {% endif %}" >
+                                    <p class="sub-heading"> 
+                                         <b>OPERATEUR :</b> {{ "Zogbadjè" }} 
+                                    </p>
+                                    <p class="sub-heading"> 
+                                        <b>FACTURE N° :</b>  {{ ((commande.factures)[0]).refFac }}
+                                    </p> 
+                                </td>
+                                <td style="text-align: left; width: 5%; "></td> 
+                                {% if commande.acheteur.statut == "Physique" %} 
+                                    <td style="text-align: left; width: 45%;   ">
+                                        <table style="width: 100%; ">
+                                            <thead>
+                                                <tr style="margin-left: 10px;">
+                                                    <th style="background-color: #F6F1F1; ">
+                                                        CLIENT
+                                                    </th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td style="{% if format == "A6-P" %} font-size: 9px; {% endif %}"> 
+                                                        <p class="sub-heading"> 
+                                                            Nom Clt : {{ commande.acheteur.nom }}
+                                                        </p>
+                                                        <p class="sub-heading"> 
+                                                            Prénom Clt :  {{ commande.acheteur.prenom }}
+                                                        </p> 
+                                                        {% if commande.acheteur.ifu is not null %} 
+                                                            <p class="sub-heading"> 
+                                                                <b>IFU :</b>  {{ commande.acheteur.ifu }}
+                                                            </p> 
+                                                        {% endif %} 
+                                                        <p class="sub-heading"> 
+                                                            Contacts : {{ commande.acheteur.telephone1 }}
+                                                        </p>
+                                                    </td>
+                                                </tr>
+                                            </tbody>  
+                                        </table> 
+                                    </td>
+                                {% else %}
+                                    <td style="text-align: left; width: 45%;"><table style="width: 100%;"><thead><tr style="margin-left: 10px;"><th style="{% if format == "A6-P" %} font-size: 9px; {% endif %}">CLIENT</th></tr></thead> <tbody><tr><td><p class="sub-heading" style="{% if format == "A6-P" %} font-size: 9px; {% endif %}"> Dénomination : {{ commande.acheteur.denomination }}</p><p class="sub-heading" style="{% if format == "A6-P" %} font-size: 9px; {% endif %}"> Sigle :  {{ commande.acheteur.sigle }}</p> <p class="sub-heading"> IFU :  {{ commande.acheteur.ifu }}</p> <p class="sub-heading"> Contacts : {{ commande.acheteur.telephone1 }}</p></td></tr></tbody>  </table> </td>
+                                {% endif %}
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+
+                <div style="margin-left: 10px; margin-right: 10px;">
+                    <hr align="center" style=" height:2px; color: green; margin: 20px 0px 10px 0px;border-width:2px; border: thick double #32a1ce;" >
+                </div>
+                {# <hr style="height:1px; border-width:2px; color:gray; background-color:green"> #}
+                    {# *********// Tableau de données //******** #}
+                <table style="width:100%;" class="bod">
+                    <thead> 
+                        <tr style=" margin-left: 10px;">
+                            <th class="bod" style="  padding: 0.5rem;{% if format == "A6-P" %} font-size: 9px; {% endif %}"class="w-30 text-white" >Designation</th>
+                            <th class="bod" style="  padding: 0.5rem;{% if format == "A6-P" %} font-size: 9px; {% endif %}" class="w-15 text-white">Qte</th>
+                            <th class="bod" style="  padding: 0.5rem;{% if format == "A6-P" %} font-size: 9px; {% endif %}" class="w-15 text-white">P.U</th> 
+                            <th class="bod" style="  padding: 0.5rem;{% if format == "A6-P" %} font-size: 9px; {% endif %}" class="w-15 text-white">REM.</th>
+                            <th class="bod" style="  padding: 0.5rem;{% if format == "A6-P" %} font-size: 9px; {% endif %}" class="w-15 text-white">MT.TTC</th> 
+                        </tr> 
+                    </thead> 
+                    <tbody> 
+                    {% for c in commande.produitCondComClits  %}
+                        <tr> 
+                            <td class="bod" style="  text-align:left;{% if format == "A6-P" %} font-size: 7px; {% endif %}">{{ c.produit }}</td>
+                            <td class="bod" style="  text-align:center;{% if format == "A6-P" %} font-size: 7px; {% endif %}">{{c.qtite| number_format(2, ',', ' ')}}</td>
+                            <td class="bod" style="  text-align:center;{% if format == "A6-P" %} font-size: 7px; {% endif %}">{{c.prix| number_format(2, ',', ' ')}}</td>
+                            <td class="bod" style="  text-align:center;{% if format == "A6-P" %} font-size: 7px; {% endif %}">{{c.remise == null ? (0 | number_format(2, ',', ' ')) : c.remise| number_format(2, ',', ' ') }}</td>
+                            <td class="bod" style="  text-align:center;{% if format == "A6-P" %} font-size: 7px; {% endif %}">{{c.montantTtcp| number_format(2, ',', ' ')}}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+
+                {# *********// Total //******** #}
+                <table style="width:100%;" class="bod">
+                    <tbody>
+                        <tr>
+                            <td style = "width: 60%;" rowspan="4" class="bod"> 
+                                <table style="width:100%;" class="bode">
+                                    <tbody>
+                                        <tr>
+                                            <td style = "width: 33%;"> 
+                                                <p>MECeF NIM:</p>
+                                                <br>
+                                                <p>MECeF Compteur:</p>
+                                                <br>
+                                                <p>MECeF Heure:</p>
+                                             </td>
+                                             {# <td colspan = 4><img src="C:\Pics\H.gif" alt="" border=3 height=100 width=100></img></td> #}
+                                            <td class="bode"  height="10" width="10" style = " width:33%;  {% if format == "A6-P" %} font-size: 9px; {% endif %} "> 
+                                                <p><img alt="entete" ></p>  
+                                            </td>
+                                            <td class="bode" style="text-align: right; width: 33%;{% if format == "A6-P" %} font-size: 9px; {% endif %}">
+                                                <p>xxxxxxxx</p>
+                                                <br>
+                                                <p>xxxxxxxx</p>
+                                                <br>
+                                                <p>xxxxxxxx</p>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </td>
+                            <th class="bod" style = " width:25%; {% if format == "A6-P" %} font-size: 9px; {% endif %} ">Montant HT</th>
+                            <td class="bod" style="text-align: right; width:15%;{% if format == "A6-P" %} font-size: 9px; {% endif %}">{{commande.montantHt| number_format(2, ',', ' ')}}</td>
+                        </tr>
+                        <tr>
+                            {# <td style = "width: 60%;"></td> #}
+                            <th class="bod"  style = "width:25%; {% if format == "A6-P" %} font-size: 9px; {% endif %} ">Montant TVA </th>
+                            <td class="bod" style="text-align: right; width:15%; {% if format == "A6-P" %} font-size: 9px; {% endif %}">{{0| number_format(2, ',', ' ')}}</td>
+                        </tr>
+                        <tr>
+                            {# <td style = "width: 60%;"></td> #}
+                            <th class="bod" style = "width:25%; {% if format == "A6-P" %} font-size: 9px; {% endif %} ">Montant AIB </th>
+                            <td class="bod" style="text-align: right; width:15%;{% if format == "A6-P" %} font-size: 9px; {% endif %}">{{0| number_format(2, ',', ' ')}}</td>
+                        </tr>
+                        <tr>
+                            {# <td style = "width: 60%;"></td> #}
+                            <th class="bod" style = "width:25%; {% if format == "A6-P" %} font-size: 9px; {% endif %}">Montant TTC</th>
+                            <td class="bod" style="text-align: right; width:15%;{% if format == "A6-P" %} font-size: 9px; {% endif %}">{{commande.montantTtc| number_format(2, ',', ' ')}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div style="margin-left: 10px; margin-right: 10px;">
+                    <hr align="center" style=" height:2px;  color: yellow; margin: 20px 0px 10px 0px;border-width:2px; border: thick double #32a1ce;" >
+                </div>
+
+                <div class="body-section info-normalisation" >
+                    <table style="margin-left: 20px;  width:100%; margin-right: 20px;" >
+                        <thead>
+                        <tr>
+                            <td style="text-align: left; width:20%; {% if format == "A6-P" %} font-size: 7px; {% endif %}" class="w-33">
+                                <p style="text-decoration: underline; width: 100%; background-color:red;"> <img src> </p>
+                            </td>
+                            <td style="text-align: right; width: 70%; {% if format == "A6-P" %} font-size: 7px; {% endif %}" class="w-33">
+                                <p style="text-decoration: underline; ">{{"Info"}} </p>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>   
+                </div>
+                <div style="margin-left: 10px; margin-right: 10px;">
+                    <hr align="center" style=" height:2px;  color: yellow; margin: 20px 0px 10px 0px;border-width:2px; border: thick double #32a1ce;" >
+                </div>
+                {# *********// Signature //******** #}
+                <div class="body-section" >
+                    <table style="margin-left: 20px;  width: 100%; margin-right: 20px;" >
+                        <thead>
+                        <tr>
+                            <td style="text-align: left; {% if format == "A6-P" %} font-size: 7px; {% endif %}" class="w-33">
+                                <p style="text-decoration: underline; ">{{"Signataire"}} </p>
+                            </td>
+                            <td  style="text-align: center; {% if format == "A6-P" %} font-size: 7px; {% endif %}" class="w-33">
+                                <p style="text-decoration: underline; ">{{"Signataire"}} </p>
+                            </td>
+                            <td style="text-align: right; {% if format == "A6-P" %} font-size: 7px; {% endif %}" class="w-33">
+                                <p style="text-decoration: underline; ">{{"Signataire"}} </p>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>   
+                </div>
+                <br>
+                <div style="margin-left: 30px;  width:100%; margin-right: 20px; {% if format == "A6-P" %} font-size: 7px; {% endif %}">
+                    <p align="center">Merci</p>
+                </div>
+            </div>
+        </span>
+        {# <footer style="padding: 3px;  font-size: 0.75em; color: white; display: flex;">
+            <div style="text-align: right;  margin-left: 10px; margin-right: 10px;">
+                <div>
+                    <a href="" style="color: black; text-decoration: none;">&nbsp;<i>IFU N° 3200800074012 - Cot. Rép. Du Bénin </i></a>
+                    <strong style="color: black; text-decoration: underline;">Email:</strong>
+                    <a href="" style="color: black; text-decoration: none;">&nbsp;sogematokpa@hotmail.com </a>
+                    <hr align="center" style=" height:2px; color: black; margin: 20px 0px 10px 0px;border-width:2px; border: thick double #32a1ce;" >
+                </div>
+            </div>
+        </footer> #}
+    </div>
+</body>
+
+</html>

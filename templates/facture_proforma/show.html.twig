@@ -1,0 +1,54 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}facture proforma{% endblock %}
+
+{% block body %}
+    <h1>facture proforma</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ facture_proforma.id }}</td>
+            </tr>
+            <tr>
+                <th>DateCom</th>
+                <td>{{ facture_proforma.dateCom ? facture_proforma.dateCom|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>Statut</th>
+                <td>{{ facture_proforma.statut }}</td>
+            </tr>
+            <tr>
+                <th>MontantHt</th>
+                <td>{{ facture_proforma.montantHt }}</td>
+            </tr>
+            <tr>
+                <th>MontantTtc</th>
+                <td>{{ facture_proforma.montantTtc }}</td>
+            </tr>
+            <tr>
+                <th>MontantTotal</th>
+                <td>{{ facture_proforma.montantTotal }}</td>
+            </tr>
+            <tr>
+                <th>CreatedAt</th>
+                <td>{{ facture_proforma.createdAt ? facture_proforma.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>UpdatedAt</th>
+                <td>{{ facture_proforma.updatedAt ? facture_proforma.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>DeletedAt</th>
+                <td>{{ facture_proforma.deletedAt ? facture_proforma.deletedAt|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_facture_proforma_index') }}">back to list</a>
+
+    <a href="{{ path('app_facture_proforma_edit', {'id': facture_proforma.id}) }}">edit</a>
+
+    {{ include('facture_proforma/_delete_form.html.twig') }}
+{% endblock %}

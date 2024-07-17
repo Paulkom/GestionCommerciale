@@ -1,0 +1,38 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Fonction{% endblock %}
+
+{% block body %}
+    <h1>Fonction</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ fonction.id }}</td>
+            </tr>
+            <tr>
+                <th>Code</th>
+                <td>{{ fonction.code }}</td>
+            </tr>
+            <tr>
+                <th>Intitule</th>
+                <td>{{ fonction.intitule }}</td>
+            </tr>
+            <tr>
+                <th>CreatedAt</th>
+                <td>{{ fonction.createdAt ? fonction.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>UpdatedAt</th>
+                <td>{{ fonction.updatedAt ? fonction.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_fonction_index') }}">back to list</a>
+
+    <a href="{{ path('app_fonction_edit', {'id': fonction.id}) }}">edit</a>
+
+    {{ include('fonction/_delete_form.html.twig') }}
+{% endblock %}

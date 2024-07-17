@@ -1,0 +1,54 @@
+{{ form_start(form) }}
+<div class="fv-row mb-5 col">
+    {{ form_label(form.auteur) }}
+    {{ form_widget(form.auteur) }}
+</div>
+<div class="fv-row mb-5">
+    {{ form_label(form.motif) }}
+    {{ form_widget(form.motif) }}
+</div>
+<div class="separator mb-6"></div>
+<div class="row">
+    {# <div class="form-group mb-6 col">
+        <a href="javascript:;" class="btn btn-light-success add_item_link"
+           data-collection-holder-class="collection-form">
+            <i class="la la-plus"></i>Ajouter un magasin
+        </a>
+    </div> #}
+    <div class="fv-row mb-3 col"></div>
+    <div class="fv-row mb-3 col">
+        {{ form_label(form.montantTotal) }}
+        {{ form_widget(form.montantTotal) }}
+    </div>
+</div>
+{% set prefix = 'collection-form___' ~ form.sortieMags.vars.name ~ '__' %}
+<div class="row collection-form"
+     data-collection-key = "__{{ form.sortieMags.vars.name }}__"
+     data-collection-prefix="{{ prefix }}"
+     data-index="{{ form.sortieMags|length > 0 ? form.sortieMags|last.vars.name + 1 : 0 }}"
+     data-prototype="{% autoescape 'html' %}{{ include('sortie/partials/_sortie_mag.prototype.html.twig',
+         { 'form': form.sortieMags.vars.prototype, 'class':'sortieMag', 'prefix':prefix })|escape }}{% endautoescape %}">
+    {% for key,m in form.sortieMags %}
+        <div class="ligne form-child" data-index="{{ key }}" id="{{ 'collection-form_' ~ key }}">
+            {{ include('sortie/partials/_sortie_mag.prototype.html.twig',
+                { 'form': m, 'class':'sortieMag', 'prefix':'collection-form_' ~ key }) }}
+        </div>
+    {% endfor %}
+</div>
+<div class="row">
+    {# <div class="fv-row mb-3 col"></div> #}
+    {# <div class="fv-row mb-3 col"></div> #}
+    <div class="form-group mb-2 mt-2 col">
+        <a href="javascript:;" class="btn btn-light-success add_item_link" data-collection-holder-class="collection-form">
+            <i class="la la-plus"></i>Ajouter un magasin
+        </a>
+    </div>
+</div>
+<div class="separator mb-2 mt-2"></div>
+<button type="submit" class="btn btn-primary">
+    <span class="indicator-label">Enregistrer</span>
+    <span class="indicator-progress">Veuillez patienter...
+            <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
+        </span>
+</button>
+{{ form_end(form) }}

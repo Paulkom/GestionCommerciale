@@ -1,0 +1,54 @@
+{{ form_start(form,{ 'attr' : {'class': 'withRadio' }}) }}
+    <div>
+        <div class="row">
+            <div class="mb-5 fv-row fv-plugins-icon-container col">
+                {{ form_label(form.fournisseur) }}
+                {{ form_widget(form.fournisseur) }}
+            </div>
+             <div class="mb-5 fv-row fv-plugins-icon-container col">
+                {{ form_label(form.dateDdp) }}
+                {{ form_widget(form.dateDdp) }}
+                <div class="fv-plugins-message-container invalid-feedback"></div>
+            </div>
+        </div>
+
+
+        {% set prefix = 'collection-form___' ~ form.produitCondDdps.vars.name ~ '__' %}
+        <div class="row collection-form" data-collection-key = "__{{ form.produitCondDdps.vars.name }}__"
+            data-collection-prefix="{{ prefix }}"
+            data-index="{{ form.produitCondDdps|length > 0 ? form.produitCondDdps|last.vars.name + 1 : 0 }}"
+            data-prototype="{% autoescape 'html' %}{{ include('demande_de_prix/partials/_produitCond.prototype.html.twig',
+                { 'form': form.produitCondDdps.vars.prototype, 'class':'produitCondDdp', 'prefix':prefix })|escape }}{% endautoescape %}">
+            {% for key,m in form.produitCondDdps %}
+                <div class="ligne form-child" data-index="{{ key }}" id="{{ prefix }}">
+                    {{ include('demande_de_prix/partials/_produitCond.prototype.html.twig',
+                        { 'form': m, 'class':'produitCondDdp', 'prefix':prefix }) }}
+                </div>
+            {% endfor %}
+        </div>
+
+
+        <div class="form-group mb-6 col mt-2">
+        <button type="button" class="btn btn-light-primary add_item_link" 
+            data-collection-holder-class="collection-form">
+            <i class="la la-plus"></i>Ajouter un produit
+        </button>
+
+
+    </div>
+        <div class="mb-5 fv-row fv-plugins-icon-container">
+            <!--begin::Button-->
+                <button type="reset" data-kt-cond-type="cancel" class="btn btn-light me-3">Vider</button>
+            <!--end::Button-->
+            <button type="submit" class="btn btn-primary" disabled>
+                <span class="indicator-label">
+                    Enregistrer
+                </span>
+                <span class="indicator-progress">Veuillez patienter... 
+                    <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
+                </span>
+            </button>
+        </div>
+    </div>
+{{ form_end(form) }} 
+

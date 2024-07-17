@@ -1,0 +1,168 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Menus{% endblock %}
+
+{% block body %}
+    <div class="content d-flex flex-column flex-column-fluid" id="kt_content">
+        <!--begin::Toolbar-->
+        <div class="toolbar" id="kt_toolbar">
+            <!--begin::Container-->
+            <div id="kt_toolbar_container" class="container-fluid d-flex flex-stack">
+                <!--begin::Page title-->
+                <div data-kt-swapper="true" data-kt-swapper-mode="prepend" data-kt-swapper-parent="{default: '#kt_content_container', 'lg': '#kt_toolbar_container'}" class="page-title d-flex align-items-center flex-wrap me-3 mb-5 mb-lg-0">
+                    <!--begin::Title-->
+                    <h1 class="d-flex text-dark fw-bolder fs-3 align-items-center my-1">Configuration</h1>
+                    <!--end::Title-->
+                    <!--begin::Separator-->
+                    <span class="h-20px border-gray-300 border-start mx-4"></span>
+                    <!--end::Separator-->
+                    <!--begin::Breadcrumb-->
+                    <ul class="breadcrumb breadcrumb-separatorless fw-bold fs-7 my-1">
+                        <!--begin::Item-->
+                        <li class="breadcrumb-item text-muted">
+                            <a href="{{ path('app_admin_dashboard') }}" class="text-muted text-hover-primary">Accueil</a>
+                        </li>
+                        <!--end::Item-->
+                        <!--begin::Item-->
+                        <li class="breadcrumb-item">
+                            <span class="bullet bg-gray-300 w-5px h-2px"></span>
+                        </li>
+                        <!--end::Item-->
+                        <!--begin::Item-->
+                        <li class="breadcrumb-item text-muted">Application</li>
+                        <!--end::Item-->
+                        <!--begin::Item-->
+                        <li class="breadcrumb-item">
+                            <span class="bullet bg-gray-300 w-5px h-2px"></span>
+                        </li>
+                        <!--end::Item-->
+                        <!--begin::Item-->
+                        <li class="breadcrumb-item text-dark">Menu</li>
+                        <!--end::Item-->
+                    </ul>
+                    <!--end::Breadcrumb-->
+                </div>
+                <!--end::Page title-->
+            </div>
+            <!--end::Container-->
+        </div>
+        <!--end::Toolbar-->
+        <div class="post d-flex flex-column-fluid" id="kt_post">
+            <div id="kt_content_container" class="container-xxl">
+                <!--begin::Inbox App - Messages -->
+                <div class="d-flex flex-column flex-lg-row">
+                    <!--begin::Sidebar-->
+                    <div class="flex-column flex-lg-row-auto w-100 w-lg-275px mb-10 mb-lg-0">
+                        <!--begin::Sticky aside-->
+                        <div class="card card-flush mb-0" data-kt-sticky="true" data-kt-sticky-name="inbox-aside-sticky"
+                             data-kt-sticky-offset="{default: false, xl: '0px'}" data-kt-sticky-width="{lg: '275px'}"
+                             data-kt-sticky-left="auto" data-kt-sticky-top="150px" data-kt-sticky-animation="false"
+                             data-kt-sticky-zindex="95" style="">
+                            <!--begin::Aside content-->
+                            <div class="card-body py-5">
+                                <!--begin::Button-->
+                                {#<a href="#" class="btn btn-primary text-uppercase w-100 mb-10">New Message</a>#}
+                                <!--end::Button-->
+                                <!--begin::Menu-->
+                                <div class="menu menu-column menu-rounded menu-state-bg menu-state-title-primary menu-state-icon-primary menu-state-bullet-primary">
+                                    <!--begin::Menu item-->
+                                    <div class="menu-item mb-3">
+                                        <!--begin::Marked-->
+                                        <span class="menu-link kt-menu-proto active" id="kt_menu_form" onclick="activateMenu(this);"
+                                              data-content="{% autoescape 'html' %}{{ include('menu/partials/_card_form.html.twig', {'idMenu':'kt_menu_list'})|escape }}{% endautoescape %}">
+                                            <span class="menu-icon">
+                                                <!--begin::Svg Icon | path: icons/duotune/abstract/abs024.svg-->
+                                                <span class="svg-icon svg-icon-2 me-3">
+                                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                        <rect opacity="0.5" x="11" y="18" width="12" height="2" rx="1" transform="rotate(-90 11 18)" fill="currentColor"></rect>
+                                                        <rect x="6" y="11" width="12" height="2" rx="1" fill="currentColor"></rect>
+                                                    </svg>
+                                                </span>
+                                                <!--end::Svg Icon-->
+                                            </span>
+                                            <span class="menu-title fw-bolder">Ajouter un menu</span>
+                                        </span>
+                                        <!--end::Marked-->
+                                    </div>
+                                    <!--end::Menu item-->
+                                    <!--begin::Menu item-->
+                                    <div class="menu-item mb-3">
+                                        <!--begin::Inbox-->
+                                        <span class="menu-link kt-menu-proto" id="kt_menu_list" onclick="activateMenu(this);"
+                                              data-content="{% autoescape 'html' %}{{ include('menu/partials/_card_list.html.twig', {'idMenu':'kt_menu_list'})|escape }}{% endautoescape %}">
+                                            <span class="menu-icon">
+                                                <!--begin::Svg Icon | path: icons/duotune/communication/com010.svg-->
+                                                <span class="svg-icon svg-icon-2 me-3">
+                                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                        <path d="M4.5 7C5.88071 7 7 5.88071 7 4.5C7 3.11929 5.88071 2 4.5 2C3.11929 2 2 3.11929 2 4.5C2 5.88071 3.11929 7 4.5 7Z" fill="currentColor"></path>
+                                                        <path opacity="0.3" d="M14 4.5C14 5.9 12.9 7 11.5 7C10.1 7 9 5.9 9 4.5C9 3.1 10.1 2 11.5 2C12.9 2 14 3.1 14 4.5ZM18.5 2C17.1 2 16 3.1 16 4.5C16 5.9 17.1 7 18.5 7C19.9 7 21 5.9 21 4.5C21 3.1 19.9 2 18.5 2ZM4.5 9C3.1 9 2 10.1 2 11.5C2 12.9 3.1 14 4.5 14C5.9 14 7 12.9 7 11.5C7 10.1 5.9 9 4.5 9ZM11.5 9C10.1 9 9 10.1 9 11.5C9 12.9 10.1 14 11.5 14C12.9 14 14 12.9 14 11.5C14 10.1 12.9 9 11.5 9ZM18.5 9C17.1 9 16 10.1 16 11.5C16 12.9 17.1 14 18.5 14C19.9 14 21 12.9 21 11.5C21 10.1 19.9 9 18.5 9ZM4.5 16C3.1 16 2 17.1 2 18.5C2 19.9 3.1 21 4.5 21C5.9 21 7 19.9 7 18.5C7 17.1 5.9 16 4.5 16ZM11.5 16C10.1 16 9 17.1 9 18.5C9 19.9 10.1 21 11.5 21C12.9 21 14 19.9 14 18.5C14 17.1 12.9 16 11.5 16ZM18.5 16C17.1 16 16 17.1 16 18.5C16 19.9 17.1 21 18.5 21C19.9 21 21 19.9 21 18.5C21 17.1 19.9 16 18.5 16Z" fill="currentColor"></path>
+                                                    </svg>
+                                                </span>
+                                                <!--end::Svg Icon-->
+                                            </span>
+                                            <span class="menu-title fw-bolder">Liste des menus</span>
+                                            <span class="badge badge-light-success">{{ nbMenu }}</span>
+                                        </span>
+                                        <!--end::Inbox-->
+                                    </div>
+                                    <!--end::Menu item-->
+                                    <!--begin::Menu item-->
+                                    <div class="menu-item">
+                                        <!--begin::Trash-->
+                                        <span class="menu-link kt-menu-proto d-none remove" id="kt_menu_show" onclick="activateMenu(this);"
+                                              data-content="">
+                                            <span class="menu-icon">
+                                                <!--begin::Svg Icon | path: icons/duotune/general/gen027.svg-->
+                                                <span class="svg-icon svg-icon-2 me-3">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-list-details" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                                        <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                                                        <path d="M13 5h8" />
+                                                        <path d="M13 9h5" />
+                                                        <path d="M13 15h8" />
+                                                        <path d="M13 19h5" />
+                                                        <rect x="3" y="4" width="6" height="6" rx="1" />
+                                                        <rect x="3" y="14" width="6" height="6" rx="1" />
+                                                    </svg>
+                                                </span>
+                                                <!--end::Svg Icon-->
+                                            </span>
+                                            <span class="menu-title fw-bolder">Détails</span>
+                                        </span>
+                                        <!--end::Trash-->
+                                    </div>
+                                    <!--end::Menu item-->
+                                </div>
+                                <!--end::Menu-->
+                            </div>
+                            <!--end::Aside content-->
+                        </div>
+                        <!--end::Sticky aside-->
+                    </div>
+                    <!--end::Sidebar-->
+                    <!--begin::Content-->
+                    <div class="flex-lg-row-fluid ms-lg-7 ms-xl-10">
+                        <div class="col flex-row-fluid" data-call-form="ajax"></div>
+                    </div>
+                    <!--end::Content-->
+                </div>
+                <!--end::Inbox App - Messages -->
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+
+    <script type="text/javascript">
+        function showMenu(e) {
+            e.preventDefault();
+            const contenu = e.target.dataset.content;
+            const idMenu = ($(contenu)[0]).dataset.menu;
+            const menu = document.querySelector(`#${idMenu}`);
+            menu.dataset.content = contenu;
+            $(menu).trigger('click');
+            menu.classList.remove('d-none');
+        }
+    </script>
+{% endblock %}

@@ -1,0 +1,58 @@
+{{ form_start(form) }}
+<div class="card shadow-sm">
+    <div class="card-body">
+        <div class="row">
+            <div class="mb-5 fv-row fv-plugins-icon-container col-sm-4 col-lg-4">
+                {{ form_label(form.dateTransac) }}
+                {{ form_widget(form.dateTransac) }}
+            </div>
+            <div class="mb-5 fv-row fv-plugins-icon-container col-sm-4 col-lg-4">
+                {{ form_label(form.client) }}
+                {{ form_widget(form.client) }}
+            </div>
+            <div class="mb-5 fv-row fv-plugins-icon-container col-sm-4 col-lg-4">
+                {{ form_label(form.modePaiement) }}
+                {{ form_widget(form.modePaiement) }}
+            </div> 
+            <div class="mb-5 fv-row fv-plugins-icon-container col-sm-4 col-lg-4">
+                {{ form_label(form.comptebanque) }}
+                {{ form_widget(form.comptebanque) }}
+            </div>  
+            <div class="mb-5 fv-row fv-plugins-icon-container col-sm-4 col-lg-4">
+                {{ form_label(form.numeroMobileMoney) }}
+                {{ form_widget(form.numeroMobileMoney) }}
+            </div>
+            <div class="mb-5 fv-row fv-plugins-icon-container col-sm-4 col-lg-4">
+                {{ form_label(form.refTransac) }}
+                {{ form_widget(form.refTransac) }}
+            </div>
+             <div class="mb-5 fv-row  col-sm-4 col-lg-4">
+                {{ form_label(form.motif) }}
+                {{ form_widget(form.motif) }}
+            </div>
+            <div class="mb-5 fv-row fv-plugins-icon-container col-sm-4 col-lg-4">
+                {{ form_label(form.montantTransac) }}
+                {{ form_widget(form.montantTransac) }}
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <div class="d-flex justify-content-end">
+            <!--begin::Button-->
+            <button type="reset" data-kt-cond-type="cancel" class="btn btn-light me-3">Vider</button>
+            <button type="submit" id="com_submit" data-kt-cond-type="submit" class="btn btn-primary me-3 imprimer">
+                <span class="indicator-label"> <i class="fa fa-plus"></i> Enregistrer et Imprimer</span>
+                <span class="indicator-progress">Veuillez patienter svp...
+                    <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
+                </span>
+            </button>
+            <button type="submit" id="com_submit" data-kt-cond-type="submit" class="btn btn-primary">
+                <span class="indicator-label"> <i class="fa fa-plus"></i> Enregistrer</span>
+                <span class="indicator-progress">Veuillez patienter svp...
+                    <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
+                </span>
+            </button>
+        </div>
+    </div>
+</div>
+{{ form_end(form) }}

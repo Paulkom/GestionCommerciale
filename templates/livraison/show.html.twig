@@ -1,0 +1,65 @@
+<div class="card card-flush">
+    <!--begin::Card header-->
+    <div class="card-header pt-7">
+        <!--begin::Card title-->
+        <div class="card-title">
+            <h2>Détails de la livraison {{ entitie.refLiv }}</h2>
+        </div>
+    </div>
+    <div class="card-body pt-5">
+        <div>
+       
+            <div class="table-responsive">
+                <table class="table align-middle table-row-dashed fs-6 gy-5 ">
+                    <tr>
+                        <th class="text-gray-500 fw-bolder fs-7 text-uppercase">Date Liv.:</th>
+                        <td>{{ entitie.dateLiv ? entitie.dateLiv|date('d-m-Y') : '' }}</td>
+                        <th class="text-gray-500 fw-bolder fs-7 text-uppercase" >Reference Liv:</th>
+                        <td class="fw-bolde">{{ entitie.refLiv }}</td>
+                    </tr>
+                    <tr>
+                       <th class="text-gray-500 fw-bolder fs-7 text-uppercase" >Reference Com.:</th>
+                        <td class="fw-bolde">{{ entitie.commandeCli.refCom }}</td>
+                        <th class="text-gray-500 fw-bolder fs-7 text-uppercase">Livreur:</th>
+                        <td class="fw-bolde">{{ entitie.livreur.nom }} {{ entitie.livreur.prenoms }} </td>
+                    </tr>
+                     <tr>
+                        <th class="text-gray-500 fw-bolder fs-7 text-uppercase">Statut:</th>
+                        <td class="fw-bolde">
+                           {% if entitie.commandeCli.statut == "En attente" %}<div class='badge badge-light-primary fw-bold'>{{ entitie.statut }}</div>{% endif %}
+                           {% if entitie.commandeCli.statut == "Livrer" %}<div class='badge badge-success fw-bold'>{{ entitie.commandeCli.statut }}</div>{% endif %}
+                           {% if entitie.commandeCli.statut == "payer" %}<div class='badge badge-light-success fw-bold'>{{ entitie.commandeCli.statut }}</div>{% endif %}
+                           {% if entitie.commandeCli.statut == "Annuler" %}<div class='badge badge-light-danger fw-bold'>{{ entitie.commandeCli.statut }}</div>{% endif %}
+                        </td>
+                        <th></th>
+                        <td></td>
+                    </tr>
+                </table>
+            </div>
+            <h4 class="mt-10"> Liste des produits livrés par magasin.</h4>
+            {% for lm in entitie.livraisonMagasins  %}
+                <h4 class="mt-10 text-primary text-uppercase fw-bolder">{{ lm.magasin.nomMag }}({{lm.magasin.codeMag}})</h4>
+                <div class="table-responsive">
+                    <table class="table align-middle table-row-dashed fs-6 gy-5 ">
+                        <thead> 
+                            <tr class="text-gray-500 fw-bolder fs-7 text-uppercase" >
+                                <th class="min-w-200px">Designation</th>
+                                <th class="min-w-80px">Qte à livrer </th>
+                                <th class="min-w-100px">Qte livrée</th> 
+                                <th class="min-w-100px">Qte restante</th> 
+                            </tr> 
+                        </thead> 
+                        {% for l in lm.produitCondMagLivs  %}
+                            <tr> 
+                                <td>{{l.produitComClit.produit }}</td>
+                                <td>{{l.qteALiv}}</td>
+                                <td>{{l.qteLiv }}</td>
+                                <td>{{l.qteRALiv}}</td>
+                            </tr>
+                        {% endfor %}    
+                    </table>
+                </div>
+            {% endfor %} 
+        </div>
+    </div>
+</div>

@@ -1,0 +1,143 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Caisses{% endblock %}
+
+{% block body %}
+    <div class="content d-flex flex-column flex-column-fluid" id="kt_content">
+        <!--begin::Toolbar-->
+        <div class="toolbar" id="kt_toolbar">
+            <!--begin::Container-->
+            <div id="kt_toolbar_container" class="container-fluid d-flex flex-stack">
+                <!--begin::Page title-->
+                <div data-kt-swapper="true" data-kt-swapper-mode="prepend" data-kt-swapper-parent="{default: '#kt_content_container', 'lg': '#kt_toolbar_container'}" class="page-title d-flex align-items-center flex-wrap me-3 mb-5 mb-lg-0">
+                    <!--begin::Title-->
+                    <h1 class="d-flex text-dark fw-bolder fs-3 align-items-center my-1">Caisse</h1>
+                    <!--end::Title-->
+                    <!--begin::Separator-->
+                    <span class="h-20px border-gray-300 border-start mx-4"></span>
+                    <!--end::Separator-->
+                    <!--begin::Breadcrumb-->
+                    <ul class="breadcrumb breadcrumb-separatorless fw-bold fs-7 my-1">
+                        <!--begin::Item-->
+                        <li class="breadcrumb-item text-muted">
+                            <a href="{{ path('app_admin_dashboard') }}" class="text-muted text-hover-primary">Accueil</a>
+                        </li>
+                        <!--end::Item-->
+                        <!--begin::Item-->
+                        <li class="breadcrumb-item">
+                            <span class="bullet bg-gray-300 w-5px h-2px"></span>
+                        </li>
+                        <!--end::Item-->
+                        <!--begin::Item-->
+                        <li class="breadcrumb-item text-dark">Ouverture / Fermerture</li>
+                        <!--end::Item-->
+                    </ul>
+                    <!--end::Breadcrumb-->
+                </div>
+                <!--end::Page title-->
+            </div>
+            <!--end::Container-->
+        </div>
+        <!--end::Toolbar-->
+        <div class="post d-flex flex-column-fluid" id="kt_post">
+            <div id="kt_content_container" class="container d-flex flex-column flex-lg-row">
+                <div class="col flex-row-fluid" data-call-form="ajax">
+                     <div class="card card-flush" data-menu="{% if idMenu is defined %}{{ idMenu }}{% endif %}">
+                        <!--begin::Card header-->
+                        {# <div class="card-header pt-7">
+                            <!--begin::Card title-->
+                            <div class="card-title">
+                                <!--begin::Search-->
+                                <div class="d-flex align-items-center position-relative my-1">
+                                    <!--begin::Svg Icon | path: icons/duotune/general/gen021.svg-->
+                                    <span class="svg-icon svg-icon-1 position-absolute ms-6">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                                viewBox="0 0 24 24" fill="none">
+                                            <rect opacity="0.5" x="17.0365" y="15.1223" width="8.15546"
+                                                    height="2" rx="1" transform="rotate(45 17.0365 15.1223)"
+                                                    fill="currentColor"/>
+                                            <path d="M11 19C6.55556 19 3 15.4444 3 11C3 6.55556 6.55556 3 11 3C15.4444 3 19 6.55556 19 11C19 15.4444 15.4444 19 11 19ZM11 5C7.53333 5 5 7.53333 5 11C5 14.4667 7.53333 17 11 17C14.4667 17 17 14.4667 17 11C17 7.53333 14.4667 5 11 5Z"
+                                                    fill="currentColor"/>
+                                        </svg>
+                                    </span>
+                                    <!--end::Svg Icon-->
+                                    <input type="text" data-kt-entity-table-filter="search"
+                                            class="form-control form-control-solid w-250px ps-15"
+                                            placeholder="Rechercher..."/>
+                                </div>
+                            </div>
+                        </div> #}
+                        <div class="card-body pt-5">
+                            <div class="table-responsive">
+                                <table class="table align-middle table-row-dashed fs-6 gy-5 kt_entity_table"
+                                    id="kt_caisse_table" data-url="{{ path('app_load_data_ajax', {'class':'caisse'}) }}"
+                                        data-entity-name="caisse"  data-table-columns="id;fondRoulement;soldeCloture;dateOuverture;dateFermeture;etat">
+                                    <thead>
+                                    <tr class="text-start text-gray-400 fw-bolder fs-7 text-uppercase gs-0">
+                                        {# <th class="w-10px pe-2">
+                                            <div class="form-check form-check-sm form-check-custom form-check-solid me-3">
+                                                <input class="form-check-input" type="checkbox" data-kt-check="true"
+                                                    data-kt-check-target="#kt_caisse_table .form-check-input" value="1"/>
+                                            </div>
+                                        </th> #}
+                                        <th class="min-w-125px">Fond de Roulement</th>
+                                        <th class="min-w-125px">Solde de Cloture</th>
+                                        <th class="min-w-125px">Date d'ouverture</th>
+                                        <th class="min-w-125px">Date de fermeture</th>
+                                        <th class="min-w-125px">Chiffre Affaire</th>
+                                        <th class="min-w-80px">Ecart</th>
+                                        <th class="min-w-80px">Etat</th>
+                                        {# <th class="text-end min-w-100px">Actions</th> #}
+                                    </tr>
+                                    </thead>
+                                    <tbody class="fw-semibold text-gray-600">
+                                        {% for item in caisses %}
+                                            <tr class="">
+                                                {# <td class="w-10px pe-2">
+                                                    <div class="form-check form-check-sm form-check-custom form-check-solid me-3">
+                                                        <input class="form-check-input" type="checkbox" data-kt-check="true"
+                                                            data-kt-check-target="#kt_caisse_table .form-check-input" value="1"/>
+                                                    </div>
+                                                </td> #}
+                                                <td class="min-w-125px">{{ item.fondRoulement| number_format(2, ',', ' ') }}</td>
+                                                <td class="min-w-125px">{{ item.etatCaisse ? item.etatCaisse.soldeCloture | number_format(2, ',', ' '):'' }}</td>
+                                                <td class="min-w-125px">{{ item.dateOuverture | date("d/m/Y à h:i","Europe/Paris") }}</td>
+                                                <td class="min-w-125px">{% if item.dateFermeture != null %}
+                                                    {{ item.dateFermeture | date("d/m/Y à h:i","Europe/Paris")}}
+                                                    {% else %}
+                                                        -
+                                                    {% endif %}
+                                                </td>
+                                                <td class="min-w-125px">{{ item.etatCaisse ? item.etatCaisse.chiffreAffaire | number_format(2, ',', ' '):'' }}</td>
+                                                <td class="min-w-80px">{{ item.etatCaisse ? item.etatCaisse.ecart| number_format(2, ',', ' '):'' }} </td>
+                                                <td class="min-w-80px">
+                                                    {% if item.etatCaisse %}
+                                                        <div><span class="badge badge-light-danger badge-sm stock mb-1">Fermée</span></div>
+                                                    {% else %}
+                                                        <div><span class="badge badge-light-primary badge-sm stocklogique">Ouverte</span></div>
+                                                    {% endif %}
+                                                 </td>
+                                                {# <td class="text-end min-w-100px">Actions</td> #}
+                                            </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                                <!--end::Table-->
+                            </div>
+                            <!--begin::List-->
+                            {# <div class="scroll-y me-n5 pe-5 h-300px h-xl-auto" data-kt-scroll="true" data-kt-scroll-activate="{default: false, lg: true}" data-kt-scroll-max-height="auto" data-kt-scroll-dependencies="#kt_header, #kt_toolbar, #kt_footer, #kt_contacts_list_header" data-kt-scroll-wrappers="#kt_content, #kt_contacts_list_body" data-kt-scroll-stretch="#kt_contacts_list, #kt_contacts_main" data-kt-scroll-offset="5px">
+                            </div> #}
+                            <!--end::List-->
+                        </div>
+                        <!--end::Card body-->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('assets/js/custom/apps/caisse/caisse.js') }}"></script>
+{% endblock %}

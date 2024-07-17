@@ -1,0 +1,141 @@
+<tr class="border-bottom border-gray-200">
+    <td>
+        <div class="fv-row">
+           {{ form_widget(form.produit) }}
+        </div>
+    </td>
+    <td>
+        <div class="fv-row">
+           {{ form_widget(form.prix) }}
+        </div>
+    </td>
+    <td>
+        <div class="fv-row">
+           {{ form_widget(form.qtite) }}
+        </div>
+    </td>
+    <td>
+        <div class="fv-row">
+            {{ form_widget(form.typeRemise) }}
+        </div>
+    </td>
+    <td>
+        <div class="fv-row">
+           {{ form_widget(form.valeurRemise) }}
+        </div>
+    </td>
+    <td>
+        <div class="fv-row">
+           {{ form_widget(form.remise) }}
+        </div>
+    </td>
+    <td>
+        <div class="fv-row">
+            {{ form_widget(form.montant) }}
+        </div>
+    </td>
+    <td>
+        <div class="fv-row">
+           {{ form_widget(form.montantHtAprRse) }}
+        </div>
+    </td>
+    <td>
+        <div class="fv-row">
+            {{ form_widget(form.magasin) }}
+        </div>
+    </td>
+    <td>
+        <div class="fv-row">
+           <div class="col-sm" style="margin-top:-3px">
+                <div><span class="badge badge-light-danger badge-sm stock mb-1"></span></div>
+                <div><span class="badge badge-light-primary badge-sm stocklogique"></span></div>
+            </div>
+        </div>
+    </td>
+    <td>
+        <div class="fv-row">
+            <div class="col-md-auto">
+                <button type="button" class="btn btn-sm btn-icon btn-light-danger remove">
+                    <span class="svg-icon svg-icon-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                            <rect opacity="0.5" x="7.05025" y="15.5356" width="12" height="2" rx="1" transform="rotate(-45 7.05025 15.5356)" fill="currentColor"></rect>
+                            <rect x="8.46447" y="7.05029" width="12" height="2" rx="1" transform="rotate(45 8.46447 7.05029)" fill="currentColor"></rect>
+                        </svg>
+                    </span>
+                </button>
+            </div>
+        </div>
+    </td>
+   
+</tr>
+    <div class="row g-2">
+        <div class=" fv-row fv-plugins-icon-container col-sm-3">
+            {# {{ form_label(form.produit) }} #}
+            {{ form_widget(form.produit) }}
+            <div class="fv-plugins-message-container invalid-feedback"></div>
+        </div>
+        <div class=" fv-row fv-plugins-icon-container col-sm">
+            {# {{ form_label(form.prix) }} #}
+            {{ form_widget(form.prix) }}
+            <div class="fv-plugins-message-container invalid-feedback"></div>
+        </div>
+        <div class=" fv-row fv-plugins-icon-container col-sm">
+            {# {{ form_label(form.prix) }} #}
+            {{ form_widget(form.prixHt) }}
+            <div class="fv-plugins-message-container invalid-feedback"></div>
+        </div>
+        <div class=" fv-row fv-plugins-icon-container col-sm-1">
+            {# {{ form_label(form.qtite) }} #}
+            {{ form_widget(form.qtite) }}
+            {# <div class="input-group">
+                {{ form_widget(form.qtite) }}
+                {# <input type="text" class="form-control" placeholder="Recipient's username" aria-label="Recipient's username" aria-describedby="basic-addon2">
+                <span class="input-stock form-control-sm">/</span>
+            </div> #}
+            <div class="fv-plugins-message-container invalid-feedback"></div>
+        </div>
+        <div class=" fv-row fv-plugins-icon-container col-sm-1">
+            {# {{ form_label(form.typeRemise) }} #}
+            {{ form_widget(form.typeRemise) }}
+            <div class="fv-plugins-message-container invalid-feedback"></div>
+        </div>
+        <div class=" fv-row fv-plugins-icon-container col-sm-1">
+            {# {{ form_label(form.valeurRemise) }} #}
+            {{ form_widget(form.valeurRemise) }}
+            <div class="fv-plugins-message-container invalid-feedback"></div>
+        </div>
+        <div class="fv-row fv-plugins-icon-container col-sm-1">
+            {# {{ form_label(form.remise) }} #}
+            {{ form_widget(form.remise) }}
+            <div class="fv-plugins-message-container invalid-feedback"></div>
+        </div>
+        <div class=" fv-row fv-plugins-icon-container col-sm">
+            {# {{ form_label(form.montant) }} #}
+            {{ form_widget(form.montant) }}
+            <div class="fv-plugins-message-container invalid-feedback"></div>
+        </div>
+        <div class=" fv-row fv-plugins-icon-container col-sm">
+            {# {{ form_label(form.montant) }} #}
+            {{ form_widget(form.montantHtAprRse) }}
+            <div class="fv-plugins-message-container invalid-feedback"></div>
+        </div>
+        <div class=" fv-row fv-plugins-icon-container col-sm">
+            <div class="row g-1">
+                <div class="col-md-auto">
+                    <button type="button" class="btn btn-sm btn-icon btn-light-danger remove">
+                        <span class="svg-icon svg-icon-2">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                <rect opacity="0.5" x="7.05025" y="15.5356" width="12" height="2" rx="1" transform="rotate(-45 7.05025 15.5356)" fill="currentColor"></rect>
+                                <rect x="8.46447" y="7.05029" width="12" height="2" rx="1" transform="rotate(45 8.46447 7.05029)" fill="currentColor"></rect>
+                            </svg>
+                        </span>
+                    </button>
+                </div>
+                <div class="col-sm" style="margin-top:-3px">
+                    <div><span class="badge badge-light-danger badge-sm stock mb-1"></span></div>
+                    <div><span class="badge badge-light-primary badge-sm stocklogique"></span></div>
+                </div>
+            </div>
+        </div>
+    </div>
+<div class="separator mb-2"></div>

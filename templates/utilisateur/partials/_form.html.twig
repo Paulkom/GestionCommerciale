@@ -1,0 +1,104 @@
+{# {{ form_start(form) }}
+    {{ form_widget(form) }}
+    <button class="btn">{{ button_label|default('Save') }}</button>
+{{ form_end(form) }} #}
+
+{{ form_start(form) }}
+    <div>
+        
+        <div class="row">
+            <div class="mb-5 fv-row fv-plugins-icon-container col">
+                {{ form_label(form.personnel) }}
+                {{ form_widget(form.personnel) }}
+                {# <div class="fv-plugins-message-container invalid-feedback"></div> #}
+            </div>
+            <div class="mb-5 fv-row fv-plugins-icon-container col">
+                {{ form_label(form.username) }}
+                {{ form_widget(form.username) }}
+                {# <div class="fv-plugins-message-container invalid-feedback"></div> #}
+            </div>
+            <div class="mb-5 fv-row fv-plugins-icon-container col">
+                {{ form_label(form.profil) }}
+                {{ form_widget(form.profil) }}
+                <div class="fv-plugins-message-container invalid-feedback"></div>
+            </div>
+        </div>
+        <div class="row {% if form.vars.value.username != '' %} d-none {% endif %}">
+            <div class="mb-5 fv-row fv-plugins-icon-container col">
+                {{ form_label(form.password.first) }}
+                {{ form_widget(form.password.first) }}
+                {{ form_errors(form.password.first) }}
+                {# <div class="fv-plugins-message-container invalid-feedback"></div> #}
+            </div> 
+            <div class="mb-5 fv-row fv-plugins-icon-container col">
+                {{ form_label(form.password.second) }}
+                {{ form_widget(form.password.second) }}
+                {{ form_errors(form.password.second) }}
+                {# <div class="fv-plugins-message-container invalid-feedback"></div> #}
+            </div> 
+        </div>
+
+        <div class="py-5">
+        <div class="rounded border p-2">
+            <ul class="nav nav-tabs nav-line-tabs nav-line-tabs-2x border-transparent fs-4 fw-semibold mb-5" role="tablist">
+                
+
+                <!--begin:::Tab item-->
+                <li class="nav-item" role="presentation">
+                    <a class="nav-link text-active-primary pb-2 active" data-bs-toggle="tab" href="#kt_ecommerce_settings_store" aria-selected="false" role="tab" tabindex="-1">
+                        Point de vente
+                    </a>
+                </li>
+                <!--end:::Tab item-->
+            </ul>
+
+            <div class="tab-content" id="myTabContent">
+                <!--begin:::Tab pane-->
+                <div class="tab-pane fade clearfix show active" id="kt_ecommerce_settings_general" role="tabpanel">
+                    {# <div class="form-group mb-2">
+                        <a href="javascript:;" class="btn btn-light-success add_item_link"
+                           data-collection-holder-class="collection-form-med">
+                            <i class="la la-plus"></i>Ajouter une image
+                        </a>
+                    </div> #}
+                    {% set prefix = 'collection-form-med___' ~ form.utilisateurPointDeVentes.vars.name ~ '__' %}
+                    <div class="row collection-form-med" data-collection-prefix="{{ prefix }}"
+                         data-collection-key = "__{{ form.utilisateurPointDeVentes.vars.name }}__"
+                         data-index="{{ form.utilisateurPointDeVentes|length > 0 ? form.utilisateurPointDeVentes|last.vars.name + 1 : 0 }}"
+                         data-prototype="{% autoescape 'html' %}{{ include('utilisateur/partials/_pointdevente.prototype.html.twig',
+                             { 'form': form.utilisateurPointDeVentes.vars.prototype, 'class':'utilisateurPointDeVentes' })|escape }}{% endautoescape %}">
+                        {% for key,m in form.utilisateurPointDeVentes %}
+                            <div class="ligne form-child" data-index="{{ key }}" id="{{ 'collection-form-med_' ~ key }}">
+                                {{ include('utilisateur/partials/_pointdevente.prototype.html.twig',
+                                    { 'form': m, 'class':'utilisateurPointDeVentes' }) }}
+                            </div>
+                        {% endfor %}
+                    </div>
+                    <div class="form-group mt-1 float-start">
+                        <a href="javascript:;" class="btn btn-light-primary add_item_link"
+                           data-collection-holder-class="collection-form-med">
+                            <i class="la la-plus"></i>Ajouter un point de vente
+                        </a>
+                    </div>
+                </div>
+                <!--end:::Tab pane-->
+            </div>
+        </div>
+    </div>
+
+        <div class="mb-5 fv-row fv-plugins-icon-container">
+            <button type="submit" class="btn btn-primary">
+                <span class="indicator-label">
+                    Enregistrer
+                </span>
+                <span class="indicator-progress">
+                    Veuillez patienter svp... 
+                    <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
+                </span>
+            </button>
+        </div>
+
+    </div>
+{{ form_end(form) }} 
+
+

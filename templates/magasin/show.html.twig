@@ -1,0 +1,38 @@
+{# {% extends 'base.html.twig' %}
+
+{% block title %}Magasin{% endblock %}
+
+{% block body %}
+    <h1>Magasin</h1> #}
+
+    <table class="table table table-row-bordered gy-5">
+        <tbody>
+            <tr>
+                <th class="text-start text-gray-400 fw-bold fs-7 text-uppercase gs-0">Id du magasin:</th>
+                <td>{{ magasin.id }}  1</td>
+            </tr>
+            <tr>
+                <th class="text-start text-gray-400 fw-bold fs-7 text-uppercase gs-0">Nom du magasin:</th>
+                <td>{{ magasin.nomMag }} Magasin 1</td>
+            </tr>
+            <tr>
+                <th class="text-start text-gray-400 fw-bold fs-7 text-uppercase gs-0">Code du magasin:</th>
+                <td>{{ magasin.codeMag }} MAG-001</td>
+            </tr>
+            <tr>
+                <th class="text-start text-gray-400 fw-bold fs-7 text-uppercase gs-0">Adresse:</th>
+                <td>{{ magasin.adresse }} Cotonou, ste Rita</td>
+            </tr>
+            <tr>
+                <th class="text-start text-gray-400 fw-bold fs-7 text-uppercase gs-0">Date de création:</th>
+                <td>{{ magasin.createdAt ? magasin.createdAt|date('d-m-Y H:i:s') : '' }} 01/02/2023</td>
+            </tr>
+        </tbody>
+    </table>
+{# 
+    <a href="{{ path('app_magasin_index') }}">back to list</a>
+
+    <a href="{{ path('app_magasin_edit', {'id': magasin.id}) }}">edit</a>
+
+    {{ include('magasin/_delete_form.html.twig') }}
+{% endblock %} #}

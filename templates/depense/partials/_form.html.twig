@@ -1,0 +1,42 @@
+{{ form_start(form) }}
+    <div>
+        <div class="row">
+            <div class="mb-5 fv-row  col">
+                {{ form_label(form.dateDep) }}
+                {{ form_widget(form.dateDep) }}
+            </div>
+            <div class="mb-5 fv-row  col">
+                {{ form_label(form.typeDepense) }}
+                {{ form_widget(form.typeDepense) }}
+            </div>
+             <div class="mb-5 fv-row  col">
+                {{ form_label(form.beneficiere) }}
+                {{ form_widget(form.beneficiere) }}
+            </div>
+            <div class="mb-5 fv-row  col">
+                {{ form_label(form.montant) }}
+                {{ form_widget(form.montant) }}
+            </div> 
+        </div>
+        <div class="row">
+           <div class="mb-5 fv-row  col-12">
+                {{ form_label(form.motif) }}
+                {{ form_widget(form.motif) }}
+            </div>
+        </div>    
+        <div class="mb-5 fv-row ">
+             <!--begin::Button-->
+            <button type="reset" data-kt-cond-type="cancel" class="btn btn-light me-3">Vider</button>
+            <!--end::Button-->
+            <!--begin::Button-->
+            <button type="submit" id="condi_submit" data-kt-cond-type="submit" class="btn btn-primary">
+                <span class="indicator-label"> <i class="fa fa-plus"></i>Enregistrer</span>
+                <span class="indicator-progress">Veuillez patienter svp...
+                    <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
+                </span>
+            </button>
+            <!--end::Button-->
+        </div>
+    </div>
+{{ form_end(form) }} 
+

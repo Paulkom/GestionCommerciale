@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="facture.css">
+    <title>Facture ProFormat</title>
+	<style>
+		#conteneur{
+			margin: 5px;
+			display: grid;
+			grid-template-columns: repeat(5, 1fr);
+			grid-template-rows: repeat(4, minmax(250px, auto)) ;
+			grid-gap: 5px;
+			<!-- grid-template-areas: -->
+			<!-- "Entete Entete Entete Entete Entete Entete Entete Entete Entete" -->
+			<!-- "Entreprise Entreprise facturation facturation facturation facturation facturation facturation facturation" -->
+			<!-- "vente vente vente vente vente vente vente vente vente" -->
+			<!-- "pied pied pied pied pied pied pied pied pied"  -->
+			<!-- ; -->
+		}
+
+		#conteneur{
+			padding: 40px;
+			background-color: aliceblue;
+			text-align: center;
+			font-weight: lighter;
+			font-size: 1.5em;
+			color: black;
+			width:1000px;
+		   
+		}
+
+		#entreprise{
+			grid-area: Entreprise ;
+		}
+
+		footer{
+			grid-area: pied;
+		}
+		.tableau-style{
+			border-collapse: collapse;
+			min-width: 500px;
+			margin: 150px auto;
+			box-sizing: content-box;
+			width: 100%;
+			padding: 25px;
+		}
+
+		.tableau-style tbody:last-of-type {
+			border-bottom: 2px solid blueviolet;
+		}
+		thead tr{
+			background-color: blueviolet;
+			text-align: center;
+			color: #fff;
+			margin: auto;
+		}
+		footer{
+			flex-shrink: 0;
+			border-top: 1px blueviolet;
+			width: 100%;
+			color: #333;
+			box-sizing: content-box;
+		}
+		.entreprise{
+			width: auto;
+			margin: 0 auto;
+			display: flex;
+			justify-content: left;
+			font-size: 20px;
+		}
+		p{
+			font-family: Helvetica;
+			font-size: 25px;
+			padding: 5px 0;
+		}
+		.message{
+			font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+			font-size: 25px;
+			font-style: italic;
+		}
+	
+	</style>
+</head>
+<body id="body" >
+     <div id="conteneur">
+
+        <div id="entete">Entête</div>
+        <div id="entreprise">
+            <p style="text-align: left;">Société Missi Mawu Sarl</p>
+            <p style="text-align: left;">Cotonou- Sainte Rita</p>
+            <p style="text-align: left;">69507645/99244545</p>
+            <p style="text-align: left;">contact@gmail.com</p>
+        </div>
+        <div id="adresse1">
+            <p style="text-align: right;">Date : 06/04/2023</p> 
+            <p style="text-align: right;">Facture Numéro : FA001</p> 
+            <p style="text-align: right;">Client : Synthia G.</p> 
+            <p style="text-align: right;">Adresse Client : Porto novo</p> 
+            <p style="text-align: right;">Téléphone Client : 99999999</p> 
+        </div>
+       
+        <div id="vente">
+            <table class="tableau-style">
+                <thead>
+                    <tr>
+                        <th>Description</th>
+                        <th>Quantité</th>
+                        <th>Unité</th>
+                        <th>Prix unitaire HT</th>
+                        <th>TVA</th>
+                        <th>Total TVA</th>
+                        <th>Total TTC</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Contenu</td>
+                        <td>Contenu</td>
+                        <td>Contenu</td>
+                        <td>Contenu</td>
+                        <td>Contenu</td>
+                        <td>Contenu</td>
+                        <td>Contenu</td>
+                    </tr>
+                    <tr>
+                        <td>Contenu</td>
+                        <td>Contenu</td>
+                        <td>Contenu</td>
+                        <td>Contenu</td>
+                        <td>Contenu</td>
+                        <td>Contenu</td>
+                        <td>Contenu</td>
+                    </tr>
+                    <tr>
+                        <td>Contenu</td>
+                        <td>Contenu</td>
+                        <td>Contenu</td>
+                        <td>Contenu</td>
+                        <td>Contenu</td>
+                        <td>Contenu</td>
+                        <td>Contenu</td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="message">
+                <strong>MERCI POUR VOTRE CONFIANCE !</strong>
+            </div>    
+        </div>
+        <footer>
+            <div class="contenu-footer">
+                Pied de Page
+            </div>
+           
+        </footer>
+
+     </div>
+</body>
+</html>

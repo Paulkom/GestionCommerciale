@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Point des encaissements sur une période</title>
+    <style>
+        body{
+            background-color: #F6F6F6;
+            margin: 0;
+            padding: 0;
+        }
+        h1,h2,h3,h4,h5,h6{
+            : 0;
+            padding: 0;
+        }
+        p{
+            margin: 0;
+            padding: 0;
+        }
+        .container{
+            width: 200%;
+            margin-right: auto;
+            margin-left: auto;
+            background-color: white;
+            margin-bottom: 0px !important;
+        }
+        .brand-section{
+            background-color: white !important;
+            border-bottom: 1px solid #26a69a;
+            padding: 10px 40px;
+        }
+        .brand-section h2, .brand-section p{
+            color: black;
+        }
+        .tablehead {
+            background-color: #26a69a;
+        }
+        .logo{
+            width: 50%;
+        }
+        .row{
+            display: flex;
+            flex-wrap: wrap;
+        }
+        .bon {
+            border:1px solid rgb(230, 230, 230);
+            border-top-color: white;
+            border-collapse:collapse;
+        }
+        .col-6{
+            width: 30%;
+            flex: 0 0 auto;
+        }
+        .text-white{
+            color: #fff;
+        }
+        .company-details{
+            float: right;
+            text-align: right;
+        }
+        .body-section{
+            padding: 20px 50px;
+            /* border: 1px solid gray; */
+            background-color : white;
+        }
+        .heading{
+            font-size: 20px;
+            margin-bottom: 08px;
+        }
+        .sub-heading{
+            color: #262626;
+            margin-bottom: 05px;
+        }
+        table{
+            background-color: #fff;
+            width: 100%;
+            border-collapse: collapse;
+        }
+        table thead tr{
+            border: 1px solid #111;
+            background-color: #f2f2f2;
+        }
+        table td {
+            vertical-align: middle !important;
+            text-align: center;
+        }
+        table th, table td {
+            padding-top: 08px;
+            padding-bottom: 08px;
+            font-size:12px;
+        }
+        .table-bordered{
+            box-shadow: 0px 0px 5px 0.5px gray;
+        }
+        .table-bordered td, .table-bordered th {
+            border: 1px solid #dee2e6;
+        }
+        .text-right{
+            text-align: end;
+        }
+        .w-20{
+            width: 20%;
+        }
+        .float-right{
+            float: right;
+        }
+    </style>
+</head>
+    <body style="background-color: white;">
+        <div class="container">
+            <div class="section">
+                 <table style="width: 100%;">
+                    <tbody>
+                        <tr> 
+                            <td style="text-align: left;  width: 100%; padding: 3px 1px;"> 
+                               <p><img alt="entete" style="width: 100%;" src="{{asset('uploads/medias/societe/' ~ societe.entete.id ~ "." ~ societe.entete.extension )}}"></p> 
+                            </td> 
+                        </tr> 
+                    </tbody>
+                </table> 
+                <div class="section">
+                    <div style="margin-left: 10px;" class="row">
+                        <table style="width: 100%;">
+                            <tr style="margin-left: 10px;">  
+                                <td style="text-align: right;" > 
+                                    {{ (societe.lieuImpression is defined and societe.lieuImpression is not null) ? societe.lieuImpression ~ " le, " ~  "now" | date("d/m/Y") : " Date : " ~ "now" | date("d/m/Y") }}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="text-align: left; "  >
+                                    <p class="sub-heading"> 
+                                        <b style="font-size: 14px; color: #383737; ">Point des encaissements sur une période</b>
+                                    </p>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+                <div style="margin-left: 10px; margin-right: 10px;">
+                    <hr align="center" style=" height:2px;  color: yellow; margin: 2px 0px 10px 0px;border-width:2px; border: thick double #32a1ce;" >
+                </div>
+                <table class="table-bordered">
+                   <thead>
+                       <tr class="text-start text-gray-400 fw-bolder fs-7 text-uppercase gs-0">
+                            <th class="min-w-125px">Ref. paiement</th>
+                            <th class="min-w-125px">Ref. Facture</th>
+                            <th class="min-w-125px">Date paiement</th>
+                            <th class="min-w-125px">Date Commande</th>
+                            <th class="min-w-125px">Client</th>
+                            <th class="min-w-125px" style="width:10%;">Montant dû<br>(FCFA)</th>
+                            <th class="min-w-125px" style="width:10%;">Montant payé<br>(FCFA)</th>
+                            <th class="min-w-125px" style="width:10%;">Reste à payer<br>(FCFA)</th>
+                            <th class="min-w-125px">Mode paiement</th>
+                        </tr>
+                    </thead>
+                    <tbody class="fw-semibold text-gray-600">
+                    {% set totalPaye = 0 %}
+                    {% set total = 0 %}
+                    {% set totalreste = 0 %}
+                        {% for item in donnees[0] %}
+                        {% set total = total + (item["montantPaye"] +  item["montantRAPayer"]) %}
+                        {% set totalreste = totalreste + item["montantRAPayer"] %}
+                        {% set totalPaye = totalPaye + item["montantPaye"] %}
+                            <tr class="">
+                                <td class="min-w-125px">{{ item["refPaie"] }}</td>
+                                <td class="min-w-125px">{{ item["refCom"]}}</td>
+                                <td class="min-w-125px">{{ item["datePaie"] |date("d-m-Y") }}</td>
+                                <td class="min-w-125px">{{ item["dateCom"] |date("d-m-Y") }}</td>
+                                <td class="min-w-125px" align="left" style="padding-left: 10px;">{{ item["client"]}}</td>
+                                <td class="min-w-125px" align="right" style="padding-right: 10px;">{{ (item["montantPaye"] +  item["montantRAPayer"])  |number_format(2, '.', ' ')}}</td>
+                                <td class="min-w-125px" align="right" style="padding-right: 10px;">{{ item["montantPaye"]  |number_format(2, '.', ' ')}}</td>
+                                <td class="min-w-125px" align="right" style="padding-right: 10px;">{{ item["montantRAPayer"] |number_format(2, '.', ' ') }}</td>
+                                <td class="min-w-125px">{{ item["libelle"] }}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                      <tfoot> 
+                        
+                        <tr class="">
+                            <th class="min-w-125px" style="padding-right: 10px;" align="right" colspan= "7">Total Encaissé des commandes du jours</th>
+                             <td class="min-w-125px element" align="right" style="padding-right: 10px;" colspan= "2">{{ (totalPaye - donnees[3]) |number_format(2, '.', ' ') }}</td>
+                        </tr>
+                        <tr class="">
+                            <th class="min-w-125px" style="padding-right: 10px;" align="right" colspan= "7">Total Encaissé des commandes antérieurs</th>
+                             <td class="min-w-125px element" align="right" style="padding-right: 10px;" colspan= "2">{{ donnees[3] |number_format(2, '.', ' ') }}</td>
+                        </tr>
+                        <tr class="">
+                            <th class="min-w-125px" style="padding-right: 10px;" align="right" colspan= "7">Total Encaissé</th>
+                             <td class="min-w-125px element" style="padding-right: 10px;" align="right" colspan= "2">{{ totalPaye |number_format(2, '.', ' ') }}</td>
+                        </tr>
+                       {# <tr class="">
+                            <th class="min-w-125px" style="padding-right: 10px;"  align="right" colspan="6">{{ "Reste à payer" }}</th>
+                            <td class="min-w-125px element" align="right" style="padding-right: 10px;" colspan="2" >{{ totalreste|number_format(2, '.', ' ') }}</td>
+                         </tr>
+                        <tr class="">
+                            <th class="min-w-125px" style="padding-right: 10px;"  align="right" colspan="6">{{ "Total Dépense" }}</th>
+                            <td class="min-w-125px element" align="right" style="padding-right: 10px;" colspan="2" >{{ donnees[1]|number_format(2, '.', ' ') }}</td>
+                         </tr>
+                    </tfoot> #}
+                </table>
+                <table class="bon">
+                    <tbody>
+                        <tr >
+                            <th class="min-w-125px bon" colspan="2"> Fond de caisse</th>
+                            <th class="min-w-125px bon"> Total Vente</th>
+                            <th class="min-w-125px bon" colspan="2"> Total Encaissé</th>
+                            <th class="min-w-125px bon" colspan="2"> Reste à payer</th>
+                            <th class="min-w-125px bon"> Dépense</th>
+                            <th class="min-w-125px bon"> Solde</th>
+                        </tr>
+                        <tr>
+                            <td class="min-w-125px bon"  colspan="2">{{ donnees[2] |number_format(2, '.', ' ') }}</td>
+                            <td class="min-w-125px bon">{{ total |number_format(2, '.', ' ') }}</td>
+                            <td class="min-w-125px bon" colspan="2">{{ totalPaye |number_format(2, '.', ' ') }}</td>
+                            <td class="min-w-125px bon" colspan="2">{{ totalreste|number_format(2, '.', ' ') }}</td>
+                            <td class="min-w-125px bon">{{ donnees[1]|number_format(2, '.', ' ') }}</td>
+                            <td class="min-w-125px bon">{{ (donnees[2] + totalPaye - donnees[1]) |number_format(2, '.', ' ') }}</td>
+                        </tr>
+                    <tbody>
+                </table>
+            </div>
+        </div>
+    </body>
+</html>

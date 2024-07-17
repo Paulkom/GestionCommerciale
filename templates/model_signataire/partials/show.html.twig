@@ -1,0 +1,46 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}ModelSignataire{% endblock %}
+
+{% block body %}
+    <h1>ModelSignataire</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ model_signataire.id }}</td>
+            </tr>
+            <tr>
+                <th>EstTaxable</th>
+                <td>{{ model_signataire.estTaxable ? 'Yes' : 'No' }}</td>
+            </tr>
+            <tr>
+                <th>Code</th>
+                <td>{{ model_signataire.code }}</td>
+            </tr>
+            <tr>
+                <th>Libelle</th>
+                <td>{{ model_signataire.libelle }}</td>
+            </tr>
+            <tr>
+                <th>CreatedAt</th>
+                <td>{{ model_signataire.createdAt ? model_signataire.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>UpdatedAt</th>
+                <td>{{ model_signataire.updatedAt ? model_signataire.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>DeletedAt</th>
+                <td>{{ model_signataire.deletedAt ? model_signataire.deletedAt|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_model_signataire_index') }}">back to list</a>
+
+    <a href="{{ path('app_model_signataire_edit', {'id': model_signataire.id}) }}">edit</a>
+
+    {{ include('model_signataire/_delete_form.html.twig') }}
+{% endblock %}

@@ -1,0 +1,216 @@
+{{ form_start(form) }}
+    <div class="d-flex flex-column gap-5">
+        <div class="form-group row">
+            <div class="col  fv-row box d-flex flex-column justify-content-center align-items-start">
+                <label class="form-check form-check-sm form-check-custom form-check-solid float-start">
+                    {{ form_widget(form.estRegimeTPS) }}
+                    <span class="form-check-label">
+                        {{ form.estRegimeTPS.vars.label }}
+                    </span>
+                </label>
+            </div>
+            <div class="col  fv-row box d-flex flex-column justify-content-center align-items-start">
+                <label class="form-check form-check-sm form-check-custom form-check-solid float-start">
+                    {{ form_widget(form.estModeMecef) }}
+                    <span class="form-check-label">
+                        {{ form.estModeMecef.vars.label }}
+                    </span>
+                </label>
+            </div>
+            <div class="col-md-6 fv-row">
+                {{ form_label(form.sigle) }}
+                {{ form_widget(form.sigle) }}
+            </div> 
+        </div>
+        <div class="form-group row">
+            <div class="col fv-row">
+                {{ form_label(form.denomination) }}
+                {{ form_widget(form.denomination) }}
+            </div>
+            <div class="col fv-row">
+                {{ form_label(form.raisonSociale) }}
+                {{ form_widget(form.raisonSociale) }}
+            </div>
+        </div>
+        <div class="form-group row">
+            <div class="col fv-row">
+                {{ form_label(form.rccm) }}
+                {{ form_widget(form.rccm) }}
+            </div>
+            <div class="col fv-row">
+                {{ form_label(form.ifu) }}
+                {{ form_widget(form.ifu) }}
+            </div>
+            <div class="col fv-row">
+                {{ form_label(form.telephone) }}
+                {{ form_widget(form.telephone) }}
+            </div>
+        </div>
+        <div class="form-group row">
+            <div class="col fv-row">
+                {{ form_label(form.adresse) }}
+                {{ form_widget(form.adresse) }}
+            </div>
+            <div class="col fv-row">
+                {{ form_label(form.messageCommercial) }}
+                {{ form_widget(form.messageCommercial) }}
+            </div>
+            <div class="col-md-4 fv-row">
+                {{ form_label(form.lieuImpression) }}
+                {{ form_widget(form.lieuImpression) }}
+            </div>
+        </div>
+        <div class="form-group row">
+            <div class="cursor-pointer col fv-row">
+                {{ form_label(form.logo.file,"Joindre le logo") }}
+                {{ form_widget(form.logo.file) }}
+                <div class="input-group media">
+                    {{ form_widget(form.logo.nomMedia) }}
+                    <span class="input-group-text" id="basic-addon2">
+                        Logo
+                    </span>
+                </div>
+            </div>
+            <div class="cursor-pointer fv-row col">
+                {{ form_label(form.entete.file,"Joindre l'entête") }}
+                {{ form_widget(form.entete.file) }}
+                <div class="input-group media">
+                    {{ form_widget(form.entete.nomMedia) }}
+                    <span class="input-group-text" id="basic-addon2">
+                        Entête
+                    </span>
+                </div>
+            </div>
+            <div class="cursor-pointer fv-row col">
+                {{ form_label(form.piedDePage.file,"Joindre le pied de page") }}
+                {{ form_widget(form.piedDePage.file) }}
+                <div class="input-group media">
+                    {{ form_widget(form.piedDePage.nomMedia) }}
+                    <span class="input-group-text" id="basic-addon2">
+                        Pied De Page
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div class="form-group row">
+            <div class="col fv-row">
+                {{ form_label(form.apiLink) }}
+                {{ form_widget(form.apiLink) }}
+            </div>
+            <div class="col-md-5 fv-row">
+                {{ form_label(form.apiNim) }}
+                {{ form_widget(form.apiNim) }}
+            </div>
+        </div>
+        <div class="form-group row">
+            <div class="col fv-row">
+                {{ form_label(form.apiToken) }}
+                {{ form_widget(form.apiToken) }}
+            </div>
+        </div>
+
+        <div class="col-md-4 d-none ">
+            {{ form_label(form.logo.numMedia) }}
+            {{ form_widget(form.logo.numMedia) }}
+        </div>
+        <div class="col-md-4 d-none ">
+            {{ form_label(form.entete.numMedia) }}
+            {{ form_widget(form.entete.numMedia) }}
+        </div>
+        <div class="col-md-4 d-none ">
+            {{ form_label(form.piedDePage.numMedia) }}
+            {{ form_widget(form.piedDePage.numMedia) }}
+        </div>
+
+        <div class="py-5">
+        <div class="rounded border p-2">
+            <ul class="nav nav-tabs nav-line-tabs nav-line-tabs-2x border-transparent fs-4 fw-semibold mb-5" role="tablist">
+                
+
+                <!--begin:::Tab item-->
+                <li class="nav-item" role="presentation">
+                    <a class="nav-link text-active-primary pb-2 active" data-bs-toggle="tab" href="#kt_banque" aria-selected="false" role="tab" tabindex="-1">
+                        Comptes bancaires
+                    </a>
+                </li>
+                <!--end:::Tab item-->
+                <!--begin:::Tab item-->
+                {# <li class="nav-item" role="presentation">
+                    <a class="nav-link text-active-primary pb-2" data-bs-toggle="tab" href="#kt_mecef" aria-selected="true" role="tab">
+                        Informations Mecef
+                    </a>
+                </li> #}
+                <!--end:::Tab item-->
+            </ul>
+
+            <div class="tab-content" id="myTabContent">
+                <!--begin:::Tab pane-->
+                <div class="tab-pane fade active show clearfix" id="kt_banque" role="tabpanel">
+                    {% set prefix = 'collection-form___' ~ form.comptesBQ.vars.name ~ '__' %}
+                    <div class="row collection-form"
+                        data-collection-key = "__{{ form.comptesBQ.vars.name }}__"
+                        data-collection-prefix="{{ prefix }}"
+                        data-index="{{ form.comptesBQ|length > 0 ? form.comptesBQ|last.vars.name + 1 : 0 }}"
+                        data-prototype="{% autoescape 'html' %}{{ include('societe/partials/_compteBQ.prototype.html.twig',
+                            { 'form': form.comptesBQ.vars.prototype, 'class':'compteBanque', 'prefix':prefix })|escape }}{% endautoescape %}">
+                        {% for key,m in form.comptesBQ %}
+                            <div class="ligne form-child" data-index="{{ key }}" id="{{ 'collection-form_' ~ key }}">
+                                {{ include('societe/partials/_compteBQ.prototype.html.twig',
+                                    { 'form': m, 'class':'compteBanque', 'prefix':'collection-form_' ~ key }) }}
+                            </div>
+                        {% endfor %}
+                    </div>
+
+                    <div class="form-group mb-3 col mt-2">
+                        <a href="javascript:;" class="btn btn-success add_item_link"
+                        data-collection-holder-class="collection-form">
+                            <i class="la la-plus"></i>Ajouter un compte
+                        </a>
+                    </div>
+                </div>
+                <!--end:::Tab pane-->
+
+                <!--begin:::Tab pane-->
+                <div class="tab-pane fade clearfix p-5" id="kt_mecef" role="tabpanel">
+                </div>
+                <!--end:::Tab pane-->
+            </div>
+        </div>
+    </div>
+
+
+        {# <ul class="nav nav-tabs nav-line-tabs mb-1 fs-6">
+            <li class="nav-item">
+                <a class="nav-link active" data-bs-toggle="tab" href="#compteBancaire">Comptes bancaires</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" data-bs-toggle="tab" href="#informationMecef">Information Mecef</a>
+            </li>
+        </ul>
+
+        <div class="tab-content" id="myTabContent">
+            <div class="tab-pane fade show active" id="compteBancaire" role="tabpanel">
+
+                
+
+            </div>
+        </div> #}
+       
+
+        <div class="separator mb-3"></div>
+        <div class="d-flex justify-content-end">
+            <!--begin::Button-->
+            <button type="reset" data-kt-cond-type="cancel" class="btn btn-light me-3">Vider</button>
+            <!--end::Button-->
+            <!--begin::Button-->
+            <button type="submit" id="condi_submit" data-kt-cond-type="submit" class="btn btn-primary">
+                <span class="indicator-label">Enregistrer</span>
+                <span class="indicator-progress">Veuillez patienter svp...
+                    <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
+                </span>
+            </button>
+            <!--end::Button-->
+        </div>
+    </div>
+{{ form_end(form) }} 
+

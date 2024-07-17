@@ -1,0 +1,174 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Statistique des ventes{% endblock %}
+
+{% block body %}
+    <div class="content d-flex flex-column flex-column-fluid" id="kt_content">
+        <!--begin::Toolbar-->
+        <div class="toolbar" id="kt_toolbar">
+            <!--begin::Container-->
+            <div id="kt_toolbar_container" class="container-fluid d-flex flex-stack">
+                <!--begin::Page title-->
+                <div data-kt-swapper="true" data-kt-swapper-mode="prepend" data-kt-swapper-parent="{default: '#kt_content_container', 'lg': '#kt_toolbar_container'}" class="page-title d-flex align-items-center flex-wrap me-3 mb-5 mb-lg-0">
+                    <!--begin::Title-->
+                    <h1 class="d-flex text-dark fw-bolder fs-3 align-items-center my-1">Statistique des ventes</h1>
+                    <!--end::Title-->
+                    <!--begin::Separator-->
+                    <span class="h-20px border-gray-300 border-start mx-4"></span>
+                    <!--end::Separator-->
+                    <!--begin::Breadcrumb-->
+                    <ul class="breadcrumb breadcrumb-separatorless fw-bold fs-7 my-1">
+                        <!--begin::Item-->
+                        <li class="breadcrumb-item text-muted">
+                            <a href="{{ path('app_admin_dashboard') }}" class="text-muted text-hover-primary">Accueil</a>
+                        </li>
+                        <!--end::Item-->
+                        <!--begin::Item-->
+                        <li class="breadcrumb-item">
+                            <span class="bullet bg-gray-300 w-5px h-2px"></span>
+                        </li>
+                        <!--end::Item-->
+                        <!--begin::Item-->
+                        <li class="breadcrumb-item text-muted">Etat et Statistiques</li>
+                        <!--end::Item-->
+                        <!--begin::Item-->
+                    </ul>
+                    <!--end::Breadcrumb-->
+                </div>
+                <!--end::Page title-->
+                <div class=" menu menu-lg-rounded menu-column menu-lg-row menu-state-bg menu-title-gray-700 menu-state-title-primary menu-state-icon-primary menu-state-bullet-primary menu-arrow-gray-400 fw-bold my-5 my-lg-0 align-items-stretch"
+                    style="width : auto !important;"
+                        id="#kt_header_menu" data-kt-menu="true">
+                        <div data-kt-menu-trigger="click" data-kt-menu-placement="bottom-start"
+                             class="menu-item here show menu-lg-down-accordion me-lg-1">
+                            <span class="menu-link py-3">
+                                <span class="menu-title">Sélectionner  une option dans la liste </span>
+                                <span class="menu-arrow d-lg-none"></span>
+                            </span>
+                            <div class="menu-sub menu-sub-lg-down-accordion menu-sub-lg-dropdown menu-rounded-0 py-lg-4 w-lg-225px">
+                                <div class="menu-item mb-1">
+                                    <a href="javascript:void(0)" class="menu-link p-2 kt-menu-proto active" id="point_commande" onclick="activateMenu(this);"
+                                        data-content="{% autoescape 'html' %}{{ include('etat_statistique/stat_vente/contenu/sous/point_commande.html.twig', {'idMenu':'point_commande'})|escape }}{% endautoescape %}">
+                                        <span class="menu-icon">
+                                            <i class="bi bi-list fs-1"></i>
+                                        </span>
+                                        <span class="menu-title">Point des commande</span>
+                                    </a>
+                                </div>
+                                {# <div class="menu-item mb-1">
+                                    <a href="javascript:void(0)" class="menu-link p-2 kt-menu-proto active" id="point_encaissements_periode" onclick="activateMenu(this);"
+                                        data-content="{% autoescape 'html' %}{{ include('etat_statistique/stat_vente/contenu/sous/point_encaissements_periode.html.twig', {'idMenu':'point_encaissements_periode'})|escape }}{% endautoescape %}">
+                                        <span class="menu-icon">
+                                            <i class="bi bi-list fs-1"></i>
+                                        </span>
+                                        <span class="menu-title">Point des encaissements</span>
+                                    </a>
+                                </div #}
+                                <div class="menu-item">
+                                    <a href="javascript:void(0)" class="menu-link p-2 kt-menu-proto" id="liste_ventes_periode" onclick="activateMenu(this);"
+                                        data-content="{% autoescape 'html' %}{{ include('etat_statistique/stat_vente/contenu/sous/liste_ventes_periode.html.twig', {'idMenu':'liste_ventes_periode'})|escape }}{% endautoescape %}">
+                                        <span class="menu-icon">
+                                            <i class="bi bi-list fs-1"></i>
+                                        </span>
+                                        <span class="menu-title">Liste des ventes d’une période</span>
+                                    </a>
+                                </div>
+
+                                    <div class="menu-item">
+                                    <a href="javascript:void(0)" class="menu-link p-2 kt-menu-proto" id="liste_livraisons_periode" onclick="activateMenu(this);"
+                                        data-content="{% autoescape 'html' %}{{ include('etat_statistique/stat_vente/contenu/sous/liste_livraisons_periode.html.twig', {'idMenu':'liste_livraisons_periode'})|escape }}{% endautoescape %}">
+                                        <span class="menu-icon">
+                                            <i class="bi bi-list fs-1"></i>
+                                        </span>
+                                        <span class="menu-title">Liste des livraisons d’une période</span>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                </div>
+            </div>
+            <!--end::Container-->
+        </div>
+        <!--end::Toolbar-->
+        <div class="post d-flex flex-column-fluid" id="kt_post">
+            <div id="kt_content_container" class="container d-flex flex-column flex-lg-row">
+                    <!--begin::Sidebar wrapper-->
+                        {# <div class="me-5 flex-row-auto w-lg-200px ">
+                            <!--begin::Sidebar nav-->
+                            <div class="card card-flush d-none d-lg-flex" data-kt-sticky="true" data-kt-sticky-name="sidebar-navs" data-kt-sticky-offset="{default: false, lg: 200}" data-kt-sticky-width="200px" data-kt-sticky-left="auto" data-kt-sticky-top="100px" data-kt-sticky-zindex="95" style="animation-duration: 0.3s;">
+                                <!--begin::Card body-->
+                                <div class="card-body px-0 px-2 py-6">
+                                        <div class="menu menu-rounded menu-column menu-title-gray-700 menu-icon-gray-400 menu-arrow-gray-400 menu-bullet-gray-400 menu-arrow-gray-400 menu-state-bg fw-bold " data-kt-menu="true">
+                                            <!--begin::Menu item-->
+                                            <div class="menu-item mb-1">
+                                                <a href="javascript:void(0)" class="menu-link p-2 kt-menu-proto active" id="point_encaissements_periode" onclick="activateMenu(this);"
+                                                    data-content="{% autoescape 'html' %}{{ include('etat_statistique/point_encaissements_periode.html.twig', {'idMenu':'point_encaissements_periode'})|escape }}{% endautoescape %}">
+                                                    <span class="menu-icon">
+                                                        <i class="bi bi-list fs-1"></i>
+                                                    </span>
+                                                    <span class="menu-title">Point des encaissements</span>
+                                                </a>
+                                            </div>
+                                            <!--end::Menu item-->
+                                            <!--begin::Menu item-->
+                                            <div class="menu-item">
+                                                <a href="javascript:void(0)" class="menu-link p-2 kt-menu-proto" id="point_caisse" onclick="activateMenu(this);"
+                                                    data-content="{% autoescape 'html' %}{{ include('etat_statistique/point_caisse.html.twig', {'idMenu':'point_caisse'})|escape }}{% endautoescape %}">
+                                                    <span class="menu-icon">
+                                                        <i class="bi bi-list fs-1"></i>
+                                                    </span>
+                                                    <span class="menu-title">Point de la caisse</span>
+                                                </a>
+                                            </div>
+                    
+                                            <div class="menu-item">
+                                                <a href="javascript:void(0)" class="menu-link p-2 kt-menu-proto" id="liste_ventes_periode" onclick="activateMenu(this);"
+                                                    data-content="{% autoescape 'html' %}{{ include('etat_statistique/liste_ventes_periode.html.twig', {'idMenu':'liste_ventes_periode'})|escape }}{% endautoescape %}">
+                                                    <span class="menu-icon">
+                                                        <i class="bi bi-list fs-1"></i>
+                                                    </span>
+                                                    <span class="menu-title">Liste des ventes d’une période</span>
+                                                </a>
+                                            </div>
+
+                                             <div class="menu-item">
+                                                <a href="javascript:void(0)" class="menu-link p-2 kt-menu-proto" id="liste_livraisons_periode" onclick="activateMenu(this);"
+                                                    data-content="{% autoescape 'html' %}{{ include('etat_statistique/liste_livraisons_periode.html.twig', {'idMenu':'liste_livraisons_periode'})|escape }}{% endautoescape %}">
+                                                    <span class="menu-icon">
+                                                        <i class="bi bi-list fs-1"></i>
+                                                    </span>
+                                                    <span class="menu-title">Liste des livraisons d’une période</span>
+                                                </a>
+                                            </div>
+                                        </div>
+                                </div>
+                                <!--end::Card body-->
+                            </div>
+                            <!--end::Sidebar nav-->
+                        </div>#}
+                        <div class="col flex-row-fluid" data-call-form="ajax">
+                            {# {{ form|raw }} #}
+                        </div>
+                {# </div> #}
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    
+    <script type="text/javascript">
+        function datedate() {
+            console.log("Application des date");
+            var d = new Date();
+            var strDate =  (d.getFullYear())+ "-" + ('0'+(d.getMonth()+1)).slice(-2) + "-" +('0'+d.getDate()).slice(-2) ;
+            $("input[type='date']").val(strDate);
+        }
+        if (window.addEventListener)
+            window.addEventListener("load", downloadJSAtOnload, false);
+        else if (window.attachEvent)
+            window.attachEvent("onload", downloadJSAtOnload);
+        else window.onload = downloadJSAtOnload;
+    </script>
+{% endblock %}

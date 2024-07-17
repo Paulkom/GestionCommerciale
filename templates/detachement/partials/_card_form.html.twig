@@ -1,0 +1,65 @@
+<div  id="newform">
+{{ form_start(form) }}
+<div class="card shadow-sm">
+    <div class="card-header pt-7">
+        <div class="row">
+            <div class="mb-5 fv-row  col-6">
+                {{ form_label(form.dateDet) }}
+                {{ form_widget(form.dateDet) }}
+                {# <div class="fv-plugins-message-container invalid-feedback"></div> #}
+            </div>
+            <div class="mb-5 fv-row col-6">
+                {{ form_label(form.magasin) }}
+                {{ form_widget(form.magasin) }}
+                {# <div class="fv-plugins-message-container invalid-feedback"></div> #}
+            </div>
+        </div>
+    </div>
+    <div class="card-body">
+        {% set prefix = 'collection-form___' ~ form.produitDetachers.vars.name ~ '__' %}
+        <div class="magasin collection-form"
+            data-collection-key = "__{{ form.produitDetachers.vars.name }}__"
+            data-collection-prefix="{{ prefix }}"
+            data-index="{{ form.produitDetachers|length > 0 ? form.produitDetachers|last.vars.name + 1 : 0 }}"
+            data-prototype="{% autoescape 'html' %}{{ include('detachement/partials/_produit_detacher.prototype.html.twig',
+            { 'form': form.produitDetachers.vars.prototype, 'class':'ProduitDetachers' })|escape }}{% endautoescape %}">
+            {% if form.produitDetachers | length > 0 %}
+                {% for key, p in form.produitDetachers %}
+                    {% if key > 0 %}
+                        {% set length = form.produitDetachers|length %}
+                        {{ include('detachement/partials/_produit_detacher.prototype.html.twig',
+                            { 'form': p, 'length':length }) }}
+                    {% else %}
+                        {{ include('detachement/partials/_produit_detacher.prototype.html.twig',
+                            { 'form': p }) }}
+                    {% endif %}
+                {% endfor %}
+            {% else %}
+                {{ form_row(form.produitDetachers) }}
+            {% endif %}  
+        </div>
+        <div class="form-group mt-3">
+            <button  class="btn btn-sm btn-light-primary add_item_link" disabled="disabled" data-collection-holder-class="collection-form">
+                <i class="la la-plus"></i>Ajouter un produit
+            </button>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <div class="d-flex justify-content-end">
+            <!--begin::Button-->
+            <button type="reset" data-kt-cond-type="cancel" class="btn btn-light me-3">Vider</button>
+            <!--end::Button-->
+            <!--begin::Button-->
+            <button type="submit" disabled="disabled" id="com_submit" data-kt-cond-type="submit" class="btn btn-primary">
+                <span class="indicator-label"> <i class="fa fa-plus"></i> Enregistrer</span>
+                <span class="indicator-progress">Veuillez patienter svp...
+                    <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
+                </span>
+            </button>
+            <!--end::Button-->
+        </div>
+    </div>
+</div>
+{{ form_end(form) }}
+        
+</div>

@@ -1,0 +1,248 @@
+<div class="row">
+
+    <span style=" width:100%;  ">
+        <div style="height: 90%;">
+            {# *********// Titre //******** #}
+            <table style="width: 100%;padding: 3px 1px;">
+                <tbody>
+                    <tr> 
+                        <td style="text-align: left; height: 100px; width: 100%; padding: 3px 1px;"> Salutation<img style="border: 1px solid #ddd; border-radius: 4px; padding: 5px; width: 75px" src="../2.png"/> </td> 
+                    </tr> 
+                </tbody>
+            </table>
+
+           {# <div style="margin-left: 100px; margin-right: 100px;">
+             <img style="width: 100%;" src="..\public\sogema\assets\img\drapeau_bar.png"/>  #}
+                {# <hr align="center" style=" height:2px; color: black; margin: 20px 0px 10px 0px;border-width:2px; border: thick double #32a1ce;" > #}
+            {# </div> #}
+            <div class="body-section">
+                <div style="margin-left: 10px;" class="row">
+                    <table style="width: 100%;">
+                        <tr style="margin-left: 10px;">
+                            <td style="text-align: left; width: 45%; {% if format == "A6-P" %} font-size:9px; {% endif %} border: solid black;"  >
+                                <p>
+                                    <b class="heading">SOMIMAS</b> REF00000
+                                </p> 
+                                <p class="sub-heading"> 
+                                <b>IFU :</b>  {{ "0000000000000" }}
+                                </p> 
+                            </td>
+                            <td style="text-align: left; width: 5%;"></td>  
+                            <td style="text-align: left; width: 45%; border: solid black;{% if format == "A6-P" %} font-size: 9px; {% endif %} "> 
+                                <p class="sub-heading"> 
+                                    <b>RECU DE VENTE</b>
+                                </p>
+                                <p class="sub-heading"> 
+                                    <b>Reçu n° :</b>  {{ paiement.refPaie }}
+                                </p>
+                                <p class="sub-heading"> 
+                                    <b>Facture n° :</b>  {{ paiement.facture.refFac }}
+                                </p>
+                                <p class="sub-heading"> 
+                                    <b>Date :</b>  {{ paiement.datePaie | date("d-m-Y") }}
+                                </p>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            {# *********// Entête  //******** #}
+            <div class="body-section">
+                <div style="margin-left: 10px;" class="row">
+                    <table style="width: 100%;">
+                        <tr style="margin-left: 10px;">
+                            <td style="text-align: left; width: 45%; {% if format == "A6-P" %} font-size: 9px; {% endif %}" >
+                                <p class="sub-heading"> 
+                                    Adresse : {{ "Zogbadjè" }} 
+                                </p>
+                                <p class="sub-heading"> 
+                                    Contact :  {{ "00000000" }}
+                                </p> 
+                            </td>
+                            <td style="text-align: left; width: 5%; "></td> 
+                            {% if paiement.facture.commandeCli.acheteur.statut == "Physique" %} 
+                                <td style="text-align: left; width: 45%;   ">
+                                    <table style="width: 100%; ">
+                                        <thead>
+                                            <tr style="margin-left: 10px;">
+                                                <th style="background-color: #F6F1F1; ">
+                                                    CLIENT
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td style="{% if format == "A6-P" %} font-size: 9px; {% endif %}"> 
+                                                    <p class="sub-heading"> 
+                                                        Nom Clt : {{ paiement.facture.commandeCli.acheteur.nom }}
+                                                    </p>
+                                                    <p class="sub-heading"> 
+                                                        Prénom Clt :  {{ paiement.facture.commandeCli.acheteur.prenom }}
+                                                    </p> 
+                                                    {% if paiement.facture.commandeCli.acheteur.ifu is not null %} 
+                                                        <p class="sub-heading"> 
+                                                            <b>IFU :</b>  {{ paiement.facture.commandeCli.acheteur.ifu }}
+                                                        </p> 
+                                                    {% endif %} 
+                                                    <p class="sub-heading"> 
+                                                        Contacts : {{ paiement.facture.commandeCli.acheteur.telephone1 }}
+                                                    </p>
+                                                </td>
+                                            </tr>
+                                        </tbody>  
+                                    </table> 
+                                </td>
+                            {% else %}
+                                <td style="text-align: left; width: 45%;">
+                                    <table style="width: 100%;">
+                                        <thead>
+                                            <tr style="margin-left: 10px;">
+                                                <th style="{% if format == "A6-P" %} font-size: 9px; {% endif %}">
+                                                    CLIENT
+                                                </th>
+                                            </tr>
+                                        </thead> 
+                                        <tbody>
+                                            <tr>
+                                                <td>
+                                                    <p class="sub-heading" style="{% if format == "A6-P" %} font-size: 9px; {% endif %}">
+                                                         Dénomination : {{ paiement.facture.commandeCli.acheteur.denomination }}
+                                                    </p>
+                                                    <p class="sub-heading" style="{% if format == "A6-P" %} font-size: 9px; {% endif %}">
+                                                         Sigle :  {{ paiement.facture.commandeCli.acheteur.sigle }}
+                                                    </p> 
+                                                    <p class="sub-heading"> 
+                                                        IFU :  {{ paiement.facture.commandeCli.acheteur.ifu }}
+                                                    </p> 
+                                                    <p class="sub-heading"> 
+                                                        Contacts : {{ paiement.facture.commandeCli.acheteur.telephone1 }}
+                                                    </p>
+                                                </td>
+                                            </tr>
+                                        </tbody>  
+                                    </table> 
+                                </td>
+                            {% endif %}
+                        </tr>
+                    </table>
+                </div>
+            </div>
+
+            <div style="margin-left: 10px; margin-right: 10px;">
+                <hr align="center" style=" height:2px; color: green; margin: 20px 0px 10px 0px;border-width:2px; border: thick double #32a1ce;" >
+            </div>
+            {# <hr style="height:1px; border-width:2px; color:gray; background-color:green"> #}
+                {# *********// Tableau de données //******** #}
+            <table style="width:100%;">
+                <thead> 
+                    <tr style="border: 1px solid #26a69a; border-color: red rgba(170, 50, 220, .6) green; margin-left: 10px;">
+                        <th style=" border: 1px solid #999; padding: 0.5rem;{% if format == "A6-P" %} font-size: 9px; {% endif %}"class="w-30 text-white" >Designation</th>
+                        <th style=" border: 1px solid #999; padding: 0.5rem;{% if format == "A6-P" %} font-size: 9px; {% endif %}" class="w-15 text-white">Qte</th>
+                        <th style=" border: 1px solid #999; padding: 0.5rem;{% if format == "A6-P" %} font-size: 9px; {% endif %}" class="w-15 text-white">P.U</th> 
+                        <th style=" border: 1px solid #999; padding: 0.5rem;{% if format == "A6-P" %} font-size: 9px; {% endif %}" class="w-15 text-white">REM.</th>
+                        <th style=" border: 1px solid #999; padding: 0.5rem;{% if format == "A6-P" %} font-size: 9px; {% endif %}" class="w-15 text-white">MT.</th> 
+                    </tr> 
+                </thead> 
+                <tbody> 
+                {% for c in paiement.facture.commandeCli.produitCondComClits  %}
+                    <tr> 
+                        <td style=" border: 1px solid #999; text-align:left;{% if format == "A6-P" %} font-size: 7px; {% endif %}">{{ c.produit.produit.nomProd }}</td>
+                        <td style=" border: 1px solid #999; text-align:center;{% if format == "A6-P" %} font-size: 7px; {% endif %}">{{c.qtite| number_format(2, ',', ' ')}}</td>
+                        <td style=" border: 1px solid #999; text-align:center;{% if format == "A6-P" %} font-size: 7px; {% endif %}">{{c.prix| number_format(2, ',', ' ')}}</td>
+                        <td style=" border: 1px solid #999; text-align:center;{% if format == "A6-P" %} font-size: 7px; {% endif %}">{{c.remise == null ? (0 | number_format(2, ',', ' ')) : c.remise| number_format(2, ',', ' ') }}</td>
+                        <td style=" border: 1px solid #999; text-align:center;{% if format == "A6-P" %} font-size: 7px; {% endif %}">{{c.montantHtAprRse| number_format(2, ',', ' ')}}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            {% if format != "A6-P" %} <br> {% endif %}
+
+            {# *********// Total //******** #}
+            <table style="  width:100%;">
+                <tbody>
+                {% if paiement.facture.commandeCli.typeRemise %}
+                    <tr>
+                        <th style = "border: 1px solid #26a69a;width:70%; {% if format == "A6-P" %} font-size: 9px; {% endif %} ">Montant Total</th>
+                        <td style="border: 1px solid #26a69a;text-align: right; width:30%;{% if format == "A6-P" %} font-size: 9px; {% endif %}">{{ paiement.facture.commandeCli.montantTotal| number_format(2, ',', ' ')}}</td>
+                    </tr>
+                    
+                        <tr>
+                            <th style = "border: 1px solid #26a69a;width:70%; {% if format == "A6-P" %} font-size: 9px; {% endif %} ">Remise global {{ "(" ~ paiement.facture.commandeCli.valeurRemise ~" "~ (paiement.facture.commandeCli.typeRemise) ~ ")" }}</th>
+                            <td style="border: 1px solid #26a69a;text-align: right; width:30%;{% if format == "A6-P" %} font-size: 9px; {% endif %}">{{paiement.facture.commandeCli.remise| number_format(2, ',', ' ')}}</td>
+                        </tr>
+                {% endif %}
+                    <tr>
+                        <th style = "border: 1px solid #26a69a;width:70%; {% if format == "A6-P" %} font-size: 9px; {% endif %}">Montant TTC</th>
+                        <td style="border: 1px solid #26a69a;text-align: right; width:30%;{% if format == "A6-P" %} font-size: 9px; {% endif %}">{{paiement.facture.commandeCli.montantTtc| number_format(2, ',', ' ')}}</td>
+                    </tr>
+                </tbody>
+            </table>
+            <div style="margin-left: 10px; margin-right: 10px;">
+                <table style="  width:100%;"> 
+                    <tbody>
+                        <tr> 
+                            <th col-span="2" style = "border: 1px solid #26a69a; width:33%; {% if format == "A6-P" %} font-size: 9px; {% endif %} "> Mode : {{ paiement.modePaiement }} </th> 
+                        </tr>
+                        <tr>
+                            <td style = "border: 1px solid #26a69a; width:33%; {% if format == "A6-P" %} font-size: 9px; {% endif %} ">Montant Reçu : {{ paiement.montantRecu | number_format(2, ',', ' ')}}</td>
+                            <td style = "border: 1px solid #26a69a; width:33%;{% if format == "A6-P" %} font-size: 9px; {% endif %}"> Reliquat :{{ paiement.reliquat | number_format(2, ',', ' ')}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div style="margin-left: 10px; margin-right: 10px;">
+                <hr align="center" style=" height:2px;  color: yellow; margin: 20px 0px 10px 0px;border-width:2px; border: thick double #32a1ce;" >
+            </div>
+
+            <div class="body-section" >
+                <table style="margin-left: 20px;  width:100%; margin-right: 20px;" >
+                    <thead>
+                    <tr>
+                        <td style="text-align: left; width:20%; {% if format == "A6-P" %} font-size: 7px; {% endif %}" class="w-33">
+                            <p style="text-decoration: underline; width: 100%; height: 100px; background-color:red;">{{"Code QR"}} </p>
+                        </td>
+                        <td style="text-align: right; width: 70%; {% if format == "A6-P" %} font-size: 7px; {% endif %}" class="w-33">
+                            <p style="text-decoration: underline; ">{{"Info"}} </p>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>   
+            </div>
+            <div style="margin-left: 10px; margin-right: 10px;">
+                <hr align="center" style=" height:2px;  color: yellow; margin: 20px 0px 10px 0px;border-width:2px; border: thick double #32a1ce;" >
+            </div>
+            {# *********// Signature //******** #}
+            <div class="body-section" >
+                <table style="margin-left: 20px;  width:100%; margin-right: 20px;" >
+                    <thead>
+                    <tr>
+                        <td style="text-align: left; {% if format == "A6-P" %} font-size: 7px; {% endif %}" class="w-33">.+ 
+                            <p style="text-decoration: underline; ">{{"Signataire"}} </p>
+                        </td>
+                        <td  style="text-align: center; {% if format == "A6-P" %} font-size: 7px; {% endif %}" class="w-33">
+                            <p style="text-decoration: underline; ">{{"Signataire"}} </p>
+                        </td>
+                        <td style="text-align: right; {% if format == "A6-P" %} font-size: 7px; {% endif %}" class="w-33">
+                            <p style="text-decoration: underline; ">{{"Signataire"}} </p>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>   
+            </div>
+            <br>
+            <div style="margin-left: 30px;  width:100%; margin-right: 20px; {% if format == "A6-P" %} font-size: 7px; {% endif %}">
+                <p align="center">Merci</p>
+            </div>
+        </div>
+    </span>
+    {# <footer style="padding: 3px;  font-size: 0.75em; color: white; display: flex;">
+        <div style="text-align: right;  margin-left: 10px; margin-right: 10px;">
+            <div>
+                <a href="" style="color: black; text-decoration: none;">&nbsp;<i>IFU N° 3200800074012 - Cot. Rép. Du Bénin </i></a>
+                <strong style="color: black; text-decoration: underline;">Email:</strong>
+                <a href="" style="color: black; text-decoration: none;">&nbsp;sogematokpa@hotmail.com </a>
+                <hr align="center" style=" height:2px; color: black; margin: 20px 0px 10px 0px;border-width:2px; border: thick double #32a1ce;" >
+            </div>
+        </div>
+    </footer> #}
+</div>

@@ -1,0 +1,41 @@
+{{ form_start(form,{ 'attr' : {'class': 'withRadio' }}) }}
+
+    <div>
+        <div class="row">
+             <div class="mb-5 fv-row fv-plugins-icon-container col">
+                {{ form_widget(form.estModeCarreau) }}
+                {{ form_label(form.estModeCarreau) }}
+                <div class="fv-plugins-message-container invalid-feedback"></div>
+            </div>
+            <div class="mb-5 fv-row fv-plugins-icon-container col">
+                {{ form_widget(form.impressionSansEntete) }}
+                {{ form_label(form.impressionSansEntete) }}
+                <div class="fv-plugins-message-container invalid-feedback"></div>
+            </div>
+            <div class="mb-5 fv-row fv-plugins-icon-container col">
+                {{ form_widget(form.impressionPersonnaliseElements) }}
+                {{ form_label(form.impressionPersonnaliseElements) }}
+                <div class="fv-plugins-message-container invalid-feedback"></div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="mb-5 fv-row fv-plugins-icon-container col">
+                {{ form_label(form.formatImpression) }}
+                {{ form_widget(form.formatImpression) }}
+            </div>
+        </div>
+    </div>
+
+    <div class="mb-5 fv-row fv-plugins-icon-container">
+        <button type="submit" class="btn btn-primary">
+            <span class="indicator-label">
+                Enregistrer
+            </span>
+            <span class="indicator-progress">Veuillez patienter...
+                <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
+            </span>
+        </button>
+    </div>
+
+{{ form_end(form) }} 
+

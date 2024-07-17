@@ -1,0 +1,57 @@
+ <div class="rounded border mb-3">
+    <div class="p-3 ">
+        <div class="form-group row mb-2">
+            <div class="col-md-9">
+                {{ form_label(form.magasin) }}
+                {{ form_widget(form.magasin) }}
+            </div>
+            <div class="mb-3 fv-row fv-plugins-icon-container col-sm-3">
+                <label class="form-label"></label>
+                <div class="mt-4">
+                    <button type="button" class="btn btn-sm btn-icon btn-light-danger supprimer">
+                        <span class="svg-icon svg-icon-2">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                <rect opacity="0.5" x="7.05025" y="15.5356" width="12" height="2" rx="1" transform="rotate(-45 7.05025 15.5356)" fill="currentColor"></rect>
+                                <rect x="8.46447" y="7.05029" width="12" height="2" rx="1" transform="rotate(45 8.46447 7.05029)" fill="currentColor"></rect>
+                            </svg>
+                        </span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>   
+    <div class="col-lg-12 col-sm-12 mb-4">
+        <div class="bg-light-primary h-100 px-10 py-2" id="kt_docs_swapper_parent_2">
+            <div class="row"> 
+                <div class="col-sm-9 col-lg-9 pt-2">
+                    <div class="fw-bolder">Ajouter la quantité livrée</div>
+                </div>
+                <div class="col-sm-3 col-lg-3">
+                    <div class="d-flex justify-content-end">
+                        <a href="javascript:;" class="btn btn-sm btn-success add_livraison_item_link" data-collection-holder-class="collection-form-child">
+                            <i class="la la-plus"></i>Ajouter un produit
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="produit collection-form-child"
+            data-index="{{ form.produitCondMagLivs|length > 0 ? form.produitCondMagLivs|last.vars.name + 1 : 0 }}"
+            data-prototype="{% autoescape 'html' %}{{ include('livraison/partials/_produit_cond_mag_liv.prototype.html.twig',
+                { 'form': form.produitCondMagLivs.vars.prototype, 'class':'ProduitCondMagLiv' })|escape }}{% endautoescape %}">
+            {% for key,m in form.produitCondMagLivs %}
+                <tr data-index="{{ key }}">
+                    {{ include('livraison/partials/_produit_cond_mag_liv_mag_liv.prototype.html.twig',
+                        { 'form': m, 'class':'ProduitCondMagLiv' }) }}
+                </tr>
+            {% endfor %}
+        </div>
+        <div class="d-flex justify-content-center p-3">
+            <a href="javascript:;" class="btn btn-sm btn-success add_livraison_item_link" data-collection-holder-class="collection-form-child">
+                <i class="la la-plus"></i>Ajouter un produit
+            </a>
+        </div>
+    </div>
+</div> 

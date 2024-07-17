@@ -1,0 +1,18 @@
+<td class="w-100px">
+    {{ form_widget(form.produitConditionnement) }}
+    <input type="hidden" name="m" class="montanLigne" value="0">
+</td>
+<td >{{ form_widget(form.qteCondAppro) }}</td>
+<td >{{ form_widget(form.montantCond) }}</td>
+
+<td class="action">
+    {% set id = null %}
+    {% if form.vars.value is not null %}
+        {% set id = form.vars.value.id %}
+    {% endif %}
+    <a href="javascript:;" class="btn btn-sm btn-light-danger"
+       data-url="{% if id is not null %}{{ path('app_entity_callandsave', {'class':class, 'action':'del', 'key':id}) }}{% endif %}"
+       data-token="{% if id is not null %}{{ csrf_token('delete' ~ id) }}{% endif %}">
+        <i class="la la-trash-o fs-3"></i>
+    </a>
+</td>

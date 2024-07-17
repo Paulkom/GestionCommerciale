@@ -1,0 +1,50 @@
+    <div class="row px-4">
+        <div class="mb-3 fv-row  col-sm-5">
+            {{ form_label(form.produitComClit) }}
+            {{ form_widget(form.produitComClit) }}
+        </div>
+         <div class="mb-3 fv-row  col">
+            {{ form_label(form.qteALiv) }}
+            {{ form_widget(form.qteALiv) }}
+        </div> 
+        <div class="mb-3 fv-row  col">
+            {{ form_label(form.qteLiv) }}
+            {{ form_widget(form.qteLiv) }}
+        </div>
+        <div class="mb-3 fv-row  col">
+            {{ form_label(form.qteRALiv) }}
+            {{ form_widget(form.qteRALiv) }}
+        </div>
+        <div class="mb-3 fv-row  col d-none">
+            {{ form_label(form.carton) }}
+            {{ form_widget(form.carton) }}
+        </div>
+        <div class="mb-3 fv-row  col d-none">
+            {{ form_label(form.piece) }}
+            {{ form_widget(form.piece) }}
+        </div>
+        {# <div class="mb-3 fv-row fv-plugins-icon-container col-sm-2">
+            {{ form_label(form.montantCond) }}
+            {{ form_widget(form.montantCond) }}
+            <div class="fv-plugins-message-container invalid-feedback"></div>
+        </div> #}
+        <div class="mb-3 col-sm-1">
+                {% set id = null %}
+                {% if form.vars.value is not null %}
+                    {% set id = form.vars.value.id %}
+                {% endif %}
+                <a href="javascript:;" class="btn btn-sm btn-light-danger btn-icon collection-action mt-10"
+                data-url="{% if id is not null %}{{ path('app_entity_callandsave', {'class':class, 'action':'del', 'key':id}) }}{% endif %}"
+                data-token="{% if id is not null %}{{ csrf_token('delete' ~ id) }}{% endif %}">
+                    <span class="svg-icon svg-icon-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                            <rect opacity="0.5" x="7.05025" y="15.5356" width="12" height="2" rx="1" transform="rotate(-45 7.05025 15.5356)" fill="currentColor"></rect>
+                            <rect x="8.46447" y="7.05029" width="12" height="2" rx="1" transform="rotate(45 8.46447 7.05029)" fill="currentColor"></rect>
+                        </svg>
+                    </span>
+                </a>
+        </div>
+        {{ form_widget(form.prix) }}
+    </div>
+   
+<div class="separator mb-3"></div>

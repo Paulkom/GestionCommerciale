@@ -1,0 +1,180 @@
+<!doctype html>
+<html lang="fr">
+<head>
+    <meta charset="utf-8">
+    <style>
+        .bod{
+            border: 1px solid #c4c4c4;
+            border-collapse: collapse;
+        }
+        .bon {
+            border:1px solid #c4c4c4;
+            border-top-color: white;
+            border-collapse:collapse;
+        }
+        .bod2{
+            /*border-style:solid;*/
+	        border-style:solid #c4c4c4;
+            border-top-color: transparent;
+            border-collapse: collapse;
+        }
+        .bode{
+            border: none;
+            border-collapse: collapse;
+        }
+        .font{
+            font-size: 12px;
+        }
+        .pad{
+            padding: 6px 6px 6px 6px;
+        }
+    </style>
+</head>
+
+<body>
+  <div class="row">
+        <span style=" width:100%;  ">
+            <div style="height: 90%;">
+                {# *********// Titre //******** #}
+                <table style="width: 100%;">
+                    <tbody>
+                        <tr> 
+                            <td style="text-align: left;  width: 100%; padding: 3px 1px;"> 
+                               <p><img alt="entete" style="width: 100%;" src="{{asset('uploads/medias/societe/' ~ societe.entete.id ~ "." ~ societe.entete.extension )}}"></p> 
+                            </td> 
+                        </tr> 
+                    </tbody>
+                </table> 
+                <div class="body-section">
+                    <div style="margin-left: 10px;" class="row">
+                        <table style="width: 100%;">
+                            <tr style="margin-left: 10px;">  
+                                <td style="text-align: right;" > 
+                                    {{ (societe.lieuImpression is defined and societe.lieuImpression is not null) ? societe.lieuImpression ~ " le, " ~  commande.dateCom | date("d/m/Y") : " Date : " ~ commande.dateCom | date("d/m/Y") }}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="text-align: center; "  >
+                                    <p class="sub-heading"> 
+                                        <b style="text-decoration: underline;">BON DE LIVRAISON</b>
+                                    </p>
+                                </td>
+                            </tr>
+                            
+                        </table> <br>
+                    </div>
+                </div>
+                {# *********// Entête  //******** #}
+                <div class="body-section">
+                    <div style="margin-left: 10px;" class="row">
+                        <table style="width: 100%;">
+                            <tr style="margin-left: 10px;">
+                                <td style="text-align: left; width: 45%; " >
+                                    <p class="sub-heading font"> 
+                                        <b style="color: #383737;">BL N° :</b> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {{ ((commande.factures)[0]).refFac|replace({'FA': 'BL'}) }}
+                                    </p>
+                                    <hr style="padding: 0px !important;margin: 2px !important;color: white;">
+                                </td>
+                                <td style="text-align: left; width: 5%; "></td> 
+                                {% if commande.acheteur.statut == "Physique" %} 
+                                    <td style="text-align: left; width: 45%;   ">
+                                        <table style="width: 100%; ">
+                                            {# <thead>
+                                                <tr style="margin-left: 10px;">
+                                                    <th style="background-color: #F6F1F1; ">
+                                                        CLIENT
+                                                    </th>
+                                                </tr>
+                                            </thead> #}
+                                            <tbody>
+                                                <tr>
+                                                    <td style="margin-bottom: 10px"> 
+                                                        <p class="sub-heading font"> 
+                                                            <b>CLIENT :</b>&nbsp;&nbsp;&nbsp;&nbsp; {{ commande.acheteur.nom ~ " "~ commande.acheteur.prenom }}
+                                                        </p>
+                                                        <hr style="padding: 0px !important;margin: 2px !important;color: white;">
+                                                    </td>
+                                                </tr>
+                                            </tbody>  
+                                        </table> 
+                                    </td>
+                                {% else %}
+                                    <td style="text-align: left; width: 45%;">
+                                        <table style="width: 100%;">
+                                            <tbody>
+                                                <tr >
+                                                    <td>
+                                                        <p class="sub-heading font" class="font"> 
+                                                           <b> CLIENT :</b> {{ commande.acheteur.denomination ~ ' [ ' ~ commande.acheteur.sigle ~ ' ]' }}
+                                                        </p>
+                                                    </td>
+                                                </tr>
+                                            </tbody>  
+                                        </table> 
+                                    </td>
+                                {% endif %}
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            <table style="width:100%;" class="bod">
+                <thead> 
+                    <tr style="background-color: #EBF5FF;" >
+                        <th class="bod" style=" font-size: 12px; width:50%; padding: 0.5rem;">Designation</th>
+                        <th class="bod" style=" font-size: 12px;  padding: 0.5rem;">Qte</th>
+                        <th class="bod" style=" font-size: 12px;  padding: 0.5rem;">Magasin</th>
+                    </tr> 
+                </thead> 
+                <tbody> 
+                    {% for c in commande.produitCondComClits  %}
+                        <tr> 
+                            <td class="bod" style=" font-size: 12px; padding: 6px 6px 6px 6px; text-align:left;" >
+                                {{ c.produit.produit.nomProd|capitalize ~ ' [ ' ~ c.produit.conditionnement.libelleCond ~ ' ] ' }}
+                                <b>&nbsp;&nbsp;  {{ (c.carton != null) ?  c.carton ~ ' Cartons ' : '' }} </b>
+                                <b>              {{ (c.piece != null) ?  c.piece ~ ' Pièces ' : '' }} </b>
+                            </td>
+                            <td class="bod" style=" font-size: 12px; padding: 6px 6px 6px 6px; text-align:left;" >{{ (c.produit.produit.estService == 0) ? c.qtite| number_format(2, ',', ' ') : ' - '}}</td>
+                            <td class="bod" style=" font-size: 12px; padding: 6px 6px 6px 6px; text-align:left;" >{{(c.magasin) ? c.magasin.nomMag : '-' }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            <div style="margin-left: 10px; margin-right: 10px;">
+                <hr align="center" style="height:2px; color: yellow; margin: 20px 0px 10px 0px;border-width:2px; border: thick double #32a1ce;" >
+            </div>
+            {# *********// Signature //******** #}
+            <div class="body-section" >
+                <table style="width:100%;" >
+                    <thead>
+                    <tr>
+                        {% set tail = 100 / (signataires.modelSignatairePersonnelFonctions|length ) %}
+
+                        {% for sig in signataires.modelSignatairePersonnelFonctions %}
+                            <td style="text-align: left; width: {{ tail ~ '%;' }} " class='font' align=" {{ loop.index == 1 ? 'left' : loop.index == signataires.modelSignatairePersonnelFonctions|length ? 'right' : 'center'  }} ">
+                                <p style="text-decoration: underline; text-underline-offset: 5px; ">{{ sig.fonction.intitule }} </p>
+                                <br><br><br>
+                                <p> {{ sig.personnel.nom ~ " "~ sig.personnel.prenoms }}</p>
+                            </td>
+                        {% endfor %}
+                    </tr>
+                    </tbody>
+                </table>   
+            </div>
+            <br>
+
+            <div style="margin-left: 30px;  width:100%; margin-right: 20px;">
+                <p align="center">Merci</p>
+            </div>
+        </div>
+    </span>
+    {# <footer style="padding: 3px;  font-size: 0.75em; color: white; display: flex;">
+        <div style="text-align: right;  margin-left: 10px; margin-right: 10px;">
+            <div>
+                <a href="" style="color: black; text-decoration: none;">&nbsp;<i>IFU N° 3200800074012 - Cot. Rép. Du Bénin </i></a>
+                <strong style="color: black; text-decoration: underline;">Email:</strong>
+                <a href="" style="color: black; text-decoration: none;">&nbsp;sogematokpa@hotmail.com </a>
+                <hr align="center" style=" height:2px; color: black; margin: 20px 0px 10px 0px;border-width:2px; border: thick double #32a1ce;" >
+            </div>
+        </div>
+    </footer> #}
+</div>

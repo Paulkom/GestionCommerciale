@@ -1183,7 +1183,14 @@ formN.find('button[type="submit"]').prop('disabled', false);
 
 	function checkScheduledTask() {
 		console.log("Je viens d'essayer");
-		fetch(testXXpath).then(response => response.json()).then(data => console.log(data));
+		 $.ajax({
+			url: testXXpath,
+			dataType: "Json",
+			type: "POST",
+			success: function (resulta) {
+				console.log("Suppression fait correctement")
+			},
+		});
 	}
 
 	setInterval(checkScheduledTask, 60000);

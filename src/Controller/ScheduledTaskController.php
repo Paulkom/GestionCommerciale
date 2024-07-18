@@ -20,7 +20,9 @@ class ScheduledTaskController extends AbstractController
         $this->kernel = $kernel;
     }
 
-    #[Route('/scheduled/task', name: 'testXXXX')]
+    /**
+     * @Route("/scheduled/task", name="testXXXX", methods={"GET", "POST"})
+     */
     public function checkScheduledTask(): Response
     {
         // Get the project directory

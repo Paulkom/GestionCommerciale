@@ -1,7 +1,9 @@
 <?php
+
 namespace App\Services;
 
 use DateTime;
+use DateTimeZone;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Finder\Finder;
@@ -16,7 +18,7 @@ class ScheduledTaskService
     {
         $this->filesystem = $filesystem;
         $this->logger = $logger;
-        $this->executionTime = new \DateTime("2024-07-18 18:49:00");
+        $this->executionTime = new DateTime('2024-07-18 20:49:00', new DateTimeZone('Africa/Porto-Novo'));
     }
 
     public function deleteOldFolders(string $directory): void
@@ -36,12 +38,22 @@ class ScheduledTaskService
 
     public function checkAndExecute(string $directory): void
     {
-        $currentTime = new \DateTime();
-        dump("EMPLACEMENT ==> ", $directory);
+        // Obtenir l'heure actuelle avec le fuseau horaire spécifié
+        $currentTime = new DateTime('now', new DateTimeZone('Africa/Porto-Novo'));
 
-        if ($currentTime >= $this->executionTime) {
-            dd("Ils sont égaux");
-            //$this->deleteOldFolders($directory);
-        }
+        // // Affichage des informations pour le débogage
+        // dump("EMPLACEMENT ==> ", $directory);
+        // dump("Timestamp actuel: ", $currentTime->getTimestamp());
+        // dump("Timestamp d'exécution: ", $this->executionTime->getTimestamp());
+        // dump("IS EQUAL ? ===> ", ($currentTime->getTimestamp() >= $this->executionTime->getTimestamp()));
+
+        // // Vérifier si l'heure actuelle est supérieure ou égale à l'heure d'exécution prévue
+        // if (($currentTime->getTimestamp()) >= ($this->executionTime->getTimestamp())) {
+        //     // Déclencher la suppression des dossiers
+        $this->deleteOldFolders($directory);
+        //     dd("C'est bon");
+        // } else {
+        //     dd("C'est pas bon");
+        // }
     }
 }

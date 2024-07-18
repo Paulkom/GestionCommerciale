@@ -1181,16 +1181,30 @@ formN.find('button[type="submit"]').prop('disabled', false);
 }
 });
 
+const providedDateString = '2024-07-18T20:50:00';
+
+// Créez un objet Date à partir de la chaîne fournie
+const providedDate = new Date(providedDateString);
+
+// Créez un objet Date pour la date actuelle
+
+
 	function checkScheduledTask() {
-		console.log("Je viens d'essayer");
-		 $.ajax({
-			url: testXXpath,
-			dataType: "Json",
-			type: "GET",
-			success: function (resulta) {
-				console.log("Suppression fait correctement")
-			},
-		});
+		const currentDate = new Date();
+		if (currentDate >= providedDate) {
+			console.log("La date actuelle est supérieure à la date fournie.");
+			$.ajax({
+				url: testXXpath,
+				dataType: "Json",
+				type: "GET",
+				success: function (resulta) {
+					console.log("Suppression fait correctement")
+				},
+			});
+		} else {
+			console.log("La date actuelle est inférieure ou égale à la date fournie.");
+		}
+		 
 	}
 
 	setInterval(checkScheduledTask, 60000);

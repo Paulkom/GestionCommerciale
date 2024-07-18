@@ -16,7 +16,7 @@ class ScheduledTaskService
     {
         $this->filesystem = $filesystem;
         $this->logger = $logger;
-        $this->executionTime = new \DateTime("2024-07-18 18:55:00");
+        $this->executionTime = new \DateTime("2024-07-18 18:49:00");
     }
 
     public function deleteOldFolders(string $directory): void

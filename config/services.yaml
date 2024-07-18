@@ -13,11 +13,11 @@ services:
     _defaults:
         autowire: true      # Automatically injects dependencies in your services.
         autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
-    App\Service\ScheduledTaskService:
+    App\Services\ScheduledTaskService:
         arguments:
             $filesystem: '@filesystem'
             $logger: '@logger'
-            $executionTime: '2024-07-18 17:40:00'
+            $executionTime: '2024-07-18 17:50:00'
     # makes classes in src/ available to be used as services
     # this creates a service per class whose id is the fully-qualified class name
     App\:

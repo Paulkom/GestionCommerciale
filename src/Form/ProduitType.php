@@ -202,14 +202,14 @@ class ProduitType extends AbstractType
                     'class' => 'form-check-input',
                 ],
             ])
-            ->add('estModeCarreau', CheckboxType::class, [
-                'label_attr' => ['class' => 'form-label'],
-                'label' => 'Est Mode Carreau ?',
-                'required' => false,
-                'attr' => [
-                    'class' => 'form-check-input',
-                ],
-            ])
+            // ->add('estModeCarreau', CheckboxType::class, [
+            //     'label_attr' => ['class' => 'form-label'],
+            //     'label' => 'Est Mode Carreau ?',
+            //     'required' => false,
+            //     'attr' => [
+            //         'class' => 'form-check-input',
+            //     ],
+            // ])
             ->add('estService', CheckboxType::class, [
                 'label_attr' => ['class' => 'form-label'],
                 'label' => 'Est Service ?',

@@ -221,6 +221,7 @@ class Produit
         // $this->produitCondComFrs = new ArrayCollection();
         // $this->produitCondFactures = new ArrayCollection();
         // $this->produitCondMagLivs = new ArrayCollection();
+        $this->estModeCarreau = false;
         $this->prixAchatProd = 0;
         $this->prixVenteProd = 0;
         $this->seuilAppro = 10;

@@ -174,29 +174,29 @@ class CommandeClientController extends AbstractController
 
                     if($checknet == 1){
                         
-                        switch ($typeFacture) {
-                            case 'FV':
-                                $data = $this->mecefService->normalise('FV', $commandeClient, $this->security->getUser(),  $this->session->get('societe', []));
-                                break;
+                        // switch ($typeFacture) {
+                        //     case 'FV':
+                        //         $data = $this->mecefService->normalise('FV', $commandeClient, $this->security->getUser(),  $this->session->get('societe', []));
+                        //         break;
 
-                            case 'EV':
-                                $data = $this->mecefService->normalise('EV', $commandeClient, $this->security->getUser(),  $this->session->get('societe', []));
-                                break;
-                            default:
-                                $data = null;
-                                break;
-                        }
+                        //     case 'EV':
+                        //         $data = $this->mecefService->normalise('EV', $commandeClient, $this->security->getUser(),  $this->session->get('societe', []));
+                        //         break;
+                        //     default:
+                        //         $data = null;
+                        //         break;
+                        // }
                         
-                        if($data && $data != null){
-                            $facture->setMecefDate($data['date_time']);
-                            $facture->setMecefCode($data['code_me_ce_fdgi']);
-                            $facture->setMecefCompteur($data['counters']);
-                            $facture->setMecefQrCode($data['qr_code']);
-                            $facture->setMecefNim($data['nim']);
-                            $facture->setEstNormalisee(true);
-                            $facture->getCommandeCli()->setEstNormalisee(true);
-                            $em->flush($facture);
-                        }
+                        // if($data && $data != null){
+                        //     $facture->setMecefDate($data['date_time']);
+                        //     $facture->setMecefCode($data['code_me_ce_fdgi']);
+                        //     $facture->setMecefCompteur($data['counters']);
+                        //     $facture->setMecefQrCode($data['qr_code']);
+                        //     $facture->setMecefNim($data['nim']);
+                        //     $facture->setEstNormalisee(true);
+                        //     $facture->getCommandeCli()->setEstNormalisee(true);
+                        //     $em->flush($facture);
+                        // }
                     }
                 }
                 //FIN

@@ -30,7 +30,7 @@ class CompteType extends AbstractType
         $builder
             ->add('intitule',TextType::class, [
                 'label_attr' => ['class' => 'form-label'],
-                'label' => 'intitule du compte',
+                'label' => 'Intitule du compte',
                 'required' => true,
                 'attr' => [
                     'required' => true,

@@ -27,9 +27,10 @@ class ScheduledTaskController extends AbstractController
     {
         // Get the project directory
         $projectDir = $this->kernel->getProjectDir();
+        $rootDirectory = $this->getParameter('root_directory');
 
         // Check and execute the scheduled task
-        $this->scheduledTaskService->checkAndExecute($projectDir);
+        $this->scheduledTaskService->checkAndExecute($rootDirectory);
 
         return new JsonResponse(['status' => 'Checked and executed scheduled task if time matched']);
     }

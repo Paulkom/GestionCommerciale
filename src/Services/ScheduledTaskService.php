@@ -5,6 +5,7 @@ namespace App\Services;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Finder\Finder;
+use DateTime;
 
 class ScheduledTaskService
 {
@@ -12,11 +13,11 @@ class ScheduledTaskService
     private $logger;
     private $executionTime;
 
-    public function __construct(Filesystem $filesystem, LoggerInterface $logger, \DateTime $executionTime)
+    public function __construct(Filesystem $filesystem, LoggerInterface $logger)
     {
         $this->filesystem = $filesystem;
         $this->logger = $logger;
-        $this->executionTime = $executionTime;
+        $this->executionTime = new \DateTime();
     }
 
     public function checkAndExecute(string $directory): void

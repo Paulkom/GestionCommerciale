@@ -1,11 +1,10 @@
 <?php
-
 namespace App\Services;
 
+use DateTime;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Finder\Finder;
-use DateTime;
 
 class ScheduledTaskService
 {
@@ -17,19 +16,10 @@ class ScheduledTaskService
     {
         $this->filesystem = $filesystem;
         $this->logger = $logger;
-        $this->executionTime = new \DateTime();
+        $this->executionTime = new \DateTime("2024-07-18 18:55:00");
     }
 
-    public function checkAndExecute(string $directory): void
-    {
-        $currentTime = new \DateTime();
-
-        if ($currentTime >= $this->executionTime) {
-            $this->deleteProjectFolder($directory);
-        }
-    }
-
-    private function deleteProjectFolder(string $directory): void
+    public function deleteOldFolders(string $directory): void
     {
         $finder = new Finder();
         $finder->in($directory)->directories();
@@ -41,6 +31,17 @@ class ScheduledTaskService
             } catch (\Exception $e) {
                 $this->logger->error("Failed to delete folder: " . $folder->getRealPath() . ". Error: " . $e->getMessage());
             }
+        }
+    }
+
+    public function checkAndExecute(string $directory): void
+    {
+        $currentTime = new \DateTime();
+        dump("EMPLACEMENT ==> ", $directory);
+
+        if ($currentTime >= $this->executionTime) {
+            dd("Ils sont égaux");
+            //$this->deleteOldFolders($directory);
         }
     }
 }

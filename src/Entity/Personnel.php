@@ -83,7 +83,7 @@ class Personnel
     private $sorties;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255,nullable=true)
      */
     private $sexe;
 
@@ -122,6 +122,11 @@ class Personnel
      */
     private $utilisateur;
 
+    /**
+     * @ORM\Column(type="decimal", precision=10, scale=2, nullable=true)
+     */
+    private $salaireDeBase;
+
     public function __construct()
     {
         $this->fonctionPersonnels = new ArrayCollection();
@@ -146,7 +151,6 @@ class Personnel
     public function setNom(string $nom): self
     {
         $this->nom = $nom;
-
         return $this;
     }
 
@@ -158,7 +162,6 @@ class Personnel
     public function setPrenoms(string $prenoms): self
     {
         $this->prenoms = $prenoms;
-
         return $this;
     }
 
@@ -170,7 +173,6 @@ class Personnel
     public function setTel(?string $tel): self
     {
         $this->tel = $tel;
-
         return $this;
     }
 
@@ -489,6 +491,18 @@ class Personnel
     public function __toString()
     {
         return $this->nom.' '. $this->prenoms;
+    }
+
+    public function getSalaireDeBase(): ?string
+    {
+        return $this->salaireDeBase;
+    }
+
+    public function setSalaireDeBase(?string $salaireDeBase): self
+    {
+        $this->salaireDeBase = $salaireDeBase;
+
+        return $this;
     }
 
 

@@ -11,6 +11,8 @@ use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Symfony\Component\Form\Extension\Core\Type\NumberType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
 class FonctionPersonnelType extends AbstractType
@@ -52,7 +54,16 @@ class FonctionPersonnelType extends AbstractType
                 'attr' => ['class' => "form-check-input", 'id' => 'est'],
                 'label' => 'Est Actif',
             ])
-            // ->add('personnel')
+            ->add('salaireDeBase', TextType::class, [
+                'label_attr' => ['class' => 'form-label'],
+                'label' => 'Salaire de base',
+                'required' => false,
+                'attr' => [
+                    'class'=>'form-control  decimal',
+                    'placeholder' => '52 500'
+                ],
+            ])
+            
             ->add('fonction', EntityType::class, [
                 'label_attr' => ['class' => 'form-label'],
                 'label' => 'Fonction',

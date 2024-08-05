@@ -23,13 +23,13 @@ class FonctionPersonnel
 
     /**
      * @ORM\ManyToOne(targetEntity=Personnel::class, inversedBy="fonctionPersonnels")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=true)
      */
     private $personnel;
 
     /**
      * @ORM\ManyToOne(targetEntity=Fonction::class, inversedBy="fonctionPersonnels")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=true)
      */
     private $fonction;
 
@@ -47,6 +47,11 @@ class FonctionPersonnel
      * @ORM\Column(type="datetime", nullable=true)
      */
     private $dateFinFonc;
+
+    /**
+     * @ORM\Column(type="decimal", precision=20, scale=2, nullable=true)
+     */
+    private $salaireDeBase;
     
 
     public function getId(): ?int
@@ -110,6 +115,18 @@ class FonctionPersonnel
     public function setDateFinFonc(?\DateTimeInterface $dateFinFonc): self
     {
         $this->dateFinFonc = $dateFinFonc;
+
+        return $this;
+    }
+
+    public function getSalaireDeBase(): ?string
+    {
+        return $this->salaireDeBase;
+    }
+
+    public function setSalaireDeBase(?string $salaireDeBase): self
+    {
+        $this->salaireDeBase = $salaireDeBase;
 
         return $this;
     }

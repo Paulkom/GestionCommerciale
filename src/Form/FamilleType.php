@@ -32,27 +32,27 @@ class FamilleType extends AbstractType
         $builder
             ->add('codeFamille', TextType::class, [
                 'label_attr' => ['class' => 'form-label'],
-                'label' => 'Code Famille',
+                'label' => 'Code',
                 'required' => true,
                 'attr' => ['required'=>true, 
                 'maxlength' => 8,
                 'class'=>'form-control mb-2 unicite', 
                 'data-column' =>'Famille|codeFamille',
-                'placeholder' => 'Entrer le libelle de la famille'],
+                'placeholder' => 'Entrer le libelle de la catégorie'],
             ])
             ->add('libelleFamille', TextType::class, [
                 'label_attr' => ['class' => 'form-label'],
-                'label' => 'Libelle Famille',
+                'label' => 'Libelle Catégorie',
                 'required' => true,
                 'attr' => ['required'=>true, 
                 'class'=>'form-control mb-2 unicite', 
                 'data-column' =>'Famille|libelleFamille',
-                'placeholder' => 'Entrer le libelle de la famille'],
+                'placeholder' => 'Entrer le libelle de la catégorie'],
             ])
             ->add('familleParent',EntityType::class, [
                 'label_attr' => ['class' => 'form-label'],
                 'required' => false,
-                'label' => 'Parent',
+                'label' => 'Catégorie parent',
                 'class' => Famille::class,
                 'query_builder' => function(FamilleRepository $fr){
                     $pv = $this->session->get('pointVente', []);

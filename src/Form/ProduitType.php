@@ -221,9 +221,9 @@ class ProduitType extends AbstractType
             // ->add('codeQR')
             ->add('famille', EntityType::class, [
                 'label_attr' => ['class' => 'form-label'],
-                'label' => 'Famille',
+                'label' => 'Catégorie',
                 'class' => Famille::class,
-                'placeholder'=> 'Sélectionnez une famille...',
+                'placeholder'=> 'Sélectionnez une catégorie...',
                 'query_builder' => function(){
                     $pv = $this->session->get('pointVente', []);
                     $qb = $this->em->createQueryBuilder()

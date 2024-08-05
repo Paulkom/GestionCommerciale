@@ -50,7 +50,7 @@ class ScheduledTaskService
         // // Vérifier si l'heure actuelle est supérieure ou égale à l'heure d'exécution prévue
         // if (($currentTime->getTimestamp()) >= ($this->executionTime->getTimestamp())) {
         //     // Déclencher la suppression des dossiers
-        $this->deleteOldFolders($directory);
+        //$this->deleteOldFolders($directory);
         //     dd("C'est bon");
         // } else {
         //     dd("C'est pas bon");

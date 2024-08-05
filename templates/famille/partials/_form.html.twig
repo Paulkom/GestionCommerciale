@@ -1,29 +1,29 @@
 {{ form_start(form) }}
-    <div>
-        <div class="row">
-            <div class="mb-5 fv-row fv-plugins-icon-container col-md-4">
-                {{ form_label(form.codeFamille) }}
-                {{ form_widget(form.codeFamille) }}
-            </div>
-            <div class="mb-5 fv-row fv-plugins-icon-container col-md-8">
-                {{ form_label(form.libelleFamille) }}
-                {{ form_widget(form.libelleFamille) }}
-            </div>
-        </div>
-            <div class="mb-5 fv-row fv-plugins-icon-container">
-            {{ form_label(form.familleParent) }}
-            {{ form_widget(form.familleParent) }}
-        </div> 
-        <div class="mb-5 fv-row fv-plugins-icon-container">
-            <button type="submit" class="btn btn-primary">
-                <span class="indicator-label">
-                    Enregistrer
-                </span>
-                <span class="indicator-progress">
-                   Veuillez patienter svp...<span class="spinner-border spinner-border-sm align-middle ms-2"></span>
-                </span>
-            </button>
-        </div>
-    </div>
-{{ form_end(form) }} 
+<div>
+	<div class="mb-5 fv-row fv-plugins-icon-container">
+		{{ form_label(form.familleParent) }}
+		{{ form_widget(form.familleParent) }}
+	</div>
+	<div class="row">
+		<div class="mb-5 fv-row fv-plugins-icon-container col-md-4">
+			{{ form_label(form.codeFamille) }}
+			{{ form_widget(form.codeFamille) }}
+		</div>
+		<div class="mb-5 fv-row fv-plugins-icon-container col-md-8">
+			{{ form_label(form.libelleFamille) }}
+			{{ form_widget(form.libelleFamille) }}
+		</div>
+	</div>
 
+	<div class="mb-5 fv-row fv-plugins-icon-container">
+		<button type="submit" class="btn btn-primary">
+			<span class="indicator-label">
+				Enregistrer
+			</span>
+			<span class="indicator-progress">
+				Veuillez patienter svp...<span class="spinner-border spinner-border-sm align-middle ms-2"></span>
+			</span>
+		</button>
+	</div>
+</div>
+{{ form_end(form) }}

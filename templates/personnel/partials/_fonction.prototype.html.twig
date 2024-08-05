@@ -6,15 +6,19 @@
                 {{ form_label(form.estActif) }}
             </div>
         </div>
-        <div class="col-md-3 fv-row">
+        <div class="col fv-row">
             {{ form_label(form.fonction) }}
             {{ form_widget(form.fonction) }}
         </div>
-        <div class="col-md-3 fv-row">
+        <div class="col fv-row">
+            {{ form_label(form.salaireDeBase) }}
+            {{ form_widget(form.salaireDeBase) }}
+        </div>
+        <div class="col fv-row">
             {{ form_label(form.dateDebutFonc) }}
             {{ form_widget(form.dateDebutFonc) }}
         </div>
-        <div class="col-md-3 fv-row">
+        <div class="col fv-row">
             {{ form_label(form.dateFinFonc) }}
             {{ form_widget(form.dateFinFonc) }}
         </div>

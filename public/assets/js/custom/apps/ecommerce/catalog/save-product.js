@@ -196,7 +196,7 @@ var KTAppEcommerceSaveProduct = function() {
                                 buttonsStyling: !1,
                                 confirmButtonText: "Ok, got it!",
                                 customClass: {
-                                    confirmButton: "btn btn-primary"
+                                    confirmButton: "btn btn-warning"
                                 }
                             }).then((function(e) {
                                 e.isConfirmed && (o.disabled = !1, window.location = t.getAttribute("data-kt-redirect"))
@@ -207,7 +207,7 @@ var KTAppEcommerceSaveProduct = function() {
                             buttonsStyling: !1,
                             confirmButtonText: "Ok, got it!",
                             customClass: {
-                                confirmButton: "btn btn-primary"
+                                confirmButton: "btn btn-warning"
                             }
                         })
                     }))

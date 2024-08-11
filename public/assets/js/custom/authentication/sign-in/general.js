@@ -46,7 +46,7 @@ var KTSigninGeneral = function() {
                                     buttonsStyling: !1,
                                     confirmButtonText: "Ok",
                                     customClass: {
-                                        confirmButton: "btn btn-primary"
+                                        confirmButton: "btn btn-warning"
                                     }
                                 }).then((function(e) {
                                     if (e.isConfirmed) {
@@ -61,7 +61,7 @@ var KTSigninGeneral = function() {
                                 buttonsStyling: !1,
                                 confirmButtonText: "Ok",
                                 customClass: {
-                                    confirmButton: "btn btn-primary"
+                                    confirmButton: "btn btn-warning"
                                 }
                             })
                         }))

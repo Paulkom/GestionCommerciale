@@ -201,6 +201,16 @@ class Produit
      */
     private $magasinDefaut;
 
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $libelleFamille;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $taxeLibelle;
+
     public function getEstSup(): ?bool
     {
         return $this->estSup;
@@ -348,6 +358,8 @@ class Produit
     public function setFamille(?Famille $famille): self
     {
         $this->famille = $famille;
+
+        $this->libelleFamille = $famille ? $famille->getLibelleFamille() : null;
 
         return $this;
     }
@@ -573,6 +585,7 @@ class Produit
     {
         $this->groupeTaxe = $groupeTaxe;
 
+        $this->taxeLibelle = $groupeTaxe ? $groupeTaxe->getLibelleGr() : null;
         return $this;
     }
 
@@ -675,6 +688,30 @@ class Produit
     public function __toString()
     {
         return $this->nomProd;
+    }
+
+    public function getLibelleFamille(): ?string
+    {
+        return $this->libelleFamille;
+    }
+
+    public function setLibelleFamille(?string $libelleFamille): self
+    {
+        $this->libelleFamille = $libelleFamille;
+
+        return $this;
+    }
+
+    public function getTaxeLibelle(): ?string
+    {
+        return $this->taxeLibelle;
+    }
+
+    public function setTaxeLibelle(string $taxeLibelle): self
+    {
+        $this->taxeLibelle = $taxeLibelle;
+
+        return $this;
     }
 
 }

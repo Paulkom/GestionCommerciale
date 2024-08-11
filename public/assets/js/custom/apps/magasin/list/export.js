@@ -30,7 +30,7 @@ var KTMagasinsExport = function() {
                             buttonsStyling: !1,
                             confirmButtonText: "Ok",
                             customClass: {
-                                confirmButton: "btn btn-primary"
+                                confirmButton: "btn btn-warning"
                             }
                         }).then((function(t) {
                             t.isConfirmed && (a.hide(), e.disabled = !1)
@@ -41,7 +41,7 @@ var KTMagasinsExport = function() {
                         buttonsStyling: !1,
                         confirmButtonText: "Ok, got it!",
                         customClass: {
-                            confirmButton: "btn btn-primary"
+                            confirmButton: "btn btn-warning"
                         }
                     })
                 }))
@@ -54,7 +54,7 @@ var KTMagasinsExport = function() {
                     confirmButtonText: "Oui, j'annule!",
                     cancelButtonText: "Non, revenir",
                     customClass: {
-                        confirmButton: "btn btn-primary",
+                        confirmButton: "btn btn-warning",
                         cancelButton: "btn btn-active-light"
                     }
                 }).then((function(t) {
@@ -64,7 +64,7 @@ var KTMagasinsExport = function() {
                         buttonsStyling: !1,
                         confirmButtonText: "Ok",
                         customClass: {
-                            confirmButton: "btn btn-primary"
+                            confirmButton: "btn btn-warning"
                         }
                     })
                 }))
@@ -77,7 +77,7 @@ var KTMagasinsExport = function() {
                     confirmButtonText: "Oui, j'annule!",
                     cancelButtonText: "Non, revenir",
                     customClass: {
-                        confirmButton: "btn btn-primary",
+                        confirmButton: "btn btn-warning",
                         cancelButton: "btn btn-active-light"
                     }
                 }).then((function(t) {
@@ -87,7 +87,7 @@ var KTMagasinsExport = function() {
                         buttonsStyling: !1,
                         confirmButtonText: "Ok",
                         customClass: {
-                            confirmButton: "btn btn-primary"
+                            confirmButton: "btn btn-warning"
                         }
                     })
                 }))

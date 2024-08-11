@@ -128,7 +128,6 @@
                     </span>
                 </div>
             `);
-
             let $input = $('<input type="text" data-kt-entity-table-filter="search" class="form-control form-control-solid ps-15" placeholder="Rechercher..."/>');
             $input.on('focusout', function (e) {
                 let search = $(this).val();

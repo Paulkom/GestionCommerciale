@@ -44,7 +44,7 @@ var KTAppSaveConditionnement = function() {
                                     buttonsStyling: !1,
                                     confirmButtonText: "Ok",
                                     customClass: {
-                                        confirmButton: "btn btn-primary"
+                                        confirmButton: "btn btn-warning"
                                     }
                                 }).then((function(e) {
                                     console.log(t.dataset.action);
@@ -76,7 +76,7 @@ var KTAppSaveConditionnement = function() {
                             buttonsStyling: !1,
                             confirmButtonText: "Ok",
                             customClass: {
-                                confirmButton: "btn btn-primary"
+                                confirmButton: "btn btn-warning"
                             }
                         })
                     }))

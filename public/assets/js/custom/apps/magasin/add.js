@@ -88,7 +88,7 @@ var KTModalCustomersAdd = function() {
 							buttonsStyling: !1,
 							confirmButtonText: "Ok, got it!",
 							customClass: {
-								confirmButton: "btn btn-primary"
+								confirmButton: "btn btn-warning"
 							}
 						}).then((function(e) {
 							e.isConfirmed && (i.hide(), t.disabled = !1, window.location = r.getAttribute("data-kt-redirect"))
@@ -99,7 +99,7 @@ var KTModalCustomersAdd = function() {
 						buttonsStyling: !1,
 						confirmButtonText: "Ok, got it!",
 						customClass: {
-							confirmButton: "btn btn-primary"
+							confirmButton: "btn btn-warning"
 						}
 					})
 				}))
@@ -112,7 +112,7 @@ var KTModalCustomersAdd = function() {
 					confirmButtonText: "Yes, cancel it!",
 					cancelButtonText: "No, return",
 					customClass: {
-						confirmButton: "btn btn-primary",
+						confirmButton: "btn btn-warning",
 						cancelButton: "btn btn-active-light"
 					}
 				}).then((function(t) {
@@ -122,7 +122,7 @@ var KTModalCustomersAdd = function() {
 						buttonsStyling: !1,
 						confirmButtonText: "Ok, got it!",
 						customClass: {
-							confirmButton: "btn btn-primary"
+							confirmButton: "btn btn-warning"
 						}
 					})
 				}))
@@ -135,7 +135,7 @@ var KTModalCustomersAdd = function() {
 					confirmButtonText: "Yes, cancel it!",
 					cancelButtonText: "No, return",
 					customClass: {
-						confirmButton: "btn btn-primary",
+						confirmButton: "btn btn-warning",
 						cancelButton: "btn btn-active-light"
 					}
 				}).then((function(t) {
@@ -145,7 +145,7 @@ var KTModalCustomersAdd = function() {
 						buttonsStyling: !1,
 						confirmButtonText: "Ok, got it!",
 						customClass: {
-							confirmButton: "btn btn-primary"
+							confirmButton: "btn btn-warning"
 						}
 					})
 				}))

@@ -110,11 +110,6 @@ Class Parameters {
                         'roles'      =>'ROLE_ETAT_CLIENT',
 
                     ],
-                    [
-                        'title'      => 'Fiche de recensement des carreaux',
-                        'route'      => 'romassigcom_etat_fiche',
-                        'roles'      =>'ROLE_ETAT_FICHE',
-                    ],
                 ],
             ],
             [
@@ -217,6 +212,11 @@ Class Parameters {
                         'title'      => 'Type de Dépense',
                         'route'      => 'app_type_depense_index',
                         'roles'      => 'ROLE_TYPE_DEPENSE',
+                    ],
+                    [
+                        'title'      => 'Objectif',
+                        'route'      => 'app_objectif_index',
+                        'roles'      => 'ROLE_OBJECTIF',
                     ],
                 ],
             ],

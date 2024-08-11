@@ -416,7 +416,7 @@ var KTFileManagerList = function() {
                         confirmButtonText: "Yes, remove it!",
                         cancelButtonText: "No, return",
                         customClass: {
-                            confirmButton: "btn btn-primary",
+                            confirmButton: "btn btn-warning",
                             cancelButton: "btn btn-active-light"
                         }
                     }).then((function(e) {
@@ -426,7 +426,7 @@ var KTFileManagerList = function() {
                             buttonsStyling: !1,
                             confirmButtonText: "Ok, got it!",
                             customClass: {
-                                confirmButton: "btn btn-primary"
+                                confirmButton: "btn btn-warning"
                             }
                         })
                     }))
@@ -472,7 +472,7 @@ var KTFileManagerList = function() {
                                 confirmButtonText: "Yes, move it!",
                                 cancelButtonText: "No, return",
                                 customClass: {
-                                    confirmButton: "btn btn-primary",
+                                    confirmButton: "btn btn-warning",
                                     cancelButton: "btn btn-active-light"
                                 }
                             }).then((function(e) {
@@ -497,7 +497,7 @@ var KTFileManagerList = function() {
                                     buttonsStyling: !1,
                                     confirmButtonText: "Ok, got it!",
                                     customClass: {
-                                        confirmButton: "btn btn-primary"
+                                        confirmButton: "btn btn-warning"
                                     }
                                 }), o.removeAttribute("data-kt-indicator"))
                             }))

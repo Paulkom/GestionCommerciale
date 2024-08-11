@@ -35,7 +35,7 @@ var KTModalExportUsers = function() {
                                 buttonsStyling: !1,
                                 confirmButtonText: "Ok, got it!",
                                 customClass: {
-                                    confirmButton: "btn btn-primary"
+                                    confirmButton: "btn btn-warning"
                                 }
                             }).then((function(t) {
                                 t.isConfirmed && (n.hide(), i.disabled = !1)
@@ -46,7 +46,7 @@ var KTModalExportUsers = function() {
                             buttonsStyling: !1,
                             confirmButtonText: "Ok, got it!",
                             customClass: {
-                                confirmButton: "btn btn-primary"
+                                confirmButton: "btn btn-warning"
                             }
                         })
                     }))
@@ -59,7 +59,7 @@ var KTModalExportUsers = function() {
                         confirmButtonText: "Yes, cancel it!",
                         cancelButtonText: "No, return",
                         customClass: {
-                            confirmButton: "btn btn-primary",
+                            confirmButton: "btn btn-warning",
                             cancelButton: "btn btn-active-light"
                         }
                     }).then((function(t) {
@@ -69,7 +69,7 @@ var KTModalExportUsers = function() {
                             buttonsStyling: !1,
                             confirmButtonText: "Ok, got it!",
                             customClass: {
-                                confirmButton: "btn btn-primary"
+                                confirmButton: "btn btn-warning"
                             }
                         })
                     }))
@@ -82,7 +82,7 @@ var KTModalExportUsers = function() {
                         confirmButtonText: "Yes, cancel it!",
                         cancelButtonText: "No, return",
                         customClass: {
-                            confirmButton: "btn btn-primary",
+                            confirmButton: "btn btn-warning",
                             cancelButton: "btn btn-active-light"
                         }
                     }).then((function(t) {
@@ -92,7 +92,7 @@ var KTModalExportUsers = function() {
                             buttonsStyling: !1,
                             confirmButtonText: "Ok, got it!",
                             customClass: {
-                                confirmButton: "btn btn-primary"
+                                confirmButton: "btn btn-warning"
                             }
                         })
                     }))

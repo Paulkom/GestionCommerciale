@@ -47,22 +47,23 @@ class PersonnelRepository extends ServiceEntityRepository
         }
     }
 
-    // /**
-    //  * @return Personnel[] Returns an array of Personnel objects
-    //  */
-    /*
-    public function findByExampleField($value)
+    public function pointDepensePersonnel()
     {
         return $this->createQueryBuilder('p')
-            ->andWhere('p.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('p.id', 'ASC')
-            ->setMaxResults(10)
+            ->select('SUM(p.salaireDeBase) as totalSalaireDeBase')
+            ->where('p.estSup = 0')
             ->getQuery()
-            ->getResult()
-        ;
+            ->getSingleScalarResult();
     }
-    */
+
+    public function listePersonnel()
+    {
+        return $this->createQueryBuilder('p')
+            ->where('p.estSup = 0')
+            ->getQuery()
+            ->getResult();
+    }
+
 
     /*
     public function findOneBySomeField($value): ?Personnel

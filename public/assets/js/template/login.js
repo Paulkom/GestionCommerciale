@@ -87,7 +87,7 @@ submitButton.addEventListener('click', function (e) {
                         buttonsStyling: false,
                         confirmButtonText: "Ok, got it!",
                         customClass: {
-                            confirmButton: "btn btn-primary"
+                            confirmButton: "btn btn-warning"
                         }
                     });
 

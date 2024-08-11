@@ -43,6 +43,11 @@ class Famille
     private $libelleFamille;
 
     /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $libelleParent;
+
+    /**
      * @ORM\ManyToOne(targetEntity=Famille::class, inversedBy="familles")
      */
     private $familleParent;
@@ -83,6 +88,7 @@ class Famille
     {
         $this->familles = new ArrayCollection();
         $this->produits = new ArrayCollection();
+
     }
 
     public function getId(): ?int
@@ -113,6 +119,18 @@ class Famille
         return $this;
     }
 
+    public function getLibelleParent(): ?string
+    {
+        return $this->libelleParent;
+    }
+
+    public function setLibelleParent(string $libelleParent): self
+    {
+        $this->libelleParent = $libelleParent;
+
+        return $this;
+    }
+
     public function getFamilleParent(): ?self
     {
         return $this->familleParent;
@@ -121,6 +139,7 @@ class Famille
     public function setFamilleParent(?self $familleParent): self
     {
         $this->familleParent = $familleParent;
+        $this->libelleParent = $familleParent?  $familleParent->getLibelleFamille() : null;
 
         return $this;
     }

@@ -624,22 +624,20 @@ class CommandeClientRepository extends ServiceEntityRepository
 
    }
 
-    // /**
-    //  * @return CommandeClient[] Returns an array of CommandeClient objects
-    //  */
-    /*
-    public function findByExampleField($value)
+
+    public function sommeDesCommandesParType()
     {
         return $this->createQueryBuilder('c')
-            ->andWhere('c.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('c.id', 'ASC')
-            ->setMaxResults(10)
+            ->select('SUM(p.montantPaye) AS payer, SUM(c.montantTtc) AS vendu, c.typeCommande as type, DATE_FORMAT(CURRENT_DATE(), \'%Y-%m\') AS mois')
+            ->leftJoin('c.factures',"fac")
+            ->leftJoin('fac.paiements',"p")
+            ->where('DATE_FORMAT(c.dateCom, \'%Y-%m\') = DATE_FORMAT(CURRENT_DATE(), \'%Y-%m\')')
+            ->orderBy('c.typeCommande', 'ASC')
+            ->groupBy('c.typeCommande')
             ->getQuery()
             ->getResult()
         ;
     }
-    */
 
     /*
     public function findOneBySomeField($value): ?CommandeClient

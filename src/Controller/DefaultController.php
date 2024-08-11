@@ -51,6 +51,7 @@ use Symfony\Component\Mime\Email;
 use App\Database\NativeQueryMySQL;
 use App\Repository\MenuRepository;
 use App\Repository\TaxeRepository;
+use App\Repository\PaiementRepository;
 use App\Services\LibrairieService;
 use Doctrine\ORM\EntityRepository;
 use App\Repository\ProfilRepository;
@@ -61,6 +62,7 @@ use App\Entity\UtilisateurPointDeVente;
 use App\Repository\PersonnelRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Repository\PointDeVenteRepository;
+use App\Repository\ObjectifRepository;
 use App\Repository\ConditionnementRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Mailer\MailerInterface;
@@ -69,6 +71,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Entity\ModelSignatairePersonnelFonction;
+use App\Repository\CommandeClientRepository;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RequestStack;
 use App\Repository\ProduitConditionnementRepository;
@@ -94,8 +97,8 @@ class DefaultController extends AbstractController
     private $menuRepo;
     private $parameters;
     private $router;
-    
-    
+
+
     public function __construct(
         EntityManagerInterface $em,
         UserPasswordHasherInterface $passwordHasher,
@@ -110,8 +113,7 @@ class DefaultController extends AbstractController
         MenuRepository $menuRepo,
         Parameters $parameters,
         RouterInterface $router
-    )
-    {
+    ) {
         $this->em = $em;
         $this->passwordHasher = $passwordHasher;
         $this->tokenManager   = $tokenManager;
@@ -131,8 +133,8 @@ class DefaultController extends AbstractController
      * @return Response
      * @Route("/admin/generer/menus", name="app_generer_menu")
      */
-    
-    public function generateMenus() : Response
+
+    public function generateMenus(): Response
     {
         dd($this->parameters->getMenus(true));
     }
@@ -141,9 +143,10 @@ class DefaultController extends AbstractController
     {
         $user = $this->getUser();
         $userRoles = $user->getRoles();
-        
+
         $em = $this->getDoctrine()->getManager();
-        $menus = $em->createQuery("
+        $menus = $em->createQuery(
+            "
             SELECT m
             FROM App\Entity\Menu m
             LEFT JOIN m.menuSuperieur ms
@@ -151,8 +154,8 @@ class DefaultController extends AbstractController
             WHERE ms IS NULL
             AND sm.roles IN (:val)"
         )
-        ->setParameter('val',$userRoles)
-        ->getResult();
+            ->setParameter('val', $userRoles)
+            ->getResult();
         return $this->render('layouts/menu.html.twig', compact('menus'));
     }
 
@@ -160,9 +163,35 @@ class DefaultController extends AbstractController
      * @return Response
      * @Route("/admin", name="app_admin_dashboard")
      */
-    public function index(Request $request, MailerInterface $mailer): Response
+    public function index(Request $request, MailerInterface $mailer,PaiementRepository $paiementRepository, PersonnelRepository $personnelRepository, CommandeClientRepository $comCliRep, ObjectifRepository $objectifRepository
+    ): Response
     {
-        return $this->render('base.html.twig');
+        $pointPersonnel = $personnelRepository->pointDepensePersonnel();
+        $listePersonnel = $personnelRepository->listePersonnel();
+        $paiementDeMois = $paiementRepository->pointDesPaiementDuMois();
+        $commandeMois = $comCliRep->sommeDesCommandesParType();
+        $objectifActif = $objectifRepository->findOneBy(["estActif"=>true]);
+
+        // $pointPaiemetMois = $paiementRepository->pointDesPaiementDuMois();
+        // $dernierPaiementJournaliers = $paiementRepository->pointDesPaiementDesXDerniersJours(10);
+       // $totalPaiement = $paiementRepository->pointDesPaiementJours();
+       $obj =  $objectifActif ? $objectifActif->getMontantObjectif() : 0;
+        return $this->render(
+            'base.html.twig',
+            [
+             // "pointDeXMoisDePaiement"=> $paiementDeXMois,
+                // "pointPaiemetMois" => $pointPaiemetMois,
+                "commandeMois"=>$commandeMois,
+                "depensePersonnel" => $pointPersonnel,
+                 "listePersonnel" => $listePersonnel,
+                 "paiementMois" => $paiementDeMois,
+                 "objectif" =>  $obj,
+                 "pourcentageObjectif"=>  $obj / ($paiementDeMois != 0 ? $paiementDeMois : 1),
+                 "ecartObjectif" =>  ($obj - ($paiementDeMois != 0 ? $paiementDeMois : 1))
+                // "dernierPaiementJournaliers" => $dernierPaiementJournaliers,
+                //"totalPaiement"=>$totalPaiement
+            ]
+        );
     }
 
     /**
@@ -199,9 +228,12 @@ class DefaultController extends AbstractController
         Environment        $env,
         LibrairieService   $lib,
         ValidatorInterface $validator,
-                           $class, $action, $key, $param): Response
-    {
-        
+        $class,
+        $action,
+        $key,
+        $param
+    ): Response {
+
         try {
             $data = $request->getMethod() === 'POST' ? $request->request->all() : $request->query->all();
             $html = '';
@@ -215,7 +247,7 @@ class DefaultController extends AbstractController
             $repository = $this->em->getRepository(get_class(new $classname()));
             $view = '';
             //dump("Bonjour");
-            if(!empty($key)) {
+            if (!empty($key)) {
                 $entity = $repository->find($key);
                 $message = "Modification effectuée avec succès.";
             } else {
@@ -233,7 +265,7 @@ class DefaultController extends AbstractController
                         (new $classname() instanceof Inventaire) ||
                         (new $classname() instanceof Transaction) ||
                         (new $classname() instanceof Paiement) ||
-                        (new $classname() instanceof CommandeClient)||
+                        (new $classname() instanceof CommandeClient) ||
                         (new $classname() instanceof Livraison) ||
                         (new $classname() instanceof ProduitCondMag) ||
                         (new $classname() instanceof Depense) ||
@@ -246,16 +278,13 @@ class DefaultController extends AbstractController
                     )
                         $formtype = $reflector->newInstanceArgs([$this->em, $this->session]);
 
-                    elseif(new $classname() instanceof Utilisateur){
+                    elseif (new $classname() instanceof Utilisateur) {
                         $formtype = $reflector->newInstanceArgs([$this->em, $this->profilRepo]);
-                    }
-                    elseif(new $classname() instanceof Profil){
+                    } elseif (new $classname() instanceof Profil) {
                         $formtype = $reflector->newInstanceArgs([$this->menuRepo]);
-                    }
-                    elseif(new $classname() instanceof Menu){
+                    } elseif (new $classname() instanceof Menu) {
                         $formtype = $reflector->newInstanceArgs([$this->router]);
-                    }
-                    else
+                    } else
                         $formtype = new $classtype();
                 } else {
                     $formtype = new $classtype();
@@ -280,7 +309,7 @@ class DefaultController extends AbstractController
                 case 'call':
                     break;
                 case 'show':
-                     $entities = $repository->find($key);
+                    $entities = $repository->find($key);
                     if ($env->getLoader()->exists($lib->camel2dashed($class) . '/show.html.twig')) {
                         $view = $lib->camel2dashed($class) . '/show.html.twig';
                         $html = $this->renderView($view, [
@@ -312,7 +341,7 @@ class DefaultController extends AbstractController
                         $entity->setCreatedAt(new \DateTime());
                         $entity->setUpdatedAt(new \DateTime());
                         if (property_exists($entity, 'password')) {
-                            if($form->get('password')->getData() != null){
+                            if ($form->get('password')->getData() != null) {
                                 $entity->setPassword(
                                     $this->passwordHasher->hashPassword(
                                         $entity,
@@ -472,7 +501,7 @@ class DefaultController extends AbstractController
      * @return void
      * @Route("/admin/{class}-data-load/ajax", name="app_load_data_ajax", methods={"GET", "POST"})
      */
-    public function ajaxLoad(Request $request,Environment $env, NativeQueryMySQL $native, LibrairieService $lib, $class): Response
+    public function ajaxLoad(Request $request, Environment $env, NativeQueryMySQL $native, LibrairieService $lib, $class): Response
     {
         //$poinVente = $request->getSession()->get('pointVente');
         $parameters = $request->getMethod() == 'GET' ? $request->query->all() : $request->request->all();
@@ -504,7 +533,7 @@ class DefaultController extends AbstractController
                     $position = strpos($field, ":");
                     if ($position === false) {
                         $list_columns_result .= $default_alias . ".$field, ";
-                        if ($search!="") {
+                        if ($search != "") {
                             $where .= $default_alias . ".$field LIKE '%$search%' OR ";
                         }
                         $this->columnsDefault[$field] = true;
@@ -555,19 +584,21 @@ class DefaultController extends AbstractController
                 }
                 $list_columns_result .= $list_join_columns_result;
             }
-            if(($env->getLoader()->exists($lib->camel2dashed($class) . '/partials/_actions.html.twig')) ) {
-                $html = $this->renderView($lib->camel2dashed($class) . '/partials/_actions.html.twig', 
-                [
-                    'id' => '|o.id|', 
-                    'class' => $class
-                ]);
-            }else{
+            if (($env->getLoader()->exists($lib->camel2dashed($class) . '/partials/_actions.html.twig'))) {
+                $html = $this->renderView(
+                    $lib->camel2dashed($class) . '/partials/_actions.html.twig',
+                    [
+                        'id' => '|o.id|',
+                        'class' => $class
+                    ]
+                );
+            } else {
                 $html = $this->renderView('_actions.html.twig', ['id' => '|o.id|', 'class' => $class]);
             }
-            
+
             $vs = explode('|', $html);
             $gs = "";
-            foreach($vs as $key => $v) {
+            foreach ($vs as $key => $v) {
                 if ($key === 0) $gs .= "CONCAT(";
                 $gs .= strpos($v, "o.id") === false ? "'$v', " : $v . ', ';
             }
@@ -575,24 +606,24 @@ class DefaultController extends AbstractController
             $gs .= ")";
             $list_columns_result .= $gs . " AS action";
             $list_columns_result = rtrim($list_columns_result, ", ");
-            if (strlen($where) > 6){
+            if (strlen($where) > 6) {
                 $where = rtrim($where, " OR ");
                 $where = rtrim($where, " AND ");
                 $where .= ")";
-                if (str_contains($where,'AND ()')) {
-                    $where = str_replace('AND ()','', $where);
+                if (str_contains($where, 'AND ()')) {
+                    $where = str_replace('AND ()', '', $where);
                 }
-            }else{
+            } else {
                 $where = "";
             }
-                
+
             //Reconstruire la requête avec les jointures
             //dump($where);
             $sql .= $join_sql;
             $count_sql .= $join_sql;
             $sql = str_replace(":columns", $list_columns_result, $sql) . $where . "\nORDER BY $default_alias.id DESC";
             $count_sql .= $where;
-           // dump($sql);
+            // dump($sql);
             //Récupération des données
             $alldata = $this->em->createQuery($sql)
                 ->setMaxResults($parameters['length'])
@@ -622,47 +653,47 @@ class DefaultController extends AbstractController
         return array_map(function ($item) {
             $keys = array_keys($item);
             foreach ($keys as $key) {
-                if($item[$key] instanceof \DateTime)
+                if ($item[$key] instanceof \DateTime)
                     $item[$key] = $item[$key]->format('d/m/Y');
 
-                if($item[$key] == "En attente")
+                if ($item[$key] == "En attente")
                     $item[$key] = "<div class='badge badge-secondary fw-bold'>$item[$key]</div>";
-                
-                if($item[$key]=="payer")
-                    $item[$key] = "<div class='badge badge-success fw-bold'>$item[$key]</div>";
-                
-                if($item[$key]=="Payée")
+
+                if ($item[$key] == "payer")
                     $item[$key] = "<div class='badge badge-success fw-bold'>$item[$key]</div>";
 
-                if($item[$key]=="Partiel")
+                if ($item[$key] == "Payée")
+                    $item[$key] = "<div class='badge badge-success fw-bold'>$item[$key]</div>";
+
+                if ($item[$key] == "Partiel")
                     $item[$key] = "<div class='badge badge-primary fw-bold'>$item[$key]</div>";
 
-                if($item[$key]=="Annuler")
+                if ($item[$key] == "Annuler")
                     $item[$key] = "<div class='badge badge-danger fw-bold'>$item[$key]</div>";
 
 
-                if($item[$key] == "Partielle")
+                if ($item[$key] == "Partielle")
                     $item[$key] = "<div class='badge badge-primary fw-bold'>$item[$key]</div>";
-                
-                if($item[$key]=="Terminée")
+
+                if ($item[$key] == "Terminée")
                     $item[$key] = "<div class='badge badge-success fw-bold'>$item[$key]</div>";
 
-                if($item[$key]=="Non livrée")
+                if ($item[$key] == "Non livrée")
                     $item[$key] = "<div class='badge badge-danger fw-bold'>$item[$key]</div>";
 
-                if($item[$key]=="FA")
+                if ($item[$key] == "FA")
                     $item[$key] = "<div class='badge badge-danger fw-bold'> Fact. Avoir</div>";
-                
-                if($item[$key]=="FV")
+
+                if ($item[$key] == "FV")
                     $item[$key] = "<div class='badge badge-success fw-bold'> Fact. Vente </div>";
 
-                if($item[$key]=="EV")
+                if ($item[$key] == "EV")
                     $item[$key] = "<div class='badge badge-success fw-bold'> Fact. Vente Exportat* </div>";
 
-                if($item[$key]=="EA")
+                if ($item[$key] == "EA")
                     $item[$key] = "<div class='badge badge-danger fw-bold'> Fact. Avoir Exportat* </div>";
 
-                if(gettype($item[$key]) === 'boolean') {
+                if (gettype($item[$key]) === 'boolean') {
                     $value = $item[$key] ? 1 : 0;
                     $checked = $item[$key] ? "checked" : "";
                     $item[$key] = '
@@ -670,7 +701,7 @@ class DefaultController extends AbstractController
                             <input class="form-check-input" type="checkbox" disabled value="' . $value . '" checked="' . $checked . '"/>
                         </div>';
                 }
-                if(is_numeric($item[$key]) && is_float($item[$key] + 0)){
+                if (is_numeric($item[$key]) && is_float($item[$key] + 0)) {
                     $item[$key] = number_format($item[$key], 2, '.', ' ');
                 }
             }
@@ -678,9 +709,9 @@ class DefaultController extends AbstractController
         }, $data);
     }
 
-    function is_decimal( $val )
+    function is_decimal($val)
     {
-        return is_numeric( $val ) && is_float();
+        return is_numeric($val) && is_float();
     }
 
     /**
@@ -691,7 +722,7 @@ class DefaultController extends AbstractController
     public function arraySearch($array, $keyword)
     {
         return array_filter($array, function ($a) use ($keyword) {
-            return (boolean)preg_grep("/$keyword/i", (array)$a);
+            return (bool)preg_grep("/$keyword/i", (array)$a);
         });
     }
 
@@ -743,12 +774,12 @@ class DefaultController extends AbstractController
         } else {
             if ($env->getLoader()->exists($lib->camel2dashed($class) . '/partials/_form.html.twig')) {
                 if ($class == "CommandeClient") {
-                    $client= $this->em->getRepository(Client::class)->findOneBy(['nom' => "cash",'prenom'=>"cash"]);
+                    $client = $this->em->getRepository(Client::class)->findOneBy(['nom' => "cash", 'prenom' => "cash"]);
                     $entity->setAcheteur($client);
                 }
                 $form = $this->createForm(get_class(new $classtype()), $entity);
                 $form->handleRequest($request);
-                
+
                 $view = $lib->camel2dashed($class) . '/partials/_card_form.html.twig';
                 $html_new = $this->renderView($view, [
                     'entity' => $entity,
@@ -764,12 +795,9 @@ class DefaultController extends AbstractController
                 'form' => $form,
             ]);*/
             $results['html'] = $html_new;
-
         }
         return new JsonResponse($results);
     }
-
-
 
     /**
      * @return Response
@@ -812,15 +840,15 @@ class DefaultController extends AbstractController
 
         ### TAXES
         $arr_taxe = [
-            ['libelle' => 'TAXE SUR VALEUR AJOUTEE',        'appellation' => 'TVA',     'typeTaux' => 0, 'taux' => 18,  'sens' => 1, 'code' =>'TVA'],
-            ['libelle' => 'ACCOMPTE ASSIS SUR IMPÖTS',      'appellation' => 'AIB',     'typeTaux' => 0, 'taux' => 1,   'sens' => 0, 'code' =>'AIB1'],
-            ['libelle' => 'ACCOMPTE ASSIS SUR IMPÖTS',      'appellation' => 'AIB',     'typeTaux' => 0, 'taux' => 5,   'sens' => 0, 'code' =>'AIB5'],
-            ['libelle' => 'ACCOMPTE ASSIS SUR IMPÖTS',      'appellation' => 'AIB',     'typeTaux' => 0, 'taux' => 3,   'sens' => 0, 'code' =>'AIB3'],
-            ['libelle' => 'EXONERE',                        'appellation' => 'EX',      'typeTaux' => 0, 'taux' => 0,   'sens' => 1, 'code' =>'TVA-EX'],
-            ['libelle' => 'EXPORTATION',                    'appellation' => 'TVA-EXP', 'typeTaux' => 0, 'taux' => 0,   'sens' => 1, 'code' =>'TVA-EXP'],
-            ['libelle' => 'TVA REGIME D\'EXCEPTION 18%',    'appellation' => 'TVAD',    'typeTaux' => 0, 'taux' => 18,  'sens' => 1, 'code' =>'TVAD'],
-            ['libelle' => 'TPS',                            'appellation' => 'E',       'typeTaux' => 0, 'taux' => 0,   'sens' => 1, 'code' =>'E'],
-            ['libelle' => 'RESERVE',                        'appellation' => 'F',       'typeTaux' => 0, 'taux' => 0,   'sens' => 1, 'code' =>'F'],
+            ['libelle' => 'TAXE SUR VALEUR AJOUTEE',        'appellation' => 'TVA',     'typeTaux' => 0, 'taux' => 18,  'sens' => 1, 'code' => 'TVA'],
+            ['libelle' => 'ACCOMPTE ASSIS SUR IMPÖTS',      'appellation' => 'AIB',     'typeTaux' => 0, 'taux' => 1,   'sens' => 0, 'code' => 'AIB1'],
+            ['libelle' => 'ACCOMPTE ASSIS SUR IMPÖTS',      'appellation' => 'AIB',     'typeTaux' => 0, 'taux' => 5,   'sens' => 0, 'code' => 'AIB5'],
+            ['libelle' => 'ACCOMPTE ASSIS SUR IMPÖTS',      'appellation' => 'AIB',     'typeTaux' => 0, 'taux' => 3,   'sens' => 0, 'code' => 'AIB3'],
+            ['libelle' => 'EXONERE',                        'appellation' => 'EX',      'typeTaux' => 0, 'taux' => 0,   'sens' => 1, 'code' => 'TVA-EX'],
+            ['libelle' => 'EXPORTATION',                    'appellation' => 'TVA-EXP', 'typeTaux' => 0, 'taux' => 0,   'sens' => 1, 'code' => 'TVA-EXP'],
+            ['libelle' => 'TVA REGIME D\'EXCEPTION 18%',    'appellation' => 'TVAD',    'typeTaux' => 0, 'taux' => 18,  'sens' => 1, 'code' => 'TVAD'],
+            ['libelle' => 'TPS',                            'appellation' => 'E',       'typeTaux' => 0, 'taux' => 0,   'sens' => 1, 'code' => 'E'],
+            ['libelle' => 'RESERVE',                        'appellation' => 'F',       'typeTaux' => 0, 'taux' => 0,   'sens' => 1, 'code' => 'F'],
         ];
         foreach ($arr_taxe as $ligne) {
             $taxe = new Taxe();
@@ -837,7 +865,7 @@ class DefaultController extends AbstractController
 
         $this->em->flush();
 
-        
+
         ### GROUPE DE TAXE
         $arr_groupe_taxe = [
             ['libelle' => 'A - EXONERE',                        'code' => 'A',  'taux' => 5],
@@ -867,7 +895,7 @@ class DefaultController extends AbstractController
         $client->setPointVente($poinVente);
         $this->em->persist($client);
 
-        
+
 
         ### MONNNAIE
         $arr_monnaies = [5, 10, 25, 50, 100, 200, 250, 500, 1000, 2000, 5000, 10000];
@@ -899,72 +927,72 @@ class DefaultController extends AbstractController
             $this->em->persist($fonction);
         }
 
-        
+
 
         // //Point de vent
 
-            // $filename = $rootDirectory . '/importation/produit.csv';
-            // $handle = fopen($filename, "r");
-            // while (($raw_string = fgets($handle)) !== false) {
-            //     $row = str_getcsv($raw_string, ';');
-            //     if ($row[0]) {
-            //         $famille = $this->em->getRepository(Famille::class)->findOneBy(['codeFamille' => $row[0]]);
-            //         if ($famille) {
-            //             $produit = new Produit;
-            //             $produit->setFamille($famille);
-            //             $produit->setRefProd($row[1]);
-            //             $produit->setNomProd($row[2]);
-            //             $produit->setEstTaxable($row[3]);
-            //             $produit->setEstService($row[4]);
-            //             $produit->setDescProd($row[5]);
-            //             $produit->setSeuilAppro(0);
-            //             $produit->setStock(0);
-            //             $produit->setPointDeVente($poinVente);
-            //             $this->em->persist($produit);
-            //             $this->em->flush();
-            //         }
-            //     }
-            // }
-            // fclose($handle);
+        // $filename = $rootDirectory . '/importation/produit.csv';
+        // $handle = fopen($filename, "r");
+        // while (($raw_string = fgets($handle)) !== false) {
+        //     $row = str_getcsv($raw_string, ';');
+        //     if ($row[0]) {
+        //         $famille = $this->em->getRepository(Famille::class)->findOneBy(['codeFamille' => $row[0]]);
+        //         if ($famille) {
+        //             $produit = new Produit;
+        //             $produit->setFamille($famille);
+        //             $produit->setRefProd($row[1]);
+        //             $produit->setNomProd($row[2]);
+        //             $produit->setEstTaxable($row[3]);
+        //             $produit->setEstService($row[4]);
+        //             $produit->setDescProd($row[5]);
+        //             $produit->setSeuilAppro(0);
+        //             $produit->setStock(0);
+        //             $produit->setPointDeVente($poinVente);
+        //             $this->em->persist($produit);
+        //             $this->em->flush();
+        //         }
+        //     }
+        // }
+        // fclose($handle);
 
-            //ProduitConditionnement
-            // $filename = $rootDirectory . '/importation/produitConditionnement.csv';
-            // $handlep = fopen($filename, "r");
-            // while (($raw_string = fgets($handlep)) !== false) {
-            //     $row = str_getcsv($raw_string, ';');
-            //     if ($row[0]) {
-            //         $produit = $this->em->getRepository(Produit::class)->findOneBy(['descProd' => $row[0]]);
-            //         $conditionnement = $this->em->getRepository(Conditionnement::class)->findOneBy(['codeCond' => $row[1]]);
+        //ProduitConditionnement
+        // $filename = $rootDirectory . '/importation/produitConditionnement.csv';
+        // $handlep = fopen($filename, "r");
+        // while (($raw_string = fgets($handlep)) !== false) {
+        //     $row = str_getcsv($raw_string, ';');
+        //     if ($row[0]) {
+        //         $produit = $this->em->getRepository(Produit::class)->findOneBy(['descProd' => $row[0]]);
+        //         $conditionnement = $this->em->getRepository(Conditionnement::class)->findOneBy(['codeCond' => $row[1]]);
 
-            //         if ($produit && $conditionnement) {
-            //             $produitCond = new ProduitConditionnement();
-            //             $produitCond->setProduit($produit);
-            //             $produitCond->setConditionnement($conditionnement);
-            //             $produitCond->setPrixDeVente($row[2]);
-            //             $produitCond->setPrixDeVenteHT($row[2]);
-            //             $produitCond->setPrixDeVenteTTC($row[3]);
-            //             $produitCond->setQteStockCond(0);
-            //             $produitCond->setQteCond($row[4]);
-            //             $nomProCond = $produit->getNomProd() . ' ['. $conditionnement->getLibelleCond().']';
-            //             $produitCond->setNomProCond($nomProCond);
-            //             $produitCond->setQteStockCondLogique($row[4]);
-            //             if ($row[3] > 1000) {
-            //                 $produitCond->setPrixMax((int)$row[3]  + 200);
-            //                 $produitCond->setPrixMin((int)$row[3] - 100);  
-            //             }else if ($row[3] > 0 && $row[3] <= 1000 ){
-            //                 $produitCond->setPrixMax((int)$row[3]  + 100);
-            //                 $produitCond->setPrixMin((int)$row[3] - 50);  
-            //             }else{
-            //                 $produitCond->setPrixMax((int)$row[3]);
-            //                 $produitCond->setPrixMin((int)$row[3]);
-            //             }
-            //             $this->em->persist($produitCond);
-            //         }
-            //     }
-            // }
+        //         if ($produit && $conditionnement) {
+        //             $produitCond = new ProduitConditionnement();
+        //             $produitCond->setProduit($produit);
+        //             $produitCond->setConditionnement($conditionnement);
+        //             $produitCond->setPrixDeVente($row[2]);
+        //             $produitCond->setPrixDeVenteHT($row[2]);
+        //             $produitCond->setPrixDeVenteTTC($row[3]);
+        //             $produitCond->setQteStockCond(0);
+        //             $produitCond->setQteCond($row[4]);
+        //             $nomProCond = $produit->getNomProd() . ' ['. $conditionnement->getLibelleCond().']';
+        //             $produitCond->setNomProCond($nomProCond);
+        //             $produitCond->setQteStockCondLogique($row[4]);
+        //             if ($row[3] > 1000) {
+        //                 $produitCond->setPrixMax((int)$row[3]  + 200);
+        //                 $produitCond->setPrixMin((int)$row[3] - 100);  
+        //             }else if ($row[3] > 0 && $row[3] <= 1000 ){
+        //                 $produitCond->setPrixMax((int)$row[3]  + 100);
+        //                 $produitCond->setPrixMin((int)$row[3] - 50);  
+        //             }else{
+        //                 $produitCond->setPrixMax((int)$row[3]);
+        //                 $produitCond->setPrixMin((int)$row[3]);
+        //             }
+        //             $this->em->persist($produitCond);
+        //         }
+        //     }
+        // }
         // fclose($handlep);
-        
-        
+
+
 
         /** @var Personnel */
         $personnel = new Personnel();
@@ -973,12 +1001,12 @@ class DefaultController extends AbstractController
         $personnel->setEmail('contact@romastechnologie.com');
         $personnel->setTel('0');
         $personnel->setSexe('Masculin');
-        $this->em->persist($personnel);  
-        
+        $this->em->persist($personnel);
+
 
         $user = new Utilisateur();
         $user->setUsername("Administrateur");
-        $user->setPassword($this->passwordHasher->hashPassword($user,"admin@rom@s"));
+        $user->setPassword($this->passwordHasher->hashPassword($user, "admin@rom@s"));
         $user->setRoles([
             'ROLE_ADRESSE_LIVRAISON',
             'ROLE_APPROVISIONNEMENT',
@@ -1032,12 +1060,12 @@ class DefaultController extends AbstractController
             'ROLE_CONFIGURATION',
             'ROLE_MODE_DE_PAIEMENT'
         ]);
-        $this->em->persist($user); 
+        $this->em->persist($user);
 
 
         ### MAGASIN
         $magasins = [
-            ['MP', 'MAGASIN PRINCIPAL', '-','1']
+            ['MP', 'MAGASIN PRINCIPAL', '-', '1']
         ];
         foreach ($magasins as $mag) {
             $magasin = new Magasin();
@@ -1048,10 +1076,10 @@ class DefaultController extends AbstractController
             $magasin->setEstPrincipal($mag[3]);
             $this->em->persist($magasin);
         }
-        
+
         ### CONDITIONNEMENT
         $conditionnements = [
-            ['UNI', 'UNITE','1']
+            ['UNI', 'UNITE', '1']
         ];
         foreach ($conditionnements as $cond) {
             $conditionnement = new Conditionnement();
@@ -1073,7 +1101,7 @@ class DefaultController extends AbstractController
         $media->setExtension('jpg');
         $this->em->persist($media);
 
-        
+
 
         ### CAISSE
         $caisse = new ListCaisse();
@@ -1082,7 +1110,7 @@ class DefaultController extends AbstractController
         $caisse->setEtat(0);
         $this->em->persist($caisse);
 
-       
+
         ### MODEL SIGNATAIRE
         $model = new ModelSignataire();
         $model->setLibelle('Model 1');
@@ -1120,7 +1148,7 @@ class DefaultController extends AbstractController
         $societe->setEstModeMecef(false);
         $this->em->persist($societe);
 
-        
+
         $user->setPersonnel($personnel);
         $this->em->persist($user);
 
@@ -1139,7 +1167,7 @@ class DefaultController extends AbstractController
     }
 
 
-     /**
+    /**
      * @return Response
      * @Route("/importation/produit/inventaire", name="app_importation_produit_inventaire", methods={"GET", "POST"})
      */
@@ -1150,25 +1178,25 @@ class DefaultController extends AbstractController
 
         $filename = $rootDirectory . '/importation/inventaire.csv';
         $handle = fopen($filename, "r");
-        
+
         while (($raw_string = fgets($handle)) !== false) {
             $row = str_getcsv($raw_string, ';');
             if ($row[0]) {
-                
+
                 //FAMILLE
                 $famille = $this->em->getRepository(Famille::class)->findOneBy(['libelleFamille' => $row[0]]);
                 if (!$famille) {
                     $valeur = $row[0];
                     $famille  = new Famille();
-                    $famille ->setLibelleFamille($row[0]);
-                    $famille ->setCodeFamille(substr($valeur, 0, 4));
+                    $famille->setLibelleFamille($row[0]);
+                    $famille->setCodeFamille(substr($valeur, 0, 4));
                     $this->em->persist($famille);
                     // $this->em->flush();
                 }
 
                 //CONDITIONNEMENT
                 $conditionnement = $this->em->getRepository(Conditionnement::class)->findOneBy(['libelleCond' => $row[4]]);
-                if(!$conditionnement){
+                if (!$conditionnement) {
                     $conditionnement = new Conditionnement();
                     $conditionnement->setCodeCond(substr($row[4], 0, 4));
                     $conditionnement->setLibelleCond($row[4]);
@@ -1178,9 +1206,9 @@ class DefaultController extends AbstractController
                 //PRODUIT
                 $produit = $this->em->getRepository(Produit::class)->findOneBy(['nomProd' => $row[1]]);
                 $groupTaxe = $this->em->getRepository(GroupeTaxe::class)->findOneBy(['id' => '2']);
-                $magasin = $this->em->getRepository(Magasin::class)->findOneBy(['estPrincipal' => true ]);
+                $magasin = $this->em->getRepository(Magasin::class)->findOneBy(['estPrincipal' => true]);
 
-                if(!$produit){
+                if (!$produit) {
                     $prod = new Produit();
                     $prod->setFamille($famille);
                     $prod->setGroupeTaxe($groupTaxe);
@@ -1191,12 +1219,12 @@ class DefaultController extends AbstractController
                     $prod->setEstModeCarreau(false);
                     $prod->setNomProd($row[1]);
                     $prod->setStock($row[2]);
-                        $pc = new ProduitConditionnement();
-                        $pc->setPrixDeVente(preg_replace('/\s+/', '', $row[3]));
-                        $pc->setConditionnement($conditionnement);
-                        $pc->setQteStockCondLogique($row[2]);
-                        $pc->setQteStockCond($row[2]);
-                        $pc->setQteCond(1);
+                    $pc = new ProduitConditionnement();
+                    $pc->setPrixDeVente(preg_replace('/\s+/', '', $row[3]));
+                    $pc->setConditionnement($conditionnement);
+                    $pc->setQteStockCondLogique($row[2]);
+                    $pc->setQteStockCond($row[2]);
+                    $pc->setQteCond(1);
                     $prod->addProduitConditionnement($pc);
                     $this->em->persist($prod);
 
@@ -1206,7 +1234,6 @@ class DefaultController extends AbstractController
                     $prodCondMag->setMagasin($magasin);
                     $prodCondMag->setQteStockMag($row[2]);
                     $this->em->persist($prodCondMag);
-
                 }
                 $this->em->flush();
             }
@@ -1231,7 +1258,7 @@ class DefaultController extends AbstractController
 
         $personnel = $this->em->getRepository(Personnel::class)->find(1);
 
-        $magasin = $this->em->getRepository(Magasin::class)->findOneBy(['estPrincipal' => true ]);
+        $magasin = $this->em->getRepository(Magasin::class)->findOneBy(['estPrincipal' => true]);
         $inventaire = new Inventaire();
         $inventaire->setDateDebutInv(new \DateTime());
         $inventaire->setMotif("inventaire initial");
@@ -1242,12 +1269,14 @@ class DefaultController extends AbstractController
         $inventaireMag->setInventaire($inventaire);
         $inventaireMag->setMagasin($magasin);
         $this->em->persist($inventaireMag);
-        
+
         while (($raw_string = fgets($handle)) !== false) {
             $row = str_getcsv($raw_string, ';');
             if ($row[0]) {
                 $produit = $this->em->getRepository(Produit::class)->findOneBy(['nomProd' => $row[1]]);
-                if($produit == null){ dd($row[1]);}
+                if ($produit == null) {
+                    dd($row[1]);
+                }
                 $prodCondMagInv = new ProduitCondMagInv();
                 $prodCondMagInv->setQteCondStockLog(0);
                 $prodCondMagInv->setQteCondStockPhy($row[2]);
@@ -1264,17 +1293,17 @@ class DefaultController extends AbstractController
 
         $this->em->flush();
         return new JsonResponse('Importation terminé !!');
-
     }
 
 
 
-     /**
+    /**
      * @return Response
      * @Route("/chargement/utilisateur", name="app_load_data_user", methods={"GET", "POST"})
      */
-    public function createUser(UserPasswordHasherInterface $passwordHasher, PointDeVenteRepository $pvr, PersonnelRepository $pr){
-        
+    public function createUser(UserPasswordHasherInterface $passwordHasher, PointDeVenteRepository $pvr, PersonnelRepository $pr)
+    {
+
         $pv = $pvr->find(1);
         // if (empty($pv)) {
         $this->session->set('pointVente', $pv);
@@ -1301,7 +1330,7 @@ class DefaultController extends AbstractController
 
         $user = new Utilisateur();
         $user->setUsername("Administrateur");
-        $user->setPassword($this->passwordHasher->hashPassword($user,"admin@rom@s"));
+        $user->setPassword($this->passwordHasher->hashPassword($user, "admin@rom@s"));
         $user->setRoles([
             'ROLE_ADRESSE_LIVRAISON',
             'ROLE_APPROVISIONNEMENT',
@@ -1340,6 +1369,7 @@ class DefaultController extends AbstractController
             'ROLE_UTILISATEUR',
             'ROLE_POINT_VENTE',
             'ROLE_TAXE',
+            'ROLE_OBJECTIF',
             'ROLE_TYPE_TAXE',
             'ROLE_TYPE_OPERATION',
             'ROLE_PERSONNEL',
@@ -1359,7 +1389,7 @@ class DefaultController extends AbstractController
         $this->em->persist($user);
         $this->em->flush();
 
-        
+
 
         // $up = new UtilisateurPointDeVente();
         // $up->setUtilisateur($user);
@@ -1369,31 +1399,31 @@ class DefaultController extends AbstractController
 
         // $this->em->flush();
 
-        
-        return new JsonResponse('Utilisateur créé !!');
 
+        return new JsonResponse('Utilisateur créé !!');
     }
 
 
-     /**
+    /**
      * @Route("/verifier/unicite", name="romassigcom_verifier_unicite", methods={"GET", "POST"})
      */
-    public function verifierUnicite(Request $request){
+    public function verifierUnicite(Request $request)
+    {
         $em = $this->getDoctrine()->getManager();
         $col = $request->query->get('column');
         $valeur = $request->query->get('valeur');
         $entity = $request->query->get('entity');
         $id = $request->query->get('id');
-        if ($col!=''&& $valeur!='' && $entity!='') {
-            $classname = 'App\\Entity\\'.ucfirst($entity);
+        if ($col != '' && $valeur != '' && $entity != '') {
+            $classname = 'App\\Entity\\' . ucfirst($entity);
             $query = $em->getRepository(get_class(new $classname()))->createQueryBuilder('o');
-            if($valeur)
-                $query = $query->andWhere(is_null($valeur) || empty($valeur) ? 
-                'TRIM(LOWER(o.'.$col.')) IS NULL' : 
-                'TRIM(LOWER(o.'.$col.')) = \''.trim(strtolower($valeur)).'\'');
-            if($id)
-                $query = $query->andWhere(is_null($id) || empty($id) ? 'TRIM(o.id) IS NULL' : 'o.id != \''.trim($id).'\'');
-               
+            if ($valeur)
+                $query = $query->andWhere(is_null($valeur) || empty($valeur) ?
+                    'TRIM(LOWER(o.' . $col . ')) IS NULL' :
+                    'TRIM(LOWER(o.' . $col . ')) = \'' . trim(strtolower($valeur)) . '\'');
+            if ($id)
+                $query = $query->andWhere(is_null($id) || empty($id) ? 'TRIM(o.id) IS NULL' : 'o.id != \'' . trim($id) . '\'');
+
             $query = $query->andWhere('o.estSup IS NULL');
             $objet = $query->getQuery()->getResult();
             return new JsonResponse($objet);
@@ -1404,16 +1434,17 @@ class DefaultController extends AbstractController
     /**
      * @Route("/supprimer/{id}/{entity}", name="romassigcom_suppresion_logique", methods={"GET", "POST"})
      */
-    public function supprimer(Request $request){
+    public function supprimer(Request $request)
+    {
         $em = $this->getDoctrine()->getManager();
         $entity = $request->query->get('entity');
         $id = $request->query->get('id');
-        $classname = 'App\\Entity\\'.ucfirst($entity);
+        $classname = 'App\\Entity\\' . ucfirst($entity);
         $entity = $em->getRepository(get_class(new $classname()))->find((int)$id);
-        if($entity != null){
+        if ($entity != null) {
             $entity = $entity->setEstSup(1);
             $em->getRepository(get_class(new $classname()))->add($entity);
-            if($entity->getEstSup() == 1)
+            if ($entity->getEstSup() == 1)
                 return new JsonResponse("$entity a été supprimé avec succès");
         }
         return new JsonResponse("$entity n'a été supprimé avec succès");
